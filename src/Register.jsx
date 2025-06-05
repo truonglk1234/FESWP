@@ -1,83 +1,114 @@
-import React from "react";
-import "./Register.css";
+import React, { useState } from 'react';
+import './Register.css';
 
 const Register = () => {
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    gender: '',
+    birthDate: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    agree: false
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.agree) {
+      alert("Bạn cần đồng ý với điều khoản và chính sách.");
+      return;
+    }
+    console.log(form); // xử lý submit ở đây
+  };
+
   return (
     <div className="register-container">
-      {/* Thanh trên cùng */}
-      <div className="top-bar">
-        <span>Hotline: 1900-1234</span>
-        <span>Email: support@stihealth.vn</span>
-      </div>
+      <h2>Đăng ký tài khoản</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Nguyễn Văn A"
+          value={form.fullName}
+          onChange={handleChange}
+          required
+        />
 
-      {/* Navbar */}
-      <div className="nav-bar">
-        <div className="logo">STI Health</div>
-        <div className="nav-center">
-          <nav className="nav-links">
-            <a href="#">Trang chủ</a>
-            <a href="#">Dịch vụ</a>
-            <a href="#">Tư vấn viên</a>
-            <a href="#">Blog</a>
-          </nav>
+        <input
+          type="email"
+          name="email"
+          placeholder="email@example.com"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="row">
+          <select name="gender" value={form.gender} onChange={handleChange} required>
+            <option value="">Chọn giới tính</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="other">Khác</option>
+          </select>
+
+          <input
+            type="date"
+            name="birthDate"
+            value={form.birthDate}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div className="auth-buttons">
-          <a href="/Login"><button className="btn-outline">Đăng nhập</button></a>
-          <button className="btn-primary">Đăng ký</button>
+
+        <input
+          type="tel"
+          name="phone"
+          placeholder="0901234567"
+          value={form.phone}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Mật khẩu"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Xác nhận mật khẩu"
+          value={form.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="checkbox">
+          <input
+            type="checkbox"
+            name="agree"
+            checked={form.agree}
+            onChange={handleChange}
+            required
+          />
+          <label>
+            Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a>
+          </label>
         </div>
-      </div>
 
-      {/* Form đăng ký */}
-      <div className="form-wrapper">
-        <div className="register-box">
-          <h2>Đăng ký</h2>
-          <p>Tạo tài khoản để sử dụng dịch vụ</p>
-
-          <input type="text" placeholder="Họ và tên" />
-          <input type="tel" placeholder="Số điện thoại" />
-          <input type="email" placeholder="Email (nếu có)" />
-          <input type="password" placeholder="Mật khẩu" />
-          <input type="password" placeholder="Xác nhận mật khẩu" />
-
-          <button className="btn-primary full-width">Đăng ký</button>
-
-          <div className="or-divider">Hoặc</div>
-
-          <button className="google-register-btn">
-            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-            Đăng ký bằng Google
-          </button>
-
-          <p className="login-text">
-            Đã có tài khoản? <a href="/Login">Đăng nhập</a>
-          </p>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="footer">
-        <div className="footer-section">
-          <h4>STI Health</h4>
-          <p>
-            Hệ thống tư vấn sức khỏe sinh sản hàng đầu Việt Nam với đội ngũ chuyên gia y tế giàu kinh nghiệm.
-          </p>
-        </div>
-        <div className="footer-section">
-          <h4>Liên kết nhanh</h4>
-          <p>Dịch vụ xét nghiệm</p>
-          <p>Tư vấn viên</p>
-        </div>
-        <div className="footer-section">
-          <h4>Dịch vụ</h4>
-          <p>Xét nghiệm STI</p>
-          <p>Tư vấn trực tuyến</p>
-        </div>
-        <div className="footer-section">
-          <h4>Thông tin liên hệ</h4>
-          <p>📞 1900-1234 (24/7)</p>
-          <p>📧 support@stihealth.vn</p>
-        </div>
-      </div>
+        <button type="submit">Đăng ký</button>
+        <p>Đã có tài khoản? <a href="#">Đăng nhập</a></p>
+      </form>
     </div>
   );
 };
