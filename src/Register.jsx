@@ -1,9 +1,9 @@
 import React from "react";
-import "./Login.css";
+import "./Register.css";
 
-const Login = () => {
+const Register = () => {
   return (
-    <div className="login-container">
+    <div className="register-container">
       {/* Thanh trên cùng */}
       <div className="top-bar">
         <span>Hotline: 1900-1234</span>
@@ -22,35 +22,34 @@ const Login = () => {
           </nav>
         </div>
         <div className="auth-buttons">
-          <button className="btn-outline">Đăng nhập</button>
-          <a href="/Register"><button className="btn-primary">Đăng ký</button></a>
+          <a href="/Login"><button className="btn-outline">Đăng nhập</button></a>
+          <button className="btn-primary">Đăng ký</button>
         </div>
       </div>
 
-      {/* Form đăng nhập */}
+      {/* Form đăng ký */}
       <div className="form-wrapper">
-        <div className="login-box">
-          <h2>Đăng nhập</h2>
-          <p>Đăng nhập để tiếp tục sử dụng dịch vụ</p>
+        <div className="register-box">
+          <h2>Đăng ký</h2>
+          <p>Tạo tài khoản để sử dụng dịch vụ</p>
 
-          <input type="text" placeholder="Nhập số điện thoại/ Email" />
-          <input type="password" placeholder="Nhập mật khẩu" />
+          <input type="text" placeholder="Họ và tên" />
+          <input type="tel" placeholder="Số điện thoại" />
+          <input type="email" placeholder="Email (nếu có)" />
+          <input type="password" placeholder="Mật khẩu" />
+          <input type="password" placeholder="Xác nhận mật khẩu" />
 
-          <div className="forgot-password">
-            <a href="#">Quên mật khẩu?</a>
-          </div>
-
-          <button className="btn-primary full-width">Đăng nhập</button>
+          <button className="btn-primary full-width">Đăng ký</button>
 
           <div className="or-divider">Hoặc</div>
 
-          <button className="google-login-btn">
+          <button className="google-register-btn">
             <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-            Đăng nhập bằng Google
+            Đăng ký bằng Google
           </button>
 
-          <p className="register-text">
-            Chưa có tài khoản? <a href="/Register">Đăng ký ngay</a>
+          <p className="login-text">
+            Đã có tài khoản? <a href="/Login">Đăng nhập</a>
           </p>
         </div>
       </div>
@@ -83,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
