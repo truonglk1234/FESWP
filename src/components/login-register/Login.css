@@ -1,0 +1,234 @@
+/* Wrapper chia đôi trái phải */
+.login-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f9fafb;
+  padding: 60px 80px;
+  gap: 60px;
+}
+
+/* Phần bên trái - thông tin */
+.login-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 120px;
+}
+
+.login-info h1 {
+  font-size: 42px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.login-info .highlight {
+  color: #10b981;
+}
+
+.login-info p {
+  font-size: 16px;
+  color: #4b5563;
+  margin-bottom: 32px;
+  max-width: 500px;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.features .feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+}
+
+.feature-icon {
+  background-color: #d1fae5;
+  color: #10b981;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.features .feature div strong {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.features .feature div div {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Form login */
+.login-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+  margin: 0 100px;
+  height: 490px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+}
+
+/* Thêm hiệu ứng khi hover */
+.login-form:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  border: 3px solid #10b981;
+}
+
+.login-form h2 {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.login-form p {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  background: #fff;
+  transition: border 0.2s;
+}
+
+.input-icon:focus-within {
+  border-color: #10b981;
+}
+
+.input-icon input {
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  flex: 1;
+  font-size: 15px;
+  background: transparent;
+  color: #111827;
+}
+
+.input-icon .icon-left {
+  color: #9ca3af;
+}
+
+.input-icon .icon-right {
+  cursor: pointer;
+  color: #9ca3af;
+}
+
+/* Remember + Forgot password */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: #6b7280;
+}
+
+.options a {
+  color: #10b981;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Nút đăng nhập */
+.btn-submit {
+  width: 100%;
+  background: #10b981;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-submit:hover {
+  background: #059669;
+}
+
+/* Divider line "hoặc" */
+.divider {
+  text-align: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 12px;
+  color: #6b7280;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: #e5e7eb;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  z-index: 0;
+}
+
+/* Đăng ký ngay */
+.register {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.register a {
+  color: #10b981;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+

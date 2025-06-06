@@ -1,7 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import { Heart, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header>
       {/* Top bar */}
@@ -31,16 +36,20 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="nav">
-            <a href="#">Trang chủ</a>
-            <a href="#">Dịch vụ y tế</a>
-            <a href="#">Bác sĩ chuyên khoa</a>
-            <a href="#">Kiến thức y khoa</a>
+            <Link to="/">Trang chủ</Link>
+            <Link to="/services">Dịch vụ y tế</Link>
+            <Link to="/doctors">Bác sĩ chuyên khoa</Link>
+            <Link to="/knowledge">Kiến thức y khoa</Link>
           </nav>
 
           {/* Buttons */}
           <div className="auth-buttons">
-            <button className="btn-outline">Đăng nhập</button>
-            <button className="btn-solid">Đăng ký</button>
+            <button className="btn-outline" onClick={() => navigate('/login')}>
+              Đăng nhập
+            </button>
+            <button className="btn-solid" onClick={() => navigate('/register')}>
+              Đăng ký
+            </button>
           </div>
         </div>
       </div>
