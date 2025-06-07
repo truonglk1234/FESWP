@@ -10,7 +10,7 @@
 /* Phần bên trái - thông tin */
 .login-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   margin-left: 120px;
 }
 

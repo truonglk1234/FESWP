@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Phone, Lock, HeartHandshake, ShieldCheck, Award } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, HeartHandshake, ShieldCheck, Award } from 'lucide-react';
 import './Login.css';
 import { Link } from 'react-router-dom';
 
@@ -62,8 +62,8 @@ const Login = () => {
 
         <form>
           <div className="input-icon">
-            <Phone className="icon-left" />
-            <input type="tel" placeholder="Nhập số điện thoại của bạn" />
+            <Mail className="icon-left" />
+            <input type="email" placeholder="Nhập địa chỉ Gmail" />
           </div>
 
           <div className="input-icon">

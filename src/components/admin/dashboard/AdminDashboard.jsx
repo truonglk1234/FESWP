@@ -12,7 +12,7 @@ const AdminDashboard = () => {
       <PerformanceSection />
       <RecentActivitiesSection />
       <ReportSummarySection />
-    </div>
+    </div>  
   );
 };
 
