@@ -87,9 +87,12 @@
   padding: 40px;
   box-shadow: 0 5px 30px rgba(0,0,0,0.05);
   margin: 0 100px;
-  height: 490px;
+  min-height: 460px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Thêm hiệu ứng khi hover */
@@ -222,13 +225,29 @@
 }
 
 .register a {
-  color: #10b981;
-  font-weight: 600;
+  color: #737b87;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .register a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  color: #10b981;
 }
 
+.forgot-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+  color: #374151; 
+  cursor: pointer;
+  text-decoration: none;
+}
 
+.forgot-link:hover {
+  color: #10b981; 
+  text-decoration: none;
+}

@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import './Header.css';
-import { Heart, Phone, Mail } from 'lucide-react';
+import { Heart, Phone, Mail, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import './Header.css';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,11 +25,22 @@ const Header = () => {
       <div className="main-header">
         <div className="header-container">
           {/* Logo */}
-          <div className="logo">
+          <Link to="/" className="logo">
             <div className="logo-icon"><Heart className="icon" /></div>
             <div>
               <div className="logo-text">STI Health</div>
               <div className="slogan">Tư vấn sức khỏe giới tính</div>
+            </div>
+          </Link>
+
+          {/* Search bar */}
+          <div className="search-bar">
+            <div className="search-input-wrapper">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Tìm kiếm dịch vụ, bác sĩ, bài viết..."
+              />
             </div>
           </div>
 
@@ -38,8 +48,8 @@ const Header = () => {
           <nav className="nav">
             <Link to="/">Trang chủ</Link>
             <Link to="/services">Dịch vụ y tế</Link>
-            <Link to="/doctors">Bác sĩ chuyên khoa</Link>
-            <Link to="/knowledge">Kiến thức y khoa</Link>
+            <Link to="/doctors">Tư vấn viên</Link>
+            <Link to="/knowledge">Tin tức</Link>
           </nav>
 
           {/* Buttons */}

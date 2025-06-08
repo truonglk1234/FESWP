@@ -11,7 +11,7 @@ import VerifyEmail from './VerifyEmail';
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(true); // Đổi false thành true khi muốn xem trước form xác thực
+  const [isRegistered, setIsRegistered] = useState(false); // Đổi false thành true khi muốn xem trước form xác thực
   const [email, setEmail] = useState('');
 
   const handleRegister = (e) => {

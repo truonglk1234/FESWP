@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, HeartHandshake, ShieldCheck, Award } from 'lucide-react';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import ForgotPassword from './ForgotPassword';
+import VerifyEmail from './VerifyEmail';
+import ResetPassword from './ResetPassword';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [formState, setFormState] = useState('login');
 
   return (
     <div className="login-wrapper">
@@ -57,45 +61,69 @@ const Login = () => {
 
       {/* Right Form */}
       <div className="login-form">
-        <h2>Đăng nhập</h2>
-        <p>Chào mừng trở lại với STI Health</p>
+        {formState === 'login' && (
+          <>
+            <h2>Đăng nhập</h2>
+            <p>Chào mừng trở lại với STI Health</p>
+            <form>
+              <div className="input-icon">
+                <Mail className="icon-left" />
+                <input type="email" placeholder="Nhập địa chỉ Gmail" />
+              </div>
 
-        <form>
-          <div className="input-icon">
-            <Mail className="icon-left" />
-            <input type="email" placeholder="Nhập địa chỉ Gmail" />
-          </div>
+              <div className="input-icon">
+                <Lock className="icon-left" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Nhập mật khẩu của bạn"
+                />
+                <span className="icon-right" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </span>
+              </div>
 
-          <div className="input-icon">
-            <Lock className="icon-left" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Nhập mật khẩu của bạn"
-            />
-            <span className="icon-right" onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
-          </div>
+              <div className="options">
+                <label>
+                  <input type="checkbox" /> Ghi nhớ đăng nhập
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setFormState('forgot')}
+                  className="forgot-link"
+                >
+                  Quên mật khẩu?
+                </button>
+              </div>
 
-          <div className="options">
-            <label>
-              <input type="checkbox" /> Ghi nhớ đăng nhập
-            </label>
-            <a href="#">Quên mật khẩu?</a>
-          </div>
+              <button type="submit" className="btn-submit">Đăng nhập →</button>
 
-          <button type="submit" className="btn-submit">
-            Đăng nhập →
-          </button>
+              <div className="divider"><span>hoặc</span></div>
+              <div className="register">
+                Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+              </div>
+            </form>
+          </>
+        )}
 
-          <div className="divider">
-            <span>hoặc</span>
-          </div>
+        {formState === 'forgot' && (
+          <ForgotPassword onNext={() => setFormState('verify')} onBack={() => setFormState('login')} />
+        )}
 
-          <div className="register">
-            Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
-          </div>
-        </form>
+        {formState === 'verify' && (
+          <VerifyEmail
+            email="user@example.com"
+            onBack={() => setFormState('forgot')}
+            onNext={() => setFormState('reset')}
+            type="reset"
+          />
+        )}
+
+        {formState === 'reset' && (
+          <ResetPassword
+            onBack={() => setFormState('verify')}
+            onDone={() => setFormState('login')}
+          />
+        )}
       </div>
     </div>
   );

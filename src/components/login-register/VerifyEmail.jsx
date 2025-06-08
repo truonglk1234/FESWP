@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './VerifyEmail.css';
 import { Send } from 'lucide-react';
 
-const VerifyEmail = ({ email, onBack }) => {
+const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
   const [otp, setOtp] = useState(Array(6).fill(''));
 
   const handleChange = (e, index) => {
@@ -29,15 +29,26 @@ const VerifyEmail = ({ email, onBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const code = otp.join('');
-    console.log('Mã OTP:', code);
-    // TODO: Gọi API xác thực ở đây
+    console.log(`Mã OTP (${type}):`, code);
+
+    // Gọi API xác thực theo loại
+    if (type === 'register') {
+      // Gọi API xác thực email khi đăng ký
+      // TODO: thêm logic gọi API xác thực khi đăng ký
+    } else if (type === 'reset') {
+      // Gọi API xác thực email khi quên mật khẩu
+      // TODO: thêm logic gọi API xác thực khi reset
+    }
+
+    // Sau khi xác thực thành công, chuyển bước
+    if (onNext) onNext();
   };
 
   return (
     <div className="verify-form-web">
       <h2 className="title">Xác thực email</h2>
       <p className="subtitle">
-        Chúng tôi đã gửi mã xác thực 6 chữ số đến<br/>
+        Chúng tôi đã gửi mã xác thực 6 chữ số đến<br />
         <span className="email">{email}</span>
       </p>
 
@@ -51,8 +62,8 @@ const VerifyEmail = ({ email, onBack }) => {
               type="text"
               maxLength={1}
               value={d}
-              onChange={e => handleChange(e, i)}
-              onKeyDown={e => handleKeyDown(e, i)}
+              onChange={(e) => handleChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
               required
             />
           ))}
@@ -72,7 +83,7 @@ const VerifyEmail = ({ email, onBack }) => {
 
         <div className="back-button">
           <button type="button" onClick={onBack}>
-            ← Quay lại đăng ký
+            ← {type === 'register' ? 'Quay lại đăng ký' : 'Quay lại quên mật khẩu'}
           </button>
         </div>
       </form>
