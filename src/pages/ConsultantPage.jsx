@@ -1,18 +1,18 @@
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 import ConsultantIntroSection from '../components/consultants/ConsultantIntroSection';
+import ConsultantContent from '../components/consultants/ConsultantContent';
 
 const ConsultantPage = () => {
   return (
     <>
       <Header />
-      <main>
-        <ConsultantIntroSection />
-        {/* Sau này có thể thêm bộ lọc, danh sách tư vấn viên ở đây */}
-      </main>
+      <ConsultantIntroSection />
+      <ConsultantContent />
       <Footer />
     </>
   );
 };
 
 export default ConsultantPage;
+
