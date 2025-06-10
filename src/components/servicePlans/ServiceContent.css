@@ -1,4 +1,4 @@
-.service-wrapper {
+.service-section {
   max-width: 1450px;
   margin: 0 auto;
   padding: 0 16px;
@@ -102,18 +102,25 @@
 }
 
 /* === Danh sách dịch vụ === */
+.service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-bottom: 32px;
+}
+
 .service-items.grid {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  padding: 0 16px 32px;
+  padding-bottom: 32px;
 }
 
 .service-items.list {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 0 16px 32px;
+  padding-bottom: 32px;
 }
 
 .service-card {
@@ -135,6 +142,8 @@
 .service-card.list {
   flex-direction: row;
   width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .service-icon-wrapper {
