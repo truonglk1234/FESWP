@@ -1,10 +1,34 @@
-import { useNavigate } from 'react-router-dom';
-import { Heart, Phone, Mail, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Heart, Phone, Mail, Search, ChevronDown,
+  LogOut, Calendar, User, TestTube2
+} from 'lucide-react';
 import './Header.css';
+import { useAuth } from '../../context/AuthContext';
+import { useState, useRef, useEffect } from 'react';
 
 const Header = () => {
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef();
+
+  const handleLogout = () => {
+    setUser(null);
+    setDropdownOpen(false);
+    navigate('/');
+  };
+
+  // Đóng dropdown khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header>
@@ -33,7 +57,7 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Search bar */}
+          {/* Search */}
           <div className="search-bar">
             <div className="search-input-wrapper">
               <Search className="search-icon" />
@@ -52,14 +76,32 @@ const Header = () => {
             <Link to="/knowledge">Tin tức</Link>
           </nav>
 
-          {/* Buttons */}
+          {/* Auth section */}
           <div className="auth-buttons">
-            <button className="btn-outline" onClick={() => navigate('/login')}>
-              Đăng nhập
-            </button>
-            <button className="btn-solid" onClick={() => navigate('/register')}>
-              Đăng ký
-            </button>
+            {!user ? (
+              <>
+                <button className="btn-outline" onClick={() => navigate('/login')}>Đăng nhập</button>
+                <button className="btn-solid" onClick={() => navigate('/register')}>Đăng ký</button>
+              </>
+            ) : (
+              <div className="user-dropdown" ref={dropdownRef}>
+                <div className="user-info" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                  <div className="avatar-user">
+                    {user.name?.split(' ').map(w => w[0]).join('').toUpperCase()}
+                  </div>
+                  <span>{user.name}</span>
+                  <ChevronDown size={16} />
+                </div>
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
+                    <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
+                    <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
+                    <button onClick={handleLogout}><LogOut size={16} /> Đăng xuất</button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
