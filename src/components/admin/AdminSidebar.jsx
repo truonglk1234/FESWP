@@ -21,7 +21,7 @@ export const AdminSidebar = () => {
         <p className="nav-label">Quản lý hệ thống</p>
         <ul>
           <li><Link to="/admin" className="nav-link"><BarChart3 /> Dashboard</Link></li>
-          <li><Link to="/admin" className="nav-link"><Users /> Quản lý người dùng</Link></li>
+          <li><Link to="/admin/users" className="nav-link"><Users /> Quản lý người dùng</Link></li>
           <li><Link to="/admin/consultants" className="nav-link"><UserCheck /> Quản lý tư vấn viên</Link></li>
           <li><Link to="/admin/services" className="nav-link"><Stethoscope /> Quản lý dịch vụ</Link></li>
           <li><Link to="/admin/blogs" className="nav-link"><FileText /> Quản lý blog</Link></li>
