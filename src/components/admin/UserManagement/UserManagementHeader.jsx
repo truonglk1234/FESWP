@@ -1,42 +1,49 @@
-import "./UserManagementHeader.css";
-import { FaUserCheck, FaUserTimes } from "react-icons/fa";
+import React from 'react';
+import './UserManagementHeader.css';
 
 const UserManagementHeader = () => {
-  // Khai báo dữ liệu cứng tại đây
-  const totalUsers = 4;
-  const activeUsers = 2;
-  const blockedUsers = 1;
-
   return (
-    <div className="user-management">
-      <div className="header-top">
-        <div>
-          <h1>Quản lý người dùng</h1>
-          <p>Quản lý tài khoản khách hàng</p>
+    <div className="container">
+      {/* Header chứa tiêu đề bên trái và nút bên phải */}
+      <div className="header-row">
+        <div className="header-text">
+          <h1 className="title">Quản lý người dùng</h1>
+          <p className="subtitle">Quản lý tài khoản khách hàng</p>
         </div>
-        <div className="actions">
-          <button className="export-btn">Xuất danh sách</button>
-          <button className="add-btn">+ Thêm người dùng mới</button>
+        <div className="top-right-buttons">
+          <button className="btn export-btn">Xuất danh sách</button>
+          <button className="btn add-btn">Thêm người dùng mới</button>
         </div>
       </div>
 
+      {/* Thống kê */}
       <div className="stats">
-        <div className="stat-box">
-          <div className="stat-title">Tổng người dùng</div>
-          <div className="stat-number">{totalUsers}</div>
+        <div className="card">
+          <p className="card-title">Tổng người dùng</p>
+          <p className="card-value total">4</p>
         </div>
+        <div className="card">
+          <p className="card-title">Đang hoạt động</p>
+          <p className="card-value active">2</p>
+        </div>
+        <div className="card">
+          <p className="card-title">Bị khóa</p>
+          <p className="card-value blocked">1</p>
+        </div>
+      </div>
 
-        <div className="stat-box">
-          <div className="stat-title">Đang hoạt động</div>
-          <div className="stat-number green">{activeUsers}</div>
-          <div className="stat-icon"><FaUserCheck color="green" /></div>
-        </div>
-
-        <div className="stat-box">
-          <div className="stat-title">Bị khóa</div>
-          <div className="stat-number red">{blockedUsers}</div>
-          <div className="stat-icon"><FaUserTimes color="red" /></div>
-        </div>
+      {/* Thanh tìm kiếm và lọc */}
+      <div className="toolbar">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Tìm kiếm theo tên hoặc email..."
+        />
+        <select className="status-filter">
+          <option value="all">Tất cả trạng thái</option>
+          <option value="active">Đang hoạt động</option>
+          <option value="blocked">Bị khóa</option>
+        </select>
       </div>
     </div>
   );
