@@ -91,9 +91,8 @@ const Register = () => {
                   <label htmlFor="gender">Giới tính</label>
                   <select id="gender" name="gender" className="custom-select" required>
                     <option value="">Chọn giới tính</option>
-                    <option value="male">Nam</option>
-                    <option value="female">Nữ</option>
-                    <option value="other">Khác</option>
+                    <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
                   </select>
                 </div>
 
