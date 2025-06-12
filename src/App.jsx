@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthContext';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/dashboard/AdminDashboard';
 import AdminUserManage from './components/admin/UserManagement/AdminUserManage';
+import AdminCM from './components/admin/ConsultantManagement/AdminCM';
 // 👉 import thêm sau khi tạo file
 // import AdminConsultantManage from './components/admin/Consultant/AdminConsultantManage';
 // import AdminServiceManage from './components/admin/Service/AdminServiceManage';
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} /> {/* /admin */}
             <Route path="users" element={<AdminUserManage />} /> {/* /admin/users */}
+            <Route path="consultants" element={<AdminCM />} />
             {/* Các trang admin khác thêm sau tại đây */}
           </Route>
         </Routes>
