@@ -1,0 +1,81 @@
+.user-management {
+  padding: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-top h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.header-top p {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+.actions button {
+  padding: 8px 16px;
+  margin-left: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.export-btn {
+  background-color: white;
+  border: 1px solid #d1d5db;
+}
+
+.add-btn {
+  background-color: #0f172a;
+  color: white;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+}
+
+.stat-box {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 0 0 1px #e5e7eb;
+  position: relative;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat-number.green {
+  color: green;
+}
+
+.stat-number.red {
+  color: red;
+}
+
+.stat-icon {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  font-size: 18px;
+}

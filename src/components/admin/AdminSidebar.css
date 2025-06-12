@@ -20,8 +20,15 @@
   gap: 0.75rem;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
 .logo-square {
-  background: #047857; /* xanh lá đậm */
+  background: #047857;
   padding: 0.5rem;
   border-radius: 0.75rem;
   display: flex;
@@ -35,9 +42,10 @@
   height: 1.25rem;
 }
 
-.sidebar-branding {
+.logo-text-group {
   display: flex;
   flex-direction: column;
+  line-height: 1.2;
 }
 
 .sidebar-title {
@@ -48,7 +56,7 @@
 }
 
 .sidebar-subtitle {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #6b7280;
   margin-top: 2px;
 }
@@ -73,22 +81,27 @@
 }
 
 .sidebar-middle li {
+  border-radius: 0.5rem;
+}
+
+.nav-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.6rem 0.75rem;
-  border-radius: 0.5rem;
   font-size: 0.95rem;
   color: #374151;
-  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0.5rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.sidebar-middle li:hover {
+.nav-link:hover {
   background: #f3f4f6;
+  color: #111827;
 }
 
-.sidebar-middle li.active {
+.nav-link.active {
   background: #f3f4f6;
   font-weight: 600;
   color: #111827;
@@ -102,40 +115,10 @@
   padding-top: 2rem;
 }
 
-.sidebar-footer div {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.sidebar-footer .nav-link {
   padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  color: #374151;
-  cursor: pointer;
 }
 
-.sidebar-footer div:hover {
+.sidebar-footer .nav-link:hover {
   background-color: #f9fafb;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  gap: 0.75rem;
-}
-
-.logo-text-group {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.sidebar-title {
-  font-weight: 700;
-  color: #064e3b;
-}
-
-.sidebar-subtitle {
-  font-size: 0.85rem;
-  color: #6b7280;
 }
