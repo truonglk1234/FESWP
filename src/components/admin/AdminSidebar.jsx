@@ -1,4 +1,4 @@
-import { BarChart3, Users, UserCheck, Heart, Stethoscope, FileText, MessageSquare, HelpCircle, Settings, LogOut } from 'lucide-react';
+import { BarChart3, Users, UserCheck, Heart, Stethoscope, FileText, MessageSquare, HelpCircle, LogOut } from 'lucide-react';
 import './AdminSidebar.css';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +31,6 @@ export const AdminSidebar = () => {
       </div>
 
       <div className="sidebar-footer">
-        <Link to="/admin/settings" className="nav-link"><Settings /> Cài đặt</Link>
         <Link to="/logout" className="nav-link"><LogOut /> Đăng xuất</Link>
       </div>
     </aside>
