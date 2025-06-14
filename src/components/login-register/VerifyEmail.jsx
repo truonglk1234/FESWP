@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './VerifyEmail.css';
 import { Send } from 'lucide-react';
+import axios from 'axios';
 
 const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
   const [otp, setOtp] = useState(Array(6).fill(''));
@@ -26,24 +27,36 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const code = otp.join('');
-    console.log(`Mã OTP (${type}):`, code);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const code = otp.join('');
 
-    // Gọi API xác thực theo loại
-    if (type === 'register') {
-      // Gọi API xác thực email khi đăng ký
-      // TODO: thêm logic gọi API xác thực khi đăng ký
-    } else if (type === 'reset') {
-      // Gọi API xác thực email khi quên mật khẩu
-      // TODO: thêm logic gọi API xác thực khi reset
-    }
+  try {
+  if (type === 'register') {
+    // Gửi mã xác thực cho đăng ký
+    await axios.post('http://localhost:8080/api/auth/verify-code', {
+      email,
+      code
+    }, { withCredentials: true });
 
-    // Sau khi xác thực thành công, chuyển bước
+    // Sau khi xác thực thành công, chuyển về login
+    window.location.href = '/login'; // hoặc dùng navigate('/login') nếu đang dùng useNavigate
+
+  } else if (type === 'reset') {
+    // Gửi mã xác thực cho quên mật khẩu
+    await axios.post('http://localhost:8080/api/auth/verify-reset', {
+      email,
+      code
+    }, { withCredentials: true });
+
+    // Nếu xác thực đúng mã OTP, chuyển sang bước đặt lại mật khẩu
     if (onNext) onNext();
-  };
+  }
+} catch (err) {
+  alert("Xác thực thất bại: " + (err.response?.data || "Lỗi máy chủ"));
+}
 
+};
   return (
     <div className="verify-form-web">
       <h2 className="title">Xác thực email</h2>

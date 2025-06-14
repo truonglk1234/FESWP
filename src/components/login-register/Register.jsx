@@ -7,18 +7,48 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import VerifyEmail from './VerifyEmail';
+import axios from 'axios';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false); // Đổi false thành true khi muốn xem trước form xác thực
+  const [isRegistered, setIsRegistered] = useState(false);
   const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    gender: '',
+    dateOfBirthday: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [error, setError] = useState('');
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    setIsRegistered(true); // Giả lập đăng ký thành công
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/register', formData, {
+        withCredentials: true,
+      });
+
+      console.log('Đăng ký thành công:', response.data);
+      setEmail(formData.email);
+      setIsRegistered(true);
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data || 'Đăng ký thất bại');
+      } else {
+        setError('Không thể kết nối đến máy chủ');
+      }
+    }
+  };
   return (
     <div className="login-wrapper">
       {/* Bên trái luôn hiển thị */}
@@ -56,9 +86,9 @@ const Register = () => {
       </div>
 
       {/* Bên phải thay đổi theo trạng thái */}
-      <div className="register-form">
+       <div className="register-form">
         {isRegistered ? (
-          <VerifyEmail email={email || 'example@example.com'} />
+          <VerifyEmail email={email} />
         ) : (
           <>
             <h2>Đăng ký</h2>
@@ -67,29 +97,51 @@ const Register = () => {
             <form onSubmit={handleRegister}>
               <div className="input-icon">
                 <User className="icon-left" />
-                <input type="text" placeholder="Họ và tên" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Họ và tên"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div className="input-icon">
                 <Mail className="icon-left" />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="input-icon">
                 <Phone className="icon-left" />
-                <input type="tel" placeholder="Số điện thoại" required />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Số điện thoại"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div className="two-columns">
                 <div className="form-group">
                   <label htmlFor="gender">Giới tính</label>
-                  <select id="gender" name="gender" className="custom-select" required>
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    className="custom-select"
+                    required
+                  >
                     <option value="">Chọn giới tính</option>
                     <option value="true">Nam</option>
                     <option value="false">Nữ</option>
@@ -97,8 +149,16 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="dob">Ngày sinh</label>
-                  <input type="date" id="dob" name="dob" className="custom-input" required />
+                  <label htmlFor="dateOfBirthday">Ngày sinh</label>
+                  <input
+                    type="date"
+                    id="dateOfBirthday"
+                    name="dateOfBirthday"
+                    className="custom-input"
+                    value={formData.dateOfBirthday}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
 
@@ -106,7 +166,10 @@ const Register = () => {
                 <Lock className="icon-left" />
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  name="password"
                   placeholder="Mật khẩu"
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                 />
                 <span className="icon-right" onClick={() => setShowPassword(!showPassword)}>
@@ -118,7 +181,10 @@ const Register = () => {
                 <Lock className="icon-left" />
                 <input
                   type={showConfirm ? 'text' : 'password'}
+                  name="confirmPassword"
                   placeholder="Nhập lại mật khẩu"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
                   required
                 />
                 <span className="icon-right" onClick={() => setShowConfirm(!showConfirm)}>
@@ -136,8 +202,9 @@ const Register = () => {
                 Đăng ký →
               </button>
 
-              <div className="divider"><span>hoặc</span></div>
+              {error && <p className="error">{error}</p>}
 
+              <div className="divider"><span>hoặc</span></div>
               <div className="register">
                 Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
               </div>

@@ -5,7 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import ForgotPassword from './ForgotPassword';
 import VerifyEmail from './VerifyEmail';
 import ResetPassword from './ResetPassword';
-import { useAuth } from '../../context/AuthContext'; // điều chỉnh nếu đường dẫn khác
+import { useAuth } from '../../context/AuthContext';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; // ✅ GIẢI MÃ TOKEN
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -17,17 +19,52 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  setError('');
 
-    // Kiểm tra đăng nhập đơn giản (có thể thay bằng gọi API)
-    if (email === 'user@example.com' && password === '123456') {
-      setUser({ name: 'Nguyễn Văn An', email });
-      navigate('/');
-    } else {
-      setError('Email hoặc mật khẩu không đúng');
+  try {
+    const response = await axios.post('http://localhost:8080/api/auth/login', {
+      email,
+      password
+    }, { withCredentials: true });
+
+    const token = response.data.token;
+    const decoded = jwtDecode(token);
+
+    const user = {
+      name: decoded.sub,
+      role: decoded.role,
+      token: token
+    };
+
+    setUser(user);
+    localStorage.setItem('token', token);
+
+    // ✅ Phân quyền điều hướng
+    switch (decoded.role) {
+      case 'Admin':
+        navigate('/admin/dashboard');
+        break;
+      case 'Consultant':
+        navigate('/consultant/profile');
+        break;
+      case 'Staff':
+        navigate('/staff/home');
+        break;
+      case 'Customer':
+      default:
+        navigate('/');
+        break;
     }
-  };
+  } catch (err) {
+    if (err.response?.data) {
+      setError(err.response.data);
+    } else {
+      setError('Đã xảy ra lỗi. Vui lòng thử lại.');
+    }
+  }
+};
 
   return (
     <div className="login-wrapper">
@@ -38,9 +75,7 @@ const Login = () => {
           <span className="highlight"> giới tính </span> <br />
           chuyên nghiệp
         </h1>
-        <p>
-          Tham gia cùng hàng nghìn người dùng tin tưởng STI Health cho việc chăm sóc sức khỏe giới tính.
-        </p>
+        <p>Tham gia cùng hàng nghìn người dùng tin tưởng STI Health cho việc chăm sóc sức khỏe giới tính.</p>
 
         <div className="stats">
           <div>

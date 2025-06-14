@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -25,10 +24,6 @@ import AdminBM from './components/admin/BlogsManagement/AdminBM';
 
 
 const App = () => {
-  useEffect(() => {
-    const testUser = { name: 'Nguyễn Văn An', email: 'user@example.com' };
-    localStorage.setItem('user', JSON.stringify(testUser));
-  }, []);
 
   return (
     <Router>
