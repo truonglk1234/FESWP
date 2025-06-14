@@ -15,12 +15,6 @@ import NotificationSettings from './components/profile/pages/NotificationSetting
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
 
-
-
-// import thêm các tab khác nếu có sau này:
-// import AccountInfo from './components/profile/pages/AccountInfo';
-// import ServiceHistory from './components/profile/pages/ServiceHistory';
-
 // Admin Layout & Pages
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/dashboard/AdminDashboard';
@@ -28,10 +22,6 @@ import AdminUserManage from './components/admin/UserManagement/AdminUserManage';
 import AdminCM from './components/admin/ConsultantManagement/AdminCM';
 import AdminSM from './components/admin/ServiceManagement/AdminSM';
 import AdminBM from './components/admin/BlogsManagement/AdminBM';
-// 👉 import thêm sau khi tạo file
-// import AdminConsultantManage from './components/admin/Consultant/AdminConsultantManage';
-// import AdminServiceManage from './components/admin/Service/AdminServiceManage';
-// ...
 
 
 const App = () => {
