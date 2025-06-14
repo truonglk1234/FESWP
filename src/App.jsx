@@ -26,15 +26,12 @@ import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/dashboard/AdminDashboard';
 import AdminUserManage from './components/admin/UserManagement/AdminUserManage';
 import AdminCM from './components/admin/ConsultantManagement/AdminCM';
-<<<<<<< Updated upstream
 import AdminSM from './components/admin/ServiceManagement/AdminSM';
 import AdminBM from './components/admin/BlogsManagement/AdminBM';
 // 👉 import thêm sau khi tạo file
 // import AdminConsultantManage from './components/admin/Consultant/AdminConsultantManage';
 // import AdminServiceManage from './components/admin/Service/AdminServiceManage';
 // ...
-=======
->>>>>>> Stashed changes
 
 
 const App = () => {
@@ -69,12 +66,9 @@ const App = () => {
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUserManage />} />
             <Route path="consultants" element={<AdminCM />} />
-<<<<<<< Updated upstream
             <Route path="services" element={<AdminSM />} />
             <Route path="blogs" element={<AdminBM />} />
             {/* Các trang admin khác thêm sau tại đây */}
-=======
->>>>>>> Stashed changes
           </Route>
         </Routes>
       </AuthProvider>
