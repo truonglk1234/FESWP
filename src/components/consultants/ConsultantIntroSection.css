@@ -33,34 +33,5 @@
   line-height: 1.6;
 }
 
-.stats {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 24px;
-}
 
-.stat-box {
-  background-color: #ecfdf5;
-  padding: 24px 20px;
-  border-radius: 16px;
-  border: 1px solid #d1fae5;
-  width: 220px;
-  text-align: center;
-}
 
-.stat-box h2 {
-  font-size: 28px;
-  margin: 10px 0 6px;
-  color: #0f5132;
-}
-
-.stat-box p {
-  font-weight: 600;
-  color: #0f172a;
-}
-
-.stat-box span {
-  font-size: 14px;
-  color: #64748b;
-}
