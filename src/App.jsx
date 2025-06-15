@@ -21,7 +21,7 @@ import AdminUserManage from './components/admin/UserManagement/AdminUserManage';
 import AdminCM from './components/admin/ConsultantManagement/AdminCM';
 import AdminSM from './components/admin/ServiceManagement/AdminSM';
 import AdminBM from './components/admin/BlogsManagement/AdminBM';
-
+import AdminFM from './components/admin/FeedbackManagement/AdminFM';
 
 const App = () => {
 
@@ -53,6 +53,7 @@ const App = () => {
             <Route path="consultants" element={<AdminCM />} />
             <Route path="services" element={<AdminSM />} />
             <Route path="blogs" element={<AdminBM />} />
+            <Route path="feedbacks" element={<AdminFM />} />
             {/* Các trang admin khác thêm sau tại đây */}
           </Route>
         </Routes>
