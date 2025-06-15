@@ -5,6 +5,7 @@ import AdminCM from '../components/admin/ConsultantManagement/AdminCM';
 import AdminSM from '../components/admin/ServiceManagement/AdminSM';
 import AdminBM from '../components/admin/BlogsManagement/AdminBM';
 import AdminFM from '../components/admin/FeedbackManagement/AdminFM';
+import AdminQA from '../components/admin/Q&AManagement/AdminQA';
 
 const AdminPage = () => {
   return (
@@ -15,6 +16,7 @@ const AdminPage = () => {
       <AdminSM/>
       <AdminBM/>
       <AdminFM/>
+      <AdminQA/>
     </AdminLayout>
   );
 };

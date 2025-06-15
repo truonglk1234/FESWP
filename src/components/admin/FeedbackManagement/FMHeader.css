@@ -1,9 +1,10 @@
 .fm-header {
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  padding: 24px;
+  padding: 24px 0;
   margin-bottom: 20px;
+}
+
+.fm-header-top {
+  margin-bottom: 16px;
 }
 
 .fm-title {
@@ -16,17 +17,13 @@
 .fm-subtitle {
   font-size: 15px;
   color: #6b7280;
-  margin-bottom: 20px;
 }
 
 .fm-filter-container {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 16px;
+  padding: 0;
 }
 
 .fm-input {
@@ -37,6 +34,8 @@
   border-radius: 8px;
   font-size: 15px;
   outline: none;
+  background: #fff;
+  color: #111827;
 }
 
 .fm-select {

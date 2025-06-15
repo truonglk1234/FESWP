@@ -22,6 +22,7 @@ import AdminCM from './components/admin/ConsultantManagement/AdminCM';
 import AdminSM from './components/admin/ServiceManagement/AdminSM';
 import AdminBM from './components/admin/BlogsManagement/AdminBM';
 import AdminFM from './components/admin/FeedbackManagement/AdminFM';
+import AdminQA from './components/admin/Q&AManagement/AdminQA';
 
 const App = () => {
 
@@ -54,6 +55,7 @@ const App = () => {
             <Route path="services" element={<AdminSM />} />
             <Route path="blogs" element={<AdminBM />} />
             <Route path="feedbacks" element={<AdminFM />} />
+            <Route path="qna" element={<AdminQA />} />
             {/* Các trang admin khác thêm sau tại đây */}
           </Route>
         </Routes>
