@@ -1,0 +1,35 @@
+.blog-intro {
+  text-align: center;
+  padding: 64px 20px 48px;
+  background-color: #f9fafb;
+}
+
+.blog-intro .badge {
+  display: inline-block;
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.blog-intro h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.blog-intro .highlight {
+  color: #0ea5e9;
+}
+
+.blog-intro .description {
+  font-size: 16px;
+  color: #475569;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}

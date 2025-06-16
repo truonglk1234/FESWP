@@ -73,7 +73,7 @@ const Header = () => {
             <Link to="/">Trang chủ</Link>
             <Link to="/services">Dịch vụ y tế</Link>
             <Link to="/consultants">Tư vấn viên</Link>
-            <Link to="/knowledge">Tin tức</Link>
+            <Link to="/blogs">Tin tức</Link>
           </nav>
 
           {/* Auth section */}

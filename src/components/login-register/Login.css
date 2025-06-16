@@ -82,6 +82,8 @@
 
 /* Form login */
 .login-form {
+  border: 3px solid transparent;   /* ✅ giữ nguyên độ dày từ đầu */
+  box-sizing: border-box;          /* ✅ border không ảnh hưởng đến kích thước */
   background: #fff;
   border-radius: 16px;
   padding: 40px;
@@ -89,13 +91,11 @@
   margin: 0 100px;
   min-height: 460px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* Thêm hiệu ứng khi hover */
 .login-form:hover {
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
   transform: translateY(-6px);
@@ -190,32 +190,6 @@
   background: #059669;
 }
 
-/* Divider line "hoặc" */
-.divider {
-  text-align: center;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.divider span {
-  background: #fff;
-  padding: 0 12px;
-  color: #6b7280;
-  font-size: 14px;
-  position: relative;
-  z-index: 1;
-}
-
-.divider::before {
-  content: "";
-  position: absolute;
-  height: 1px;
-  background: #e5e7eb;
-  width: 100%;
-  left: 0;
-  top: 50%;
-  z-index: 0;
-}
 
 /* Đăng ký ngay */
 .register {

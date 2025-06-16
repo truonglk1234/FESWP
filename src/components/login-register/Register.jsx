@@ -204,7 +204,6 @@ const Register = () => {
 
               {error && <p className="error">{error}</p>}
 
-              <div className="divider"><span>hoặc</span></div>
               <div className="register">
                 Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
               </div>

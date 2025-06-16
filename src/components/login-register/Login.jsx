@@ -162,7 +162,7 @@ const Login = () => {
 
               {error && <p className="error">{error}</p>}
 
-              <div className="divider"><span>hoặc</span></div>
+
               <div className="register">
                 Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
               </div>
