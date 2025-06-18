@@ -1,15 +1,26 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // ✅ Lấy dữ liệu user từ localStorage nếu có
     const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
+    if (!storedUser) return null;
+
+    const parsed = JSON.parse(storedUser);
+    try {
+      const decoded = jwtDecode(parsed.token);
+      return {
+        ...parsed,
+        name: decoded.Name || decoded.sub // fallback nếu không có Name
+      };
+    } catch (err) {
+      console.error("Lỗi giải mã JWT:", err);
+      return null;
+    }
   });
 
-  // ✅ Ghi user vào localStorage mỗi khi có thay đổi
   useEffect(() => {
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
