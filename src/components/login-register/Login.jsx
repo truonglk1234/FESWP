@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, HeartHandshake, ShieldCheck, Award } from 'lucide-react';
+import {
+  Eye, EyeOff, Mail, Lock,
+  HeartHandshake, ShieldCheck, Award
+} from 'lucide-react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import ForgotPassword from './ForgotPassword';
@@ -7,7 +10,7 @@ import VerifyEmail from './VerifyEmail';
 import ResetPassword from './ResetPassword';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // ✅ GIẢI MÃ TOKEN
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -16,63 +19,51 @@ const Login = () => {
   const [formState, setFormState] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError('');
+    e.preventDefault();
+    setError('');
 
-  try {
-    const response = await axios.post('http://localhost:8080/api/auth/login', {
-      email,
-      password
-    }, { withCredentials: true });
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/login', {
+        email,
+        password
+      }, { withCredentials: true });
 
-    const token = response.data.token;
-    const decoded = jwtDecode(token);
+      const token = response.data.token;
+      const decoded = jwtDecode(token);
 
-    const user = {
-      name: decoded.sub,
-      role: decoded.role,
-      token: token
-    };
+      const user = {
+        name: decoded.sub,
+        role: decoded.role,
+        token: token
+      };
 
-    setUser(user);
-    localStorage.setItem('token', token);
+      setUser(user);
+      localStorage.setItem('token', token);
 
-    // ✅ Phân quyền điều hướng
-    switch (decoded.role) {
-      case 'Admin':
-        navigate('/admin/dashboard');
-        break;
-      case 'Consultant':
-        navigate('/consultant/profile');
-        break;
-      case 'Staff':
-        navigate('/staff/home');
-        break;
-      case 'Customer':
-      default:
-        navigate('/');
-        break;
+      switch (decoded.role) {
+        case 'Admin': navigate('/admin/dashboard'); break;
+        case 'Consultant': navigate('/consultant/profile'); break;
+        case 'Staff': navigate('/staff/home'); break;
+        case 'Customer':
+        default: navigate('/'); break;
+      }
+    } catch (err) {
+      const res = err.response?.data;
+      setError(typeof res === 'string' ? res : (res?.message || 'Đăng nhập thất bại'));
     }
-  } catch (err) {
-    if (err.response?.data) {
-      setError(err.response.data);
-    } else {
-      setError('Đã xảy ra lỗi. Vui lòng thử lại.');
-    }
-  }
-};
+  };
 
   return (
     <div className="login-wrapper">
       {/* Left Info */}
       <div className="login-info">
         <h1>
-          Tư vấn sức khỏe
-          <span className="highlight"> giới tính </span> <br />
+          Tư vấn sức khỏe <span className="highlight">giới tính</span><br />
           chuyên nghiệp
         </h1>
         <p>Tham gia cùng hàng nghìn người dùng tin tưởng STI Health cho việc chăm sóc sức khỏe giới tính.</p>
@@ -159,10 +150,7 @@ const Login = () => {
               </div>
 
               <button type="submit" className="btn-submit">Đăng nhập →</button>
-
               {error && <p className="error">{error}</p>}
-
-
               <div className="register">
                 Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
               </div>
@@ -171,20 +159,31 @@ const Login = () => {
         )}
 
         {formState === 'forgot' && (
-          <ForgotPassword onNext={() => setFormState('verify')} onBack={() => setFormState('login')} />
+          <ForgotPassword
+            onNext={(receivedEmail) => {
+              setEmail(receivedEmail);
+              setFormState('verify');
+            }}
+            onBack={() => setFormState('login')}
+          />
         )}
 
         {formState === 'verify' && (
           <VerifyEmail
             email={email}
-            onBack={() => setFormState('forgot')}
-            onNext={() => setFormState('reset')}
             type="reset"
+            onBack={() => setFormState('forgot')}
+            onNext={(receivedCode) => {
+              setCode(receivedCode);
+              setFormState('reset');
+            }}
           />
         )}
 
         {formState === 'reset' && (
           <ResetPassword
+            email={email}
+            code={code}
             onBack={() => setFormState('verify')}
             onDone={() => setFormState('login')}
           />

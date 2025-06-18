@@ -1,37 +1,55 @@
 import React, { useState } from 'react';
 import './ResetPassword.css';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
 
-const ResetPassword = ({ onBack, onDone }) => {
+const ResetPassword = ({ onBack, onDone, email, code }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
+
     if (newPassword !== confirmPassword) {
-      alert('Mật khẩu không khớp');
+      setError('M\u1eadt kh\u1ea9u kh\u00f4ng kh\u1edbp');
       return;
     }
 
-    console.log('Mật khẩu mới:', newPassword);
-    // TODO: Gọi API đặt lại mật khẩu ở đây
+    try {
+      const res = await axios.post('http://localhost:8080/api/auth/reset-password-with-code', {
+        email,
+        code,
+        newPassword: newPassword,
+        confirmPassword
+      });
 
-    if (onDone) onDone(); // quay về login
+      setSuccess(res.data || '\u0110\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u th\u00e0nh c\u00f4ng!');
+      setTimeout(() => {
+        if (onDone) onDone();
+      }, 1500);
+    } catch (err) {
+      const msg = err.response?.data || 'Kh\u00f4ng th\u1ec3 \u0111\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u';
+      setError(typeof msg === 'string' ? msg : msg.message);
+    }
   };
 
   return (
     <div className="reset-password-form">
-      <h2>Đặt lại mật khẩu</h2>
-      <p>Nhập mật khẩu mới cho tài khoản của bạn</p>
+      <h2>\u0110\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u</h2>
+      <p>Nh\u1eadp m\u1eadt kh\u1ea9u m\u1edbi cho t\u00e0i kho\u1ea3n c\u1ee7a b\u1ea1n</p>
 
       <form onSubmit={handleSubmit}>
         <div className="input-icon">
           <Lock className="icon-left" />
           <input
             type={showNew ? 'text' : 'password'}
-            placeholder="Mật khẩu mới"
+            placeholder="M\u1eadt kh\u1ea9u m\u1edbi"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
@@ -45,7 +63,7 @@ const ResetPassword = ({ onBack, onDone }) => {
           <Lock className="icon-left" />
           <input
             type={showConfirm ? 'text' : 'password'}
-            placeholder="Xác nhận mật khẩu"
+            placeholder="X\u00e1c nh\u1eadn m\u1eadt kh\u1ea9u"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -55,13 +73,16 @@ const ResetPassword = ({ onBack, onDone }) => {
           </span>
         </div>
 
+        {error && <p className="error">{error}</p>}
+        {success && <p className="success">{success}</p>}
+
         <button type="submit" className="btn-submit">
-          ✓ Xác nhận & Đăng nhập
+          \u2713 X\u00e1c nh\u1eadn & \u0110\u0103ng nh\u1eadp
         </button>
 
         <div className="back-button">
           <button type="button" onClick={onBack}>
-            ← Quay lại xác thực
+            \u2190 Quay l\u1ea1i x\u00e1c th\u1ef1c
           </button>
         </div>
       </form>

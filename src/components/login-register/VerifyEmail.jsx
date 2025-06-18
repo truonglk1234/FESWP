@@ -28,45 +28,49 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const code = otp.join('');
+    e.preventDefault();
+    const code = otp.join('');
 
-  try {
-  if (type === 'register') {
-    // Gửi mã xác thực cho đăng ký
-    await axios.post('http://localhost:8080/api/auth/verify-code', {
-      email,
-      code
-    }, { withCredentials: true });
+    console.log('\ud83d\udd0d Sending verify-code:', { email, code });
 
-    // Sau khi xác thực thành công, chuyển về login
-    window.location.href = '/login'; // hoặc dùng navigate('/login') nếu đang dùng useNavigate
+    if (code.length !== 6) {
+      alert('M\u00e3 x\u00e1c th\u1ef1c ph\u1ea3i \u0111\u1ee7 6 ch\u1eef s\u1ed1.');
+      return;
+    }
 
-  } else if (type === 'reset') {
-    // Gửi mã xác thực cho quên mật khẩu
-    await axios.post('http://localhost:8080/api/auth/verify-reset', {
-      email,
-      code
-    }, { withCredentials: true });
+    try {
+      await axios.post('http://localhost:8080/api/auth/verify-code', { email, code }, { withCredentials: true });
 
-    // Nếu xác thực đúng mã OTP, chuyển sang bước đặt lại mật khẩu
-    if (onNext) onNext();
-  }
-} catch (err) {
-  alert("Xác thực thất bại: " + (err.response?.data || "Lỗi máy chủ"));
-}
+      if (type === 'register') {
+        window.location.href = '/login';
+      } else if (type === 'reset') {
+        if (onNext) onNext(code);
+      }
+    } catch (err) {
+      const msg = err.response?.data;
+      alert("X\u00e1c th\u1ef1c th\u1ea5t b\u1ea1i: " + (typeof msg === 'string' ? msg : msg?.message || 'L\u1ed7i m\u00e1y ch\u1ee7'));
+    }
+  };
 
-};
+  const handleResendCode = async () => {
+    try {
+      await axios.post('http://localhost:8080/api/auth/resend-code', { email }, { withCredentials: true });
+      alert('\u2705 M\u00e3 x\u00e1c th\u1ef1c \u0111\u00e3 \u0111\u01b0\u1ee3c g\u1eedi l\u1ea1i.');
+    } catch (err) {
+      alert('\u274c Kh\u00f4ng th\u1ec3 g\u1eedi l\u1ea1i m\u00e3: ' + (err.response?.data || 'L\u1ed7i m\u00e1y ch\u1ee7'));
+    }
+  };
+
   return (
     <div className="verify-form-web">
-      <h2 className="title">Xác thực email</h2>
+      <h2 className="title">X\u00e1c th\u1ef1c email</h2>
       <p className="subtitle">
-        Chúng tôi đã gửi mã xác thực 6 chữ số đến<br />
+        Ch\u00fang t\u00f4i \u0111\u00e3 g\u1eedi m\u00e3 x\u00e1c th\u1ef1c 6 ch\u1eef s\u1ed1 \u0111\u1ebfn<br />
         <span className="email">{email}</span>
       </p>
 
       <form onSubmit={handleSubmit}>
-        <label className="input-label">Nhập mã xác thực</label>
+        <label className="input-label">Nh\u1eadp m\u00e3 x\u00e1c th\u1ef1c</label>
         <div className="otp-inputs">
           {otp.map((d, i) => (
             <input
@@ -83,20 +87,20 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
         </div>
 
         <button type="submit" className="btn-verify">
-          ✓ Xác thực tài khoản
+          \u2713 X\u00e1c th\u1ef1c t\u00e0i kho\u1ea3n
         </button>
 
         <div className="resend-group">
-          <p className="resend-question">Không nhận được mã xác thực?</p>
-          <button type="button" className="resend-button">
+          <p className="resend-question">Kh\u00f4ng nh\u1eadn \u0111\u01b0\u1ee3c m\u00e3 x\u00e1c th\u1ef1c?</p>
+          <button type="button" className="resend-button" onClick={handleResendCode}>
             <Send size={16} className="resend-icon" />
-            Gửi lại mã xác thực
+            G\u1eedi l\u1ea1i m\u00e3 x\u00e1c th\u1ef1c
           </button>
         </div>
 
         <div className="back-button">
           <button type="button" onClick={onBack}>
-            ← {type === 'register' ? 'Quay lại đăng ký' : 'Quay lại quên mật khẩu'}
+            \u2190 {type === 'register' ? 'Quay l\u1ea1i \u0111\u0103ng k\u00fd' : 'Quay l\u1ea1i qu\u00ean m\u1eadt kh\u1ea9u'}
           </button>
         </div>
       </form>

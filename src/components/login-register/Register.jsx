@@ -32,9 +32,14 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+    const payload = {
+    ...formData,
+    gender: formData.gender === 'true', // ✅ convert chuỗi sang boolean
+    dateOfBirthday: formData.dateOfBirthday, // ✅ dạng yyyy-MM-dd từ input type="date"
+  };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/register', formData, {
+      const response = await axios.post('http://localhost:8080/api/auth/register', payload, {
         withCredentials: true,
       });
 
@@ -42,13 +47,25 @@ const Register = () => {
       setEmail(formData.email);
       setIsRegistered(true);
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data || 'Đăng ký thất bại');
+      console.error("Lỗi khi đăng ký:", err.response?.data || err.message);
+
+      if (err.response && err.response.data) {
+        const { message, errors } = err.response.data;
+
+        if (message) {
+          setError(message);
+        } else if (errors && typeof errors === 'object') {
+          const firstError = Object.values(errors)[0];
+          setError(firstError || 'Đăng ký thất bại');
+        } else {
+          setError('Đăng ký thất bại');
+        }
       } else {
         setError('Không thể kết nối đến máy chủ');
       }
     }
   };
+
   return (
     <div className="login-wrapper">
       {/* Bên trái luôn hiển thị */}
@@ -86,7 +103,7 @@ const Register = () => {
       </div>
 
       {/* Bên phải thay đổi theo trạng thái */}
-       <div className="register-form">
+      <div className="register-form">
         {isRegistered ? (
           <VerifyEmail email={email} />
         ) : (
@@ -202,7 +219,7 @@ const Register = () => {
                 Đăng ký →
               </button>
 
-              {error && <p className="error">{error}</p>}
+              {typeof error === 'string' && <p className="error">{error}</p>}
 
               <div className="register">
                 Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
