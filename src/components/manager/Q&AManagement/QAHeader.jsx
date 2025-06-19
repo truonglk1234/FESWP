@@ -9,7 +9,7 @@ const QAHeader = () => {
           <h2 className="qa-title">Quản lý Q&A</h2>
           <p className="qa-subtitle">Kiểm duyệt câu hỏi và quản lý nội dung FAQ</p>
         </div>
-        <button className="qa-new-btn">+ Tạo FAQ mới</button>
+        <button className="qa-new-btn">Tạo FAQ mới</button>
       </div>
 
       <div className="qa-filter-bar">

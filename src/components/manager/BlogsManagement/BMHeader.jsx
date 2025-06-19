@@ -10,7 +10,7 @@ const BMHeader = () => {
           <p className="subtitle">Tạo và quản lý nội dung blog y tế</p>
         </div>
         <button className="create-btn">
-          <span>＋</span> Tạo bài viết mới
+           Tạo bài viết mới
         </button>
       </div>
 

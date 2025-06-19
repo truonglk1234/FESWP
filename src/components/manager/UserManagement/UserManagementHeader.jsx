@@ -11,7 +11,7 @@ const UserManagementHeader = () => {
           <p className="subtitle">Quản lý tài khoản khách hàng</p>
         </div>
         <div className="top-right-buttons">
-          <button className="btn add-btn">Thêm người dùng mới</button>
+          <button className=" user-add-btn">Thêm người dùng mới</button>
         </div>
       </div>
 

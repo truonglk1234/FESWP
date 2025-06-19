@@ -8,7 +8,7 @@ const SMHeader = () => {
         <p className="sm-subtitle">
           Quản lý danh sách dịch vụ, giá cả và thời gian thực hiện
         </p>
-        <button className="add-service-btn">+ Thêm dịch vụ mới</button>
+        <button className="add-service-btn">Thêm dịch vụ mới</button>
       </div>
 
       <div className="sm-header-filters">

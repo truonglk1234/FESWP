@@ -34,7 +34,7 @@
   gap: 12px;
 }
 
-/* Nút */
+/* Nút chung */
 .btn {
   padding: 10px 16px;
   border-radius: 8px;
@@ -46,13 +46,15 @@
   white-space: nowrap;
 }
 
-.add-btn {
-  background-color: #0f172a;
+/* ✅ Nút Thêm người dùng mới: nền đen, chữ trắng */
+.user-add-btn {
+  background-color: #111827;
   color: white;
+  border: none;
 }
 
 .add-btn:hover {
-  background-color: #1e293b;
+  background-color: #1f2937;
 }
 
 /* Toolbar */

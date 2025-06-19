@@ -26,54 +26,7 @@ const usersData = [
     registered: '2024-03-10',
     status: 'active',
   },
-  {
-    id: 4,
-    name: 'Phạm Thị D',
-    email: 'phamd@email.com',
-    phone: '0912345678',
-    registered: '2024-04-01',
-    status: 'active',
-  },
-  {
-    id: 5,
-    name: 'Võ Văn E',
-    email: 'vovane@email.com',
-    phone: '0901234567',
-    registered: '2024-04-20',
-    status: 'inactive',
-  },
-  {
-    id: 6,
-    name: 'Đinh Thị F',
-    email: 'dinhf@email.com',
-    phone: '0987123456',
-    registered: '2024-05-01',
-    status: 'active',
-  },
-  {
-    id: 7,
-    name: 'Ngô Văn G',
-    email: 'ngovang@email.com',
-    phone: '0923456789',
-    registered: '2024-05-12',
-    status: 'active',
-  },
-  {
-    id: 8,
-    name: 'Bùi Thị H',
-    email: 'buih@email.com',
-    phone: '0934567890',
-    registered: '2024-05-15',
-    status: 'inactive',
-  },
-  {
-    id: 9,
-    name: 'Hoàng Văn I',
-    email: 'hoangi@email.com',
-    phone: '0945678901',
-    registered: '2024-05-18',
-    status: 'active',
-  },
+  // ... các user khác
 ];
 
 const PAGE_SIZE = 3;
@@ -86,15 +39,20 @@ function UMFooter() {
     currentPage * PAGE_SIZE
   );
 
+  const handleView = (user) => {
+    alert(`🔍 Xem chi tiết người dùng:\n\nTên: ${user.name}\nEmail: ${user.email}\nSĐT: ${user.phone}`);
+    // TODO: mở modal xem chi tiết nếu muốn
+  };
+
   const handleEdit = (user) => {
-    alert(`Bạn đang sửa thông tin của: ${user.name}`);
-    // TODO: Mở popup hoặc chuyển trang chỉnh sửa
+    alert(`✏️ Bạn đang sửa thông tin của: ${user.name}`);
+    // TODO: điều hướng đến form sửa
   };
 
   const handleDelete = (user) => {
-    if (window.confirm(`Bạn có chắc muốn xóa người dùng "${user.name}"?`)) {
-      alert(`Đã xóa: ${user.name}`);
-      // TODO: Gọi API xóa và cập nhật lại danh sách
+    if (window.confirm(`❗Bạn có chắc muốn xóa "${user.name}"?`)) {
+      alert(`🗑️ Đã xóa: ${user.name}`);
+      // TODO: gọi API xóa
     }
   };
 
@@ -125,12 +83,14 @@ function UMFooter() {
               </span>
             </div>
             <div className="action-buttons">
+              <button className="view-btn" onClick={() => handleView(user)}>Xem</button>
               <button className="edit-btn" onClick={() => handleEdit(user)}>Sửa</button>
               <button className="delete-btn" onClick={() => handleDelete(user)}>Xóa</button>
             </div>
           </div>
         ))}
       </div>
+
       <div className="pagination">
         <button
           onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
