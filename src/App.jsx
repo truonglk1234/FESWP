@@ -71,6 +71,17 @@ const App = () => {
             {/* Các trang admin khác thêm sau tại đây */}
           </Route>
 
+          <Route path="/consultant" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUserManage />} />
+            <Route path="consultants" element={<AdminCM />} />
+            <Route path="services" element={<AdminSM />} />
+            <Route path="blogs" element={<AdminBM />} />
+            <Route path="feedbacks" element={<AdminFM />} />
+            <Route path="qna" element={<AdminQA />} />
+            {/* Các trang admin khác thêm sau tại đây */}
+          </Route>
+
           {/* Manager layout + nested pages */}
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
