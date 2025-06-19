@@ -29,6 +29,7 @@ import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
+import ConsultantDashboard from './components/ConsultantManagement/Dashboard/ConsultantDashboard';
 
 const App = () => {
 
@@ -54,16 +55,9 @@ const App = () => {
               <Route path="history" element={<ServiceHistory />} />
           </Route>
 
-          
-
+          {/* Consultant layout + nested pages */}
           <Route path="/consultant" element={<ConsultantLayout />}>
-            {/* <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUserManage />} />
-            <Route path="consultants" element={<AdminCM />} />
-            <Route path="services" element={<AdminSM />} />
-            <Route path="blogs" element={<AdminBM />} />
-            <Route path="feedbacks" element={<AdminFM />} />
-            <Route path="qna" element={<AdminQA />} /> */}
+            <Route index element={<ConsultantDashboard />} />
             
           </Route>
 

@@ -1,16 +1,11 @@
 
 import ConsultantLayout from '../components/ConsultantManagement/ConsultantLayout';
+import ConsultantDashboard from '../components/ConsultantManagement/Dashboard/ConsultantDashboard';
 
 const ConsultantManagementPage = () => {
   return (
     <ConsultantLayout>
-      {/* <ManagerDashboard />
-      <ManagerUserManage />
-      <ManagerCM />
-      <ManagerSM />
-      <ManagerBM />
-      <ManagerFM />
-      <ManagerQA /> */}
+        <ConsultantDashboard/>
     </ConsultantLayout>
   );
 };
