@@ -1,0 +1,109 @@
+.pp-container {
+  padding: 24px;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.pp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pp-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.pp-header p {
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-dark {
+  background-color: #111827;
+  color: white;
+}
+
+.btn-dark:hover {
+  background-color: #1f2937;
+}
+
+.btn-outline {
+  background-color: white;
+  color: #111827;
+  border: 1px solid #cbd5e1;
+}
+
+.pp-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.pp-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px 32px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.value,
+input,
+select,
+textarea {
+  width: 100%;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background-color: #f9fafb;
+  border: none;
+  color: #111827;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
