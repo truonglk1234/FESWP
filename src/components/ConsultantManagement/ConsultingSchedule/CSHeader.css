@@ -1,0 +1,59 @@
+.cs-header-container {
+  padding: 24px;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cs-header-title h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.cs-header-title p {
+  color: #6b7280;
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+/* ✅ Khung chứa bộ lọc */
+.cs-filter-wrapper {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ✅ Ô tìm kiếm */
+.cs-search-input {
+  flex: 1;
+  min-width: 260px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+}
+
+/* ✅ Nút lọc */
+.cs-filter-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: #111827;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.cs-filter-btn:hover {
+  background-color: #f3f4f6;
+}
