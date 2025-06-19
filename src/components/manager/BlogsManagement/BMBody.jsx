@@ -38,6 +38,20 @@ const BMBody = () => {
   const totalPages = Math.ceil(posts.length / itemsPerPage);
   const visiblePosts = posts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
+  const handleView = (post) => {
+    alert(`🔍 Xem bài viết:\n${post.title}\nTác giả: ${post.author}`);
+  };
+
+  const handleEdit = (post) => {
+    alert(`✏️ Sửa bài viết: ${post.title}`);
+  };
+
+  const handleDelete = (post) => {
+    if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
+      alert(`🗑️ Đã xóa: ${post.title}`);
+    }
+  };
+
   return (
     <div className="blog-table-container">
       <h2>Danh sách bài viết ({posts.length})</h2>
@@ -65,9 +79,9 @@ const BMBody = () => {
               <td>{post.date || "Chưa lên lịch"}</td>
               <td>
                 <div className="actions">
-                  <span role="img" aria-label="view">👁</span>
-                  <span role="img" aria-label="edit">✏️</span>
-                  <span role="img" aria-label="delete">🗑️</span>
+                  <button className="view-btn" onClick={() => handleView(post)}>Xem</button>
+                  <button className="edit-btn" onClick={() => handleEdit(post)}>Sửa</button>
+                  <button className="delete-btn" onClick={() => handleDelete(post)}>Xóa</button>
                 </div>
               </td>
             </tr>

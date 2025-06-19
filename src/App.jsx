@@ -15,16 +15,6 @@ import NotificationSettings from './components/profile/pages/NotificationSetting
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
 
-// Admin Layout & Pages
-import AdminLayout from './components/admin/AdminLayout';
-import AdminDashboard from './components/admin/dashboard/AdminDashboard';
-import AdminUserManage from './components/admin/UserManagement/AdminUserManage';
-import AdminCM from './components/admin/ConsultantManagement/AdminCM';
-import AdminSM from './components/admin/ServiceManagement/AdminSM';
-import AdminBM from './components/admin/BlogsManagement/AdminBM';
-import AdminFM from './components/admin/FeedbackManagement/AdminFM';
-import AdminQA from './components/admin/Q&AManagement/AdminQA';
-
 // Manager Layout & Pages
 import ManagerLayout from './components/manager/ManagerLayout';
 import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
@@ -57,18 +47,6 @@ const App = () => {
             <Route path="notifications" element={<NotificationSettings />} />
             <Route path="health" element={<ReproductiveHealth />} />
               <Route path="history" element={<ServiceHistory />} />
-          </Route>
-
-          {/* Admin layout + nested pages */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUserManage />} />
-            <Route path="consultants" element={<AdminCM />} />
-            <Route path="services" element={<AdminSM />} />
-            <Route path="blogs" element={<AdminBM />} />
-            <Route path="feedbacks" element={<AdminFM />} />
-            <Route path="qna" element={<AdminQA />} />
-            {/* Các trang admin khác thêm sau tại đây */}
           </Route>
 
           {/* Manager layout + nested pages */}

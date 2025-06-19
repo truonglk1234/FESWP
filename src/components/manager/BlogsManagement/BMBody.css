@@ -68,15 +68,52 @@
   color: #3366cc;
 }
 
+/* ✅ Nút thao tác: xem - sửa - xóa */
 .actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   align-items: center;
-  font-size: 18px;
+  justify-content: center;
 }
 
-.actions span {
+.view-btn,
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Xem - xanh lá */
+.view-btn {
+  background-color: #10b981;
+  color: white;
+}
+.view-btn:hover {
+  background-color: #059669;
+}
+
+/* Sửa - xanh dương */
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+.edit-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Xóa - đỏ */
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+.delete-btn:hover {
+  background-color: #dc2626;
 }
 
 /* Pagination */
