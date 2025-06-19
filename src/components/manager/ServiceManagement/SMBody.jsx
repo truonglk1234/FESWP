@@ -207,7 +207,7 @@ const SMBody = () => {
 
       <div className="pagination">
         <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
-          ‹ Previous
+          ‹ Trước
         </button>
         {[...Array(totalPages)].map((_, i) => (
           <button
@@ -219,7 +219,7 @@ const SMBody = () => {
           </button>
         ))}
         <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
-          Next ›
+          Sau ›
         </button>
       </div>
     </div>

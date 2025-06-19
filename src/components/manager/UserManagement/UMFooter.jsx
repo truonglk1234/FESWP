@@ -96,7 +96,7 @@ function UMFooter() {
           onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
           disabled={currentPage === 1}
         >
-          &lt; Previous
+          &lt; Trước
         </button>
         {Array.from({ length: totalPages }, (_, i) => (
           <button
@@ -111,7 +111,7 @@ function UMFooter() {
           onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
-          Next &gt;
+          Sau &gt;
         </button>
       </div>
     </div>

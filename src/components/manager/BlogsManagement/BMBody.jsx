@@ -33,7 +33,7 @@ const getStatusClass = (status) => {
 };
 
 const BMBody = () => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 3;
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(posts.length / itemsPerPage);
   const visiblePosts = posts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
@@ -91,7 +91,7 @@ const BMBody = () => {
 
       <div className="pagination">
         <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-          ‹ Previous
+          ‹ Trước
         </button>
         {[...Array(totalPages)].map((_, idx) => {
           const p = idx + 1;
@@ -106,7 +106,7 @@ const BMBody = () => {
           );
         })}
         <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
-          Next ›
+          Sau ›
         </button>
       </div>
     </div>

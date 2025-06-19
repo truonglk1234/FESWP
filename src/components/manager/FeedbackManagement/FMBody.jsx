@@ -178,7 +178,7 @@ const FMBody = () => {
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
-          ‹ Previous
+          ‹ Trước
         </button>
 
         {[...Array(totalPages)].map((_, i) => (
@@ -196,7 +196,7 @@ const FMBody = () => {
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
-          Next ›
+          sau ›
         </button>
       </div>
     </>

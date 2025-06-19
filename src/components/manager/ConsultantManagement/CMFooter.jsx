@@ -152,7 +152,7 @@ const CMFooter = () => {
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          &laquo; Previous
+          &laquo; Trước
         </button>
 
         {Array.from({ length: totalPages }, (_, i) => (
@@ -169,7 +169,7 @@ const CMFooter = () => {
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          Next &raquo;
+          sau &raquo;
         </button>
       </div>
     </div>

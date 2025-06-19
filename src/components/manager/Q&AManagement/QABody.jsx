@@ -152,7 +152,7 @@ const QABody = () => {
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
-          ‹ Previous
+          ‹ Trước
         </button>
 
         {[...Array(totalPages)].map((_, i) => (
@@ -170,7 +170,7 @@ const QABody = () => {
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
-          Next ›
+          Sau ›
         </button>
       </div>
     </>
