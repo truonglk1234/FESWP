@@ -1,8 +1,21 @@
-import { BarChart3, Users, UserCheck, Heart, Stethoscope, FileText, MessageSquare, HelpCircle, LogOut } from 'lucide-react';
+import {
+  BarChart3, Users, UserCheck, Heart, Stethoscope,
+  FileText, MessageSquare, HelpCircle, LogOut
+} from 'lucide-react';
 import './ManagerSidebar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // điều chỉnh path nếu cần
 
 export const ManagerSidebar = () => {
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUser(null);                          // xóa user khỏi context
+    localStorage.removeItem('user');       // xóa khỏi localStorage
+    navigate('/');                         // quay về trang chủ
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-top">
@@ -31,7 +44,9 @@ export const ManagerSidebar = () => {
       </div>
 
       <div className="sidebar-footer">
-        <Link to="/logout" className="nav-link"><LogOut /> Đăng xuất</Link>
+        <button className="nav-link logout-btn" onClick={handleLogout}>
+          <LogOut /> Đăng xuất
+        </button>
       </div>
     </aside>
   );

@@ -15,8 +15,6 @@ import NotificationSettings from './components/profile/pages/NotificationSetting
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
 
-
-
 // Manager Layout & Pages
 import ManagerLayout from './components/manager/ManagerLayout';
 import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
@@ -26,6 +24,8 @@ import ManagerSM from './components/manager/ServiceManagement/ManagerSM';
 import ManagerBM from './components/manager/BlogsManagement/ManagerBM';
 import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
+
+import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
 
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -75,6 +75,7 @@ const App = () => {
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="services" element={<ManagerSM />} />
             <Route path="blogs" element={<ManagerBM />} />
+              <Route path="blogs/:id" element={<BlogDetail />} />
             <Route path="feedbacks" element={<ManagerFM />} />
             <Route path="qna" element={<ManagerQA />} />
           </Route>

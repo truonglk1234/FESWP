@@ -1,4 +1,3 @@
-/* Header styles */
 .header-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -6,49 +5,47 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-/* Top bar styles */  
-.top-bar {
+.header-top-bar {
   background-color: #00986f;
   color: white;
   font-size: 14px;
   padding: 10px 24px;
+}
+
+.header-top-bar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.top-left span {
+.header-top-left span {
   margin-right: 20px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.top-right {
+.header-top-right {
   font-style: italic;
 }
 
-/* Main header styles */
-.main-header {
+.header-main {
   background-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 20px 24px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   border-bottom: 2px solid seagreen;
 }
 
-/* Logo */
-.logo {
+.header-logo {
   display: flex;
   align-items: center;
   margin-right: 25px;
 }
 
-.logo-icon {
+.header-logo-icon {
   background-color: #00986f;
   border-radius: 12px;
   padding: 8px;
@@ -58,38 +55,37 @@
   justify-content: center;
 }
 
-.logo-icon .icon {
+.header-icon {
   color: white;
   width: 20px;
   height: 20px;
 }
 
-.logo-text {
+.header-logo-text {
   font-weight: bold;
   font-size: 18px;
   color: #004d40;
 }
 
-.slogan {
+.header-slogan {
   font-size: 13px;
   color: #666;
 }
 
-/* Search */
-.search-bar {
+.header-search-bar {
   flex: 1;
   display: flex;
   justify-content: center;
   padding: 0 24px;
 }
 
-.search-input-wrapper {
+.header-search-input-wrapper {
   position: relative;
   width: 100%;
   max-width: 400px;
 }
 
-.search-input-wrapper input {
+.header-search-input-wrapper input {
   width: 100%;
   padding: 8px 14px 8px 36px;
   border: 1px solid #ccc;
@@ -99,12 +95,12 @@
   transition: border-color 0.2s;
 }
 
-.search-input-wrapper input:focus {
+.header-search-input-wrapper input:focus {
   border-color: #00986f;
   box-shadow: 0 0 0 2px rgba(0, 152, 111, 0.15);
 }
 
-.search-icon {
+.header-search-icon {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -114,33 +110,31 @@
   color: #666;
 }
 
-/* Navigation */
-.nav a {
+.header-nav a {
   margin: 0 14px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
 }
 
-.nav a:hover {
+.header-nav a:hover {
   color: #00986f;
 }
 
-/* Auth buttons */
-.auth-buttons {
+.header-auth-buttons {
   display: flex;
   gap: 8px;
   align-items: center;
   margin-left: 40px;
 }
 
-.auth-buttons button {
+.header-auth-buttons button {
   min-width: 120px;
   text-align: center;
   font-weight: 500;
 }
 
-.auth-buttons .btn-outline {
+.header-btn-outline {
   border: 1px solid #00986f;
   color: #00986f;
   background-color: white;
@@ -150,7 +144,7 @@
   transition: 0.2s;
 }
 
-.auth-buttons .btn-solid {
+.header-btn-solid {
   background-color: #00986f;
   color: white;
   border: none;
@@ -160,13 +154,11 @@
   transition: 0.2s;
 }
 
-.auth-buttons button:hover {
+.header-auth-buttons button:hover {
   opacity: 0.9;
 }
 
-/* === User Avatar Dropdown === */
-
-.user-dropdown {
+.header-user-dropdown {
   position: relative;
   display: flex;
   align-items: center;
@@ -174,7 +166,7 @@
   cursor: pointer;
 }
 
-.user-info {
+.header-user-info {
   display: flex;
   align-items: center;
   background-color: #e6f7f1;
@@ -185,11 +177,11 @@
   transition: background 0.2s;
 }
 
-.user-info:hover {
+.header-user-info:hover {
   background-color: #d4f1e6;
 }
 
-.avatar-user {
+.header-avatar {
   width: 40px;
   height: 40px;
   background-color: #00986f;
@@ -201,7 +193,7 @@
   justify-content: center;
 }
 
-.dropdown-menu {
+.header-dropdown-menu {
   position: absolute;
   top: 110%;
   right: 0;
@@ -215,8 +207,8 @@
   z-index: 999;
 }
 
-.dropdown-menu a,
-.dropdown-menu button {
+.header-dropdown-menu a,
+.header-dropdown-menu button {
   padding: 10px 16px;
   font-size: 14px;
   display: flex;
@@ -230,7 +222,63 @@
   transition: background-color 0.2s;
 }
 
-.dropdown-menu a:hover,
-.dropdown-menu button:hover {
+.header-dropdown-menu a:hover,
+.header-dropdown-menu button:hover {
   background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header-logo,
+  .header-search-bar,
+  .header-nav,
+  .header-auth-buttons {
+    width: 100%;
+  }
+
+  .header-logo {
+    justify-content: flex-start;
+  }
+
+  .header-search-bar {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .header-search-input-wrapper {
+    width: 100%;
+  }
+
+  .header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .header-auth-buttons {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+
+  .header-auth-buttons button {
+    min-width: auto;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .header-user-info {
+    padding: 4px 8px;
+  }
+
+  .header-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
 }

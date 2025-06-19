@@ -1,49 +1,47 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./BMBody.css";
 
 const posts = [
-  { id: 1, title: "10 mẹo giữ gìn sức khỏe tim mạch", author: "BS. Nguyễn Văn A", topic: "Tim mạch", status: "Đã đăng", date: "2024-06-01" },
-  { id: 2, title: "Chế độ ăn uống lành mạnh cho người tiểu đường", author: "BS. Trần Thị B", topic: "Dinh dưỡng", status: "Đã đăng", date: "2024-05-28" },
-  { id: 3, title: "Tầm quan trọng của việc xét nghiệm định kỳ", author: "BS. Lê Văn C", topic: "Xét nghiệm", status: "Bản nháp", date: "" },
-  { id: 4, title: "Phòng ngừa bệnh cảm cúm mùa đông", author: "BS. Phạm Thị D", topic: "Phòng ngừa", status: "Đã lên lịch", date: "2024-06-10" },
-  { id: 5, title: "Tác hại của stress đến sức khỏe", author: "BS. Hoàng Văn E", topic: "Tâm lý", status: "Đã đăng", date: "2024-05-25" },
-  { id: 6, title: "Làm sao để ngủ ngon mỗi đêm", author: "BS. Nguyễn Văn F", topic: "Giấc ngủ", status: "Đã đăng", date: "2024-06-03" },
-  { id: 7, title: "Tập thể dục thế nào là đủ?", author: "BS. Trần Thị G", topic: "Thể chất", status: "Đã đăng", date: "2024-06-02" },
-  { id: 8, title: "Cách phát hiện sớm bệnh ung thư", author: "BS. Lê Văn H", topic: "Ung thư", status: "Đã đăng", date: "2024-06-01" },
-  { id: 9, title: "Giải pháp giảm căng thẳng trong công việc", author: "BS. Phạm Thị I", topic: "Tâm lý", status: "Đã đăng", date: "2024-05-30" },
-  { id: 10, title: "Vai trò của nước đối với cơ thể", author: "BS. Hoàng Văn J", topic: "Dinh dưỡng", status: "Bản nháp", date: "" },
-  { id: 11, title: "Cách bảo vệ da dưới nắng hè", author: "BS. Nguyễn Thị K", topic: "Da liễu", status: "Đã đăng", date: "2024-05-29" },
-  { id: 12, title: "Chế độ ăn uống cho người già", author: "BS. Trần Văn L", topic: "Dinh dưỡng", status: "Đã lên lịch", date: "2024-06-12" },
-  { id: 13, title: "Cách xử lý khi bị cao huyết áp", author: "BS. Lê Thị M", topic: "Tim mạch", status: "Đã đăng", date: "2024-06-04" },
-  { id: 14, title: "Tự kiểm tra sức khỏe tại nhà", author: "BS. Phạm Văn N", topic: "Kiến thức", status: "Bản nháp", date: "" },
-  { id: 15, title: "Phòng chống bệnh mùa mưa", author: "BS. Hoàng Thị O", topic: "Phòng ngừa", status: "Đã đăng", date: "2024-06-05" },
+  { id: 1, title: "10 mẹo giữ gìn sức khỏe tim mạch", author: "BS. Nguyễn Văn A", topic: "Tim mạch", status: "Chờ xác nhận", date: "2024-06-01" },
+  { id: 2, title: "Chế độ ăn uống lành mạnh cho người tiểu đường", author: "BS. Trần Thị B", topic: "Dinh dưỡng", status: "Đã xác nhận", date: "2024-05-28" },
+  { id: 3, title: "Tầm quan trọng của việc xét nghiệm định kỳ", author: "BS. Lê Văn C", topic: "Xét nghiệm", status: "Chờ xác nhận", date: "" },
+  { id: 4, title: "Phòng ngừa bệnh cảm cúm mùa đông", author: "BS. Phạm Thị D", topic: "Phòng ngừa", status: "Đã xác nhận", date: "2024-06-10" },
+  { id: 5, title: "Tác hại của stress đến sức khỏe", author: "BS. Hoàng Văn E", topic: "Tâm lý", status: "Đã xác nhận", date: "2024-05-25" },
+  { id: 6, title: "Làm sao để ngủ ngon mỗi đêm", author: "BS. Nguyễn Văn F", topic: "Giấc ngủ", status: "Chờ xác nhận", date: "2024-06-03" },
 ];
 
 const getStatusClass = (status) => {
   switch (status) {
-    case "Đã đăng":
+    case "Đã xác nhận":
       return "badge green";
-    case "Bản nháp":
+    case "Đã từ chối":
+      return "badge red";
+    case "Chờ xác nhận":
       return "badge gray";
-    case "Đã lên lịch":
-      return "badge blue";
     default:
       return "badge";
   }
 };
 
-const BMBody = () => {
+const BMBody = ({ searchKeyword, statusFilter, topicFilter }) => {
+  const navigate = useNavigate();
   const itemsPerPage = 3;
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
-  const visiblePosts = posts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+  // Lọc dữ liệu theo từ khóa, trạng thái, chủ đề
+  const filteredPosts = posts.filter(post => {
+    const matchKeyword = post.title.toLowerCase().includes(searchKeyword.toLowerCase());
+    const matchStatus = statusFilter ? post.status === statusFilter : true;
+    const matchTopic = topicFilter ? post.topic === topicFilter : true;
+    return matchKeyword && matchStatus && matchTopic;
+  });
+
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+  const visiblePosts = filteredPosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const handleView = (post) => {
-    alert(`🔍 Xem bài viết:\n${post.title}\nTác giả: ${post.author}`);
-  };
-
-  const handleEdit = (post) => {
-    alert(`✏️ Sửa bài viết: ${post.title}`);
+    navigate(`/manager/blogs/${post.id}`);
   };
 
   const handleDelete = (post) => {
@@ -54,7 +52,7 @@ const BMBody = () => {
 
   return (
     <div className="blog-table-container">
-      <h2>Danh sách bài viết ({posts.length})</h2>
+      <h2>Danh sách bài viết ({filteredPosts.length})</h2>
       <table className="blog-table">
         <thead>
           <tr>
@@ -80,7 +78,6 @@ const BMBody = () => {
               <td>
                 <div className="actions">
                   <button className="view-btn" onClick={() => handleView(post)}>Xem</button>
-                  <button className="edit-btn" onClick={() => handleEdit(post)}>Sửa</button>
                   <button className="delete-btn" onClick={() => handleDelete(post)}>Xóa</button>
                 </div>
               </td>
@@ -90,9 +87,7 @@ const BMBody = () => {
       </table>
 
       <div className="pagination">
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-          ‹ Trước
-        </button>
+        <button onClick={() => setPage(page - 1)} disabled={page === 1}>‹ Trước</button>
         {[...Array(totalPages)].map((_, idx) => {
           const p = idx + 1;
           return (
@@ -105,9 +100,7 @@ const BMBody = () => {
             </button>
           );
         })}
-        <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
-          Sau ›
-        </button>
+        <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>Sau ›</button>
       </div>
     </div>
   );

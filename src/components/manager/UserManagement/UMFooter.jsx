@@ -1,38 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UMFooter.css';
-
-const usersData = [
-  {
-    id: 1,
-    name: 'Nguyễn Văn A',
-    email: 'nguyenvana@email.com',
-    phone: '0123456789',
-    registered: '2024-01-15',
-    status: 'active',
-  },
-  {
-    id: 2,
-    name: 'Trần Thị B',
-    email: 'tranthib@email.com',
-    phone: '0987654321',
-    registered: '2024-02-20',
-    status: 'inactive',
-  },
-  {
-    id: 3,
-    name: 'Lê Văn C',
-    email: 'levanc@email.com',
-    phone: '0345678901',
-    registered: '2024-03-10',
-    status: 'active',
-  },
-  // ... các user khác
-];
+import axios from 'axios';
 
 const PAGE_SIZE = 3;
 
 function UMFooter() {
+  const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    axios.get('http://localhost:8080/api/manager/customers', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        setUsersData(res.data || []);
+      })
+      .catch(err => {
+        console.error('❌ Lỗi khi tải danh sách người dùng:', err);
+      });
+  }, []);
+
   const totalPages = Math.ceil(usersData.length / PAGE_SIZE);
   const currentUsers = usersData.slice(
     (currentPage - 1) * PAGE_SIZE,
@@ -41,20 +33,42 @@ function UMFooter() {
 
   const handleView = (user) => {
     alert(`🔍 Xem chi tiết người dùng:\n\nTên: ${user.name}\nEmail: ${user.email}\nSĐT: ${user.phone}`);
-    // TODO: mở modal xem chi tiết nếu muốn
   };
 
   const handleEdit = (user) => {
     alert(`✏️ Bạn đang sửa thông tin của: ${user.name}`);
-    // TODO: điều hướng đến form sửa
   };
 
-  const handleDelete = (user) => {
-    if (window.confirm(`❗Bạn có chắc muốn xóa "${user.name}"?`)) {
-      alert(`🗑️ Đã xóa: ${user.name}`);
-      // TODO: gọi API xóa
+  const handleDelete = async (user) => {
+  const token = localStorage.getItem("token"); // 🔥 Thêm dòng này
+  if (!token) {
+    alert("⚠️ Chưa đăng nhập hoặc token không tồn tại!");
+    return;
+  }
+
+  if (!window.confirm(`❗Bạn có chắc muốn xóa "${user.name}"?`)) return;
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/manager/customers/${user.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': '*/*'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Lỗi khi xóa: ${response.status}`);
     }
-  };
+
+    alert(`🗑️ Đã xóa người dùng: ${user.name}`);
+    setUsersData(prev => prev.filter(u => u.id !== user.id));
+
+  } catch (err) {
+    console.error(err);
+    alert('🚫 Không thể xóa người dùng. Vui lòng thử lại sau.');
+  }
+};
 
   return (
     <div className="user-page">
@@ -71,18 +85,20 @@ function UMFooter() {
             <div>
               <strong>{user.name}</strong>
               <span>ID: {user.id}</span>
-              <span>Đăng ký: {user.registered}</span>
+              <span>
+                Đăng ký: {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}
+              </span>
             </div>
             <div>
               <span>{user.email}</span>
               <span>{user.phone}</span>
             </div>
             <div>
-              <span className={`status ${user.status === 'active' ? 'active' : 'inactive'}`}>
-                {user.status === 'active' ? 'Đang hoạt động' : 'Không hoạt động'}
+              <span className={`status ${user.verifiedStatus === 'Đã xác thực' ? 'active' : 'inactive'}`}>
+                {user.verifiedStatus}
               </span>
             </div>
-            <div className="action-buttons">
+<div className="action-buttons">
               <button className="view-btn" onClick={() => handleView(user)}>Xem</button>
               <button className="edit-btn" onClick={() => handleEdit(user)}>Sửa</button>
               <button className="delete-btn" onClick={() => handleDelete(user)}>Xóa</button>

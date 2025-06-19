@@ -37,7 +37,8 @@ const Login = () => {
       const decoded = jwtDecode(token);
 
       const user = {
-        name: decoded.sub,
+        name: decoded.Name || decoded.name || decoded.sub,
+        email: decoded.email || email,
         role: decoded.role,
         token: token
       };
@@ -60,15 +61,14 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      {/* Left Info */}
       <div className="login-info">
         <h1>
-          Tư vấn sức khỏe <span className="highlight">giới tính</span><br />
+          Tư vấn sức khỏe <span className="login-highlight">giới tính</span><br />
           chuyên nghiệp
         </h1>
         <p>Tham gia cùng hàng nghìn người dùng tin tưởng STI Health cho việc chăm sóc sức khỏe giới tính.</p>
 
-        <div className="stats">
+        <div className="login-stats">
           <div>
             <div className="stat-value">50K+</div>
             <div className="stat-label">Người dùng tin tưởng</div>
@@ -79,23 +79,23 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="features">
-          <div className="feature">
-            <div className="feature-icon"><HeartHandshake size={20} /></div>
+        <div className="login-features">
+          <div className="login-feature">
+            <div className="login-feature-icon"><HeartHandshake size={20} /></div>
             <div>
               <strong>Tư vấn chuyên khoa</strong>
               <div>Đội ngũ bác sĩ giàu kinh nghiệm</div>
             </div>
           </div>
-          <div className="feature">
-            <div className="feature-icon"><ShieldCheck size={20} /></div>
+          <div className="login-feature">
+            <div className="login-feature-icon"><ShieldCheck size={20} /></div>
             <div>
               <strong>Bảo mật tuyệt đối</strong>
               <div>Thông tin được mã hóa end-to-end</div>
             </div>
           </div>
-          <div className="feature">
-            <div className="feature-icon"><Award size={20} /></div>
+          <div className="login-feature">
+            <div className="login-feature-icon"><Award size={20} /></div>
             <div>
               <strong>Chất lượng hàng đầu</strong>
               <div>Được chứng nhận bởi Bộ Y tế</div>
@@ -104,15 +104,14 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right Form */}
       <div className="login-form">
         {formState === 'login' && (
           <>
             <h2>Đăng nhập</h2>
             <p>Chào mừng trở lại với STI Health</p>
             <form onSubmit={handleLogin}>
-              <div className="input-icon">
-                <Mail className="icon-left" />
+              <div className="login-input-icon">
+                <Mail className="login-icon-left" />
                 <input
                   type="email"
                   placeholder="Nhập địa chỉ Gmail"
@@ -122,8 +121,8 @@ const Login = () => {
                 />
               </div>
 
-              <div className="input-icon">
-                <Lock className="icon-left" />
+              <div className="login-input-icon">
+                <Lock className="login-icon-left" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Nhập mật khẩu của bạn"
@@ -131,27 +130,28 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <span className="icon-right" onClick={() => setShowPassword(!showPassword)}>
+                <span className="login-icon-right" onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </span>
               </div>
 
-              <div className="options">
-                <label>
-                  <input type="checkbox" /> Ghi nhớ đăng nhập
+              <div className="login-options">
+                <label className="login-checkbox">
+                  <input type="checkbox" />
+                  <span>Ghi nhớ đăng nhập</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => setFormState('forgot')}
-                  className="forgot-link"
+                  className="login-forgot-link"
                 >
                   Quên mật khẩu?
                 </button>
               </div>
 
-              <button type="submit" className="btn-submit">Đăng nhập →</button>
-              {error && <p className="error">{error}</p>}
-              <div className="register">
+              <button type="submit" className="login-submit-btn">Đăng nhập →</button>
+              {error && <p className="login-error-msg">{error}</p>}
+              <div className="login-register">
                 Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
               </div>
             </form>
