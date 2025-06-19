@@ -15,6 +15,8 @@ import NotificationSettings from './components/profile/pages/NotificationSetting
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
 
+
+
 // Manager Layout & Pages
 import ManagerLayout from './components/manager/ManagerLayout';
 import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
@@ -24,6 +26,9 @@ import ManagerSM from './components/manager/ServiceManagement/ManagerSM';
 import ManagerBM from './components/manager/BlogsManagement/ManagerBM';
 import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
+
+// Consultant Layout & Pages
+import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
 
 const App = () => {
 
@@ -47,6 +52,19 @@ const App = () => {
             <Route path="notifications" element={<NotificationSettings />} />
             <Route path="health" element={<ReproductiveHealth />} />
               <Route path="history" element={<ServiceHistory />} />
+          </Route>
+
+          
+
+          <Route path="/consultant" element={<ConsultantLayout />}>
+            {/* <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUserManage />} />
+            <Route path="consultants" element={<AdminCM />} />
+            <Route path="services" element={<AdminSM />} />
+            <Route path="blogs" element={<AdminBM />} />
+            <Route path="feedbacks" element={<AdminFM />} />
+            <Route path="qna" element={<AdminQA />} /> */}
+            
           </Route>
 
           {/* Manager layout + nested pages */}
