@@ -46,16 +46,6 @@
   white-space: nowrap;
 }
 
-.export-btn {
-  background-color: #fff;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-}
-
-.export-btn:hover {
-  background-color: #f3f4f6;
-}
-
 .add-btn {
   background-color: #0f172a;
   color: white;

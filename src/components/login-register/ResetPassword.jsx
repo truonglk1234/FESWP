@@ -17,7 +17,7 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
     setSuccess('');
 
     if (newPassword !== confirmPassword) {
-      setError('M\u1eadt kh\u1ea9u kh\u00f4ng kh\u1edbp');
+      setError('Mật khẩu không khớp');
       return;
     }
 
@@ -25,31 +25,31 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
       const res = await axios.post('http://localhost:8080/api/auth/reset-password-with-code', {
         email,
         code,
-        newPassword: newPassword,
+        newPassword,
         confirmPassword
       });
 
-      setSuccess(res.data || '\u0110\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u th\u00e0nh c\u00f4ng!');
+      setSuccess(res.data || 'Đặt lại mật khẩu thành công!');
       setTimeout(() => {
         if (onDone) onDone();
       }, 1500);
     } catch (err) {
-      const msg = err.response?.data || 'Kh\u00f4ng th\u1ec3 \u0111\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u';
+      const msg = err.response?.data || 'Không thể đặt lại mật khẩu';
       setError(typeof msg === 'string' ? msg : msg.message);
     }
   };
 
   return (
     <div className="reset-password-form">
-      <h2>\u0110\u1eb7t l\u1ea1i m\u1eadt kh\u1ea9u</h2>
-      <p>Nh\u1eadp m\u1eadt kh\u1ea9u m\u1edbi cho t\u00e0i kho\u1ea3n c\u1ee7a b\u1ea1n</p>
+      <h2>Đặt lại mật khẩu</h2>
+      <p>Nhập mật khẩu mới cho tài khoản của bạn</p>
 
       <form onSubmit={handleSubmit}>
         <div className="input-icon">
           <Lock className="icon-left" />
           <input
             type={showNew ? 'text' : 'password'}
-            placeholder="M\u1eadt kh\u1ea9u m\u1edbi"
+            placeholder="Mật khẩu mới"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
@@ -63,7 +63,7 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
           <Lock className="icon-left" />
           <input
             type={showConfirm ? 'text' : 'password'}
-            placeholder="X\u00e1c nh\u1eadn m\u1eadt kh\u1ea9u"
+            placeholder="Xác nhận mật khẩu"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -77,12 +77,12 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
         {success && <p className="success">{success}</p>}
 
         <button type="submit" className="btn-submit">
-          \u2713 X\u00e1c nh\u1eadn & \u0110\u0103ng nh\u1eadp
+          ✓ Xác nhận & Đăng nhập
         </button>
 
         <div className="back-button">
           <button type="button" onClick={onBack}>
-            \u2190 Quay l\u1ea1i x\u00e1c th\u1ef1c
+            ← Quay lại xác thực
           </button>
         </div>
       </form>

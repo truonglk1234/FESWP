@@ -23,7 +23,7 @@
 .table-head,
 .table-row {
   display: grid;
-  grid-template-columns: 2fr 2fr 1.5fr 1fr 0.5fr;
+  grid-template-columns: 2fr 2fr 1.5fr 0.7fr; /* cập nhật lại cột thao tác cho vừa hơn */
   padding: 16px;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -66,11 +66,9 @@
   color: #1f2937;
 }
 
+/* ❌ Đã bỏ dots nên có thể xoá */
 .dots {
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
+  display: none;
 }
 
 .pagination {
@@ -92,4 +90,42 @@
   background-color: #111827;
   color: white;
   border-color: #111827;
+}
+
+/* ✅ Nút sửa xóa xếp ngang, to hơn */
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 30px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #2563eb;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
 }

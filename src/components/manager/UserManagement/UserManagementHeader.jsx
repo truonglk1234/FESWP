@@ -11,7 +11,6 @@ const UserManagementHeader = () => {
           <p className="subtitle">Quản lý tài khoản khách hàng</p>
         </div>
         <div className="top-right-buttons">
-          <button className="btn export-btn">Xuất danh sách</button>
           <button className="btn add-btn">Thêm người dùng mới</button>
         </div>
       </div>
@@ -26,7 +25,7 @@ const UserManagementHeader = () => {
         <select className="status-filter">
           <option value="all">Tất cả trạng thái</option>
           <option value="active">Đang hoạt động</option>
-          <option value="blocked">Bị khóa</option>
+          <option value="blocked">Không hoạt động</option>
         </select>
       </div>
     </div>

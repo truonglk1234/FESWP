@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       const decoded = jwtDecode(parsed.token);
       return {
         ...parsed,
-        name: decoded.Name || decoded.sub // fallback nếu không có Name
+        name: decoded.Name || decoded.name || parsed.name || parsed.email  // fallback nếu không có Name
       };
     } catch (err) {
       console.error("Lỗi giải mã JWT:", err);
