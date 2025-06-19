@@ -30,6 +30,7 @@ import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
 import ConsultantDashboard from './components/ConsultantManagement/Dashboard/ConsultantDashboard';
+import ConsultantPP from './components/ConsultantManagement/PersonalProfile/ConsultantPP';
 
 const App = () => {
 
@@ -58,7 +59,7 @@ const App = () => {
           {/* Consultant layout + nested pages */}
           <Route path="/consultant" element={<ConsultantLayout />}>
             <Route index element={<ConsultantDashboard />} />
-            
+            <Route path="profile" element={<ConsultantPP />} />
           </Route>
 
           {/* Manager layout + nested pages */}
