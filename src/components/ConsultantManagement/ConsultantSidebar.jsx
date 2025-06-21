@@ -1,4 +1,4 @@
-import { BarChart3, User, Calendar, MessageSquare, Star, LogOut, Heart } from 'lucide-react';
+import { BarChart3, Calendar, MessageSquare, Star, LogOut, Heart } from 'lucide-react';
 import './ConsultantSidebar.css';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,6 @@ export const ConsultantSidebar = () => {
         <p className="nav-label">Quản lý</p>
         <ul>
           <li><Link to="/consultant" className="nav-link"><BarChart3 /> Dashboard</Link></li>
-          <li><Link to="/consultant/profile" className="nav-link"><User /> Hồ sơ cá nhân</Link></li>
           <li><Link to="/consultant/schedule" className="nav-link"><Calendar /> Lịch tư vấn</Link></li>
           <li><Link to="/consultant/questions" className="nav-link"><MessageSquare /> Câu hỏi</Link></li>
           <li><Link to="/consultant/reviews" className="nav-link"><Star /> Đánh giá</Link></li>

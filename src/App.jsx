@@ -30,7 +30,6 @@ import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
 import ConsultantDashboard from './components/ConsultantManagement/Dashboard/ConsultantDashboard';
-import ConsultantPP from './components/ConsultantManagement/PersonalProfile/ConsultantPP';
 import ConsultingSchedule from './components/ConsultantManagement/ConsultingSchedule/ConsultingSchedule';
 import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
@@ -62,7 +61,6 @@ const App = () => {
           {/* Consultant layout + nested pages */}
           <Route path="/consultant" element={<ConsultantLayout />}>
             <Route index element={<ConsultantDashboard />} />
-            <Route path="profile" element={<ConsultantPP />} />
             <Route path="schedule" element={<ConsultingSchedule />} />
             <Route path="questions" element={<ConsultantQuestion />} />
             <Route path="reviews" element={<ConsultantEvaluate />} />
