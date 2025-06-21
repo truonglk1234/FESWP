@@ -24,8 +24,8 @@ const UserManagementHeader = () => {
         />
         <select className="status-filter">
           <option value="all">Tất cả trạng thái</option>
-          <option value="active">Đang hoạt động</option>
-          <option value="blocked">Không hoạt động</option>
+          <option value="active">Đã xác thức</option>
+          <option value="blocked">Chưa xác thức</option>
         </select>
       </div>
     </div>

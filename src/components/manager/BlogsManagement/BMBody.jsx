@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./BMBody.css";
 
-const posts = [
-  { id: 1, title: "10 mẹo giữ gìn sức khỏe tim mạch", author: "BS. Nguyễn Văn A", topic: "Tim mạch", status: "Chờ xác nhận", date: "2024-06-01" },
-  { id: 2, title: "Chế độ ăn uống lành mạnh cho người tiểu đường", author: "BS. Trần Thị B", topic: "Dinh dưỡng", status: "Đã xác nhận", date: "2024-05-28" },
-  { id: 3, title: "Tầm quan trọng của việc xét nghiệm định kỳ", author: "BS. Lê Văn C", topic: "Xét nghiệm", status: "Chờ xác nhận", date: "" },
-  { id: 4, title: "Phòng ngừa bệnh cảm cúm mùa đông", author: "BS. Phạm Thị D", topic: "Phòng ngừa", status: "Đã xác nhận", date: "2024-06-10" },
-  { id: 5, title: "Tác hại của stress đến sức khỏe", author: "BS. Hoàng Văn E", topic: "Tâm lý", status: "Đã xác nhận", date: "2024-05-25" },
-  { id: 6, title: "Làm sao để ngủ ngon mỗi đêm", author: "BS. Nguyễn Văn F", topic: "Giấc ngủ", status: "Chờ xác nhận", date: "2024-06-03" },
-];
-
 const getStatusClass = (status) => {
   switch (status) {
+    case "Published":
     case "Đã xác nhận":
       return "badge green";
+    case "Rejected":
     case "Đã từ chối":
       return "badge red";
+    case "Pending":
     case "Chờ xác nhận":
       return "badge gray";
     default:
@@ -26,14 +21,26 @@ const getStatusClass = (status) => {
 
 const BMBody = ({ searchKeyword, statusFilter, topicFilter }) => {
   const navigate = useNavigate();
-  const itemsPerPage = 3;
+  const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
+  const itemsPerPage = 3;
 
-  // Lọc dữ liệu theo từ khóa, trạng thái, chủ đề
+  // Gọi API khi component được render
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/management/blogs/all", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // hoặc thay bằng token bạn đang dùng
+      }
+    })
+    .then((res) => setPosts(res.data))
+    .catch((err) => console.error("Lỗi khi tải bài viết:", err));
+  }, []);
+
+  // Lọc bài viết theo từ khóa, trạng thái, chủ đề
   const filteredPosts = posts.filter(post => {
     const matchKeyword = post.title.toLowerCase().includes(searchKeyword.toLowerCase());
     const matchStatus = statusFilter ? post.status === statusFilter : true;
-    const matchTopic = topicFilter ? post.topic === topicFilter : true;
+    const matchTopic = topicFilter ? post.topicName === topicFilter : true;
     return matchKeyword && matchStatus && matchTopic;
   });
 
@@ -44,11 +51,39 @@ const BMBody = ({ searchKeyword, statusFilter, topicFilter }) => {
     navigate(`/manager/blogs/${post.id}`);
   };
 
-  const handleDelete = (post) => {
-    if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
-      alert(`🗑️ Đã xóa: ${post.title}`);
+ const handleDelete = async (post) => {
+  if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
+    try {
+      await axios.delete(`http://localhost:8080/api/management/blogs/${post.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      // Cập nhật lại danh sách sau khi xóa
+      setPosts((prevPosts) => prevPosts.filter(p => p.id !== post.id));
+      alert(`🗑️ Đã xóa bài viết: ${post.title}`);
+    } catch (err) {
+      console.error("Lỗi khi xóa bài viết:", err);
+      alert("❌ Xóa thất bại!");
     }
-  };
+  }
+};
+
+  const getStatusClass = (status) => {
+  switch (status) {
+    case "Đã xác nhận":
+    case "Published":
+      return "badge green";
+    case "Đã từ chối":
+    case "Rejected":
+      return "badge red";
+    case "Chờ xác nhận":
+    case "Pending":
+      return "badge gray";
+    default:
+      return "badge";
+  }
+};
 
   return (
     <div className="blog-table-container">
@@ -71,10 +106,10 @@ const BMBody = ({ searchKeyword, statusFilter, topicFilter }) => {
                 <strong>{post.title}</strong>
                 <div className="post-meta">ID: {post.id}</div>
               </td>
-              <td>{post.author}</td>
-              <td><span className="badge gray">{post.topic}</span></td>
+              <td>{post.authorName}</td>
+              <td><span className="badge gray">{post.topicName}</span></td>
               <td><span className={getStatusClass(post.status)}>{post.status}</span></td>
-              <td>{post.date || "Chưa lên lịch"}</td>
+              <td>{new Date(post.createdAt).toLocaleDateString() || "Chưa lên lịch"}</td>
               <td>
                 <div className="actions">
                   <button className="view-btn" onClick={() => handleView(post)}>Xem</button>
@@ -91,11 +126,7 @@ const BMBody = ({ searchKeyword, statusFilter, topicFilter }) => {
         {[...Array(totalPages)].map((_, idx) => {
           const p = idx + 1;
           return (
-            <button
-              key={p}
-              className={page === p ? "active" : ""}
-              onClick={() => setPage(p)}
-            >
+            <button key={p} className={page === p ? "active" : ""} onClick={() => setPage(p)}>
               {p}
             </button>
           );
