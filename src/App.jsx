@@ -33,6 +33,7 @@ import ConsultantDashboard from './components/ConsultantManagement/Dashboard/Con
 import ConsultingSchedule from './components/ConsultantManagement/ConsultingSchedule/ConsultingSchedule';
 import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
+import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
 
 const App = () => {
 
@@ -62,6 +63,7 @@ const App = () => {
           <Route path="/consultant" element={<ConsultantLayout />}>
             <Route index element={<ConsultantDashboard />} />
             <Route path="schedule" element={<ConsultingSchedule />} />
+            <Route path="chat" element={<ConsultantMessage />} />
             <Route path="questions" element={<ConsultantQuestion />} />
             <Route path="reviews" element={<ConsultantEvaluate />} />
           </Route>
