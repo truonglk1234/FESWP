@@ -37,6 +37,11 @@ import ConsultantMessage from './components/ConsultantManagement/Message/Consult
 
 // Staff Layout & Pages
 import StaffLayout from './components/staff/StaffLayout';
+import StaffHome from './components/staff/Home/StaffHome';
+import TestSchedule from './components/staff/Schedule/TestSchedule';
+import TestResults from './components/staff/Result/TestResults';
+import MedicalServices from './components/staff/Service/MedicalServices';
+import MedicalBlog from './components/staff/Blog/MedicalBlog';
 
 const App = () => {
 
@@ -73,7 +78,11 @@ const App = () => {
 
           {/* Staff layout + nested pages */}
           <Route path="/staff" element={<StaffLayout />}>
-            
+            <Route index element={<StaffHome />} />
+            <Route path="schedule" element={<TestSchedule />} />
+            <Route path="results" element={<TestResults />} />
+            <Route path="services" element={<MedicalServices />} />
+            <Route path="blogs" element={<MedicalBlog />} />
           </Route>
 
           {/* Manager layout + nested pages */}

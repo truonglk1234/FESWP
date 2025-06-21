@@ -28,7 +28,7 @@
 }
 
 .logo-square {
-  background: #047857;
+  background: #1d4ed8; /* Blue tone for medical staff */
   padding: 0.5rem;
   border-radius: 0.75rem;
   display: flex;
@@ -49,9 +49,9 @@
 }
 
 .sidebar-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #064e3b;
+  color: #1e3a8a;
   margin: 0;
 }
 
