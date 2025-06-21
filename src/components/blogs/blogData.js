@@ -1,21 +1,15 @@
 const blogData = [
   {
     id: 1,
-    title: 'Tầm quan trọng của xét nghiệm định kỳ',
-    description: 'Xét nghiệm định kỳ giúp phát hiện sớm các bệnh lý nguy hiểm, bảo vệ sức khỏe chủ động...',
+    title: 'Tầm quan trọng của xét nghiệm máu định kỳ',
+    description: 'Xét nghiệm máu định kỳ giúp phát hiện sớm các vấn đề sức khỏe và theo dõi tình trạng bệnh lý hiện có.',
+    imageUrl: 'https://images.unsplash.com/photo-1588776814546-b4c53b90bcbc',
+    category: 'Xét nghiệm',
+    readingTime: '5 phút',
     author: 'BS. Nguyễn Văn A',
-    date: '15/06/2024',
-    image: 'https://source.unsplash.com/featured/?healthcare'
+    date: '15/6/2024',
   },
-  {
-    id: 2,
-    title: 'Chế độ ăn uống lành mạnh cho người trẻ',
-    description: 'Ăn uống khoa học giúp tăng cường đề kháng, cải thiện năng lượng và tinh thần mỗi ngày...',
-    author: 'BS. Trần Thị B',
-    date: '10/06/2024',
-    image: 'https://source.unsplash.com/featured/?nutrition'
-  }
-  // Thêm các blog khác nếu muốn
+  // Thêm các bài viết khác...
 ];
 
-export default blogData;    
+export default blogData;

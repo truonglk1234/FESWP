@@ -1,17 +1,39 @@
-import './BlogCard.css';
+import { CalendarDays, Clock, User2 } from 'lucide-react';
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog, viewMode = 'grid' }) => {
+  const {
+    title,
+    description,
+    imageUrl,
+    category,
+    readingTime,
+    author,
+    date,
+  } = blog;
+
   return (
-    <div className="blog-card">
-      <img src={blog.image} alt={blog.title} className="blog-image" />
+    <div className={`blog-card ${viewMode}`}>
+      <img src={imageUrl} alt={title} className="blog-image" />
+
       <div className="blog-content">
-        <h3 className="blog-title">{blog.title}</h3>
-        <p className="blog-description">{blog.description}</p>
         <div className="blog-meta">
-          <span className="blog-author">👤 {blog.author}</span>
-          <span className="blog-date">🗓 {blog.date}</span>
+          <span className="badge">{category}</span>
+          <span className="meta-item">
+            <Clock size={14} /> {readingTime}
+          </span>
         </div>
-        <button className="read-more">Xem chi tiết</button>
+
+        <h3 className="title">{title}</h3>
+        <p className="excerpt">{description}</p>
+
+        <div className="blog-footer">
+          <span className="meta-item">
+            <User2 size={14} /> {author}
+          </span>
+          <span className="meta-item">
+            <CalendarDays size={14} /> {date}
+          </span>
+        </div>
       </div>
     </div>
   );
