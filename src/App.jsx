@@ -35,6 +35,9 @@ import ConsultantQuestion from './components/ConsultantManagement/Question/Consu
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
 import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
 
+// Staff Layout & Pages
+import StaffLayout from './components/staff/StaffLayout';
+
 const App = () => {
 
   return (
@@ -66,6 +69,11 @@ const App = () => {
             <Route path="chat" element={<ConsultantMessage />} />
             <Route path="questions" element={<ConsultantQuestion />} />
             <Route path="reviews" element={<ConsultantEvaluate />} />
+          </Route>
+
+          {/* Staff layout + nested pages */}
+          <Route path="/staff" element={<StaffLayout />}>
+            
           </Route>
 
           {/* Manager layout + nested pages */}
