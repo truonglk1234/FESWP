@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Heart, Phone, Mail, Search, ChevronDown,
-  LogOut, Calendar, User, TestTube2
+  LogOut, Calendar, User, TestTube2, LayoutDashboard
 } from 'lucide-react';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
@@ -15,6 +15,7 @@ const Header = () => {
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem("user");
     setDropdownOpen(false);
     navigate('/');
   };
@@ -28,6 +29,21 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const getManageLink = () => {
+    switch (user.role) {
+      case 'Admin':
+        return '/admin';
+      case 'Manager':
+        return '/manager';
+      case 'Staff':
+        return '/staff';
+      case 'Consultant':
+        return '/consultant';
+      default:
+        return '/';
+    }
+  };
 
   return (
     <header>
@@ -85,11 +101,23 @@ const Header = () => {
                   <span>{user.name}</span>
                   <ChevronDown size={16} />
                 </div>
+
                 {dropdownOpen && (
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
                     <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
                     <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
+
+                    {['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
+                      <Link
+                        to={getManageLink()}
+                        className="manage-button"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <LayoutDashboard size={16} /> Quản lý
+                      </Link>
+                    )}
+
                     <button onClick={handleLogout}><LogOut size={16} /> Đăng xuất</button>
                   </div>
                 )}

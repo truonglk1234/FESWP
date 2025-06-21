@@ -282,3 +282,12 @@
     font-size: 12px;
   }
 }
+
+.header-dropdown-menu .manage-button {
+  font-weight: 600;
+  color: #00986f;
+}
+
+.header-dropdown-menu .manage-button:hover {
+  background-color: #e6f7f1;
+}

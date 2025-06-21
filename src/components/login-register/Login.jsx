@@ -36,23 +36,20 @@ const Login = () => {
       const token = response.data.token;
       const decoded = jwtDecode(token);
 
+      const role = Array.isArray(decoded.role) ? decoded.role[0] : decoded.role;
+
       const user = {
         name: decoded.Name || decoded.name || decoded.sub,
         email: decoded.email || email,
-        role: decoded.role,
+        role: role,
         token: token
       };
 
       setUser(user);
       localStorage.setItem('token', token);
 
-      switch (decoded.role) {
-        case 'Admin': navigate('/admin/dashboard'); break;
-        case 'Consultant': navigate('/consultant/profile'); break;
-        case 'Staff': navigate('/staff/home'); break;
-        case 'Customer':
-        default: navigate('/'); break;
-      }
+      // Navigate based on role
+      navigate('/');
     } catch (err) {
       const res = err.response?.data;
       setError(typeof res === 'string' ? res : (res?.message || 'Đăng nhập thất bại'));

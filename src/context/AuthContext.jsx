@@ -5,24 +5,24 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-  const storedUser = localStorage.getItem('user');
-  if (!storedUser) return null;
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) return null;
 
-  try {
-    const parsed = JSON.parse(storedUser);
-    if (!parsed.token) return null;
+    try {
+      const parsed = JSON.parse(storedUser);
+      if (!parsed.token) return null;
 
-    const decoded = jwtDecode(parsed.token);
-    return {
-      ...parsed,
-      name: decoded.Name || decoded.name || parsed.name || parsed.email
-    };
-  } catch (err) {
-    console.error("Lỗi giải mã JWT:", err);
-    return null;
-  }
-});
-
+      const decoded = jwtDecode(parsed.token);
+      return {
+        ...parsed,
+        role: decoded.Role || decoded.role || parsed.role,
+        name: decodeURIComponent(escape(decoded.Name || decoded.name || parsed.name || parsed.email))
+      };
+    } catch (err) {
+      console.error("Lỗi giải mã JWT:", err);
+      return null;
+    }
+  });
 
   useEffect(() => {
     if (user) {
