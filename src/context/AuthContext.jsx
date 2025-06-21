@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }) => {
       return {
         ...parsed,
         role: decoded.Role || decoded.role || parsed.role,
-        name: decodeURIComponent(escape(decoded.Name || decoded.name || parsed.name || parsed.email))
+        name: decodeURIComponent(escape(decoded.Name || decoded.name || parsed.name || parsed.email)),
+        authorities: decoded.authorities || parsed.authorities || []
       };
     } catch (err) {
       console.error("Lỗi giải mã JWT:", err);

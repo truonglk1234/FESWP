@@ -12,7 +12,7 @@ function UMFooter() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    axios.get('http://localhost:8080/api/manager/customers', {
+    axios.get('http://localhost:8080/api/auth/manager/customers', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -49,7 +49,7 @@ function UMFooter() {
   if (!window.confirm(`❗Bạn có chắc muốn xóa "${user.name}"?`)) return;
 
   try {
-    const response = await fetch(`http://localhost:8080/api/manager/customers/${user.id}`, {
+    const response = await fetch(`http://localhost:8080/api/auth/manager/customers/${user.id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
