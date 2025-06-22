@@ -1,41 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConsultantFilters from './ConsultantFilters';
 import ConsultantCard from './ConsultantCard';
 import Pagination from './Pagination';
 import { Search } from 'lucide-react';
 import './ConsultantContent.css';
-import consultantsData from './consultantsData';
+import axios from 'axios';
 
 const ConsultantContent = () => {
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState('grid');
   const [search, setSearch] = useState('');
-  const [specialty, setSpecialty] = useState('Tất cả');
-  const [location, setLocation] = useState('Tất cả');
-  const [gender, setGender] = useState('Tất cả');
-  const [price, setPrice] = useState('Tất cả');
-
-  const perPage = 6;
-
-  const filtered = consultantsData.filter(doc => {
-    const matchesSearch =
-      doc.name.toLowerCase().includes(search.toLowerCase()) ||
-      doc.specialties.some(s => s.toLowerCase().includes(search.toLowerCase())) ||
-      doc.hospital.toLowerCase().includes(search.toLowerCase());
-
-    const matchesSpecialty = specialty === 'Tất cả' || doc.specialties.includes(specialty);
-    const matchesLocation = location === 'Tất cả' || doc.location === location;
-    const matchesGender = gender === 'Tất cả' || (gender === 'Nam' ? !doc.name.includes('Thị') : doc.name.includes('Thị'));
-    const matchesPrice = price === 'Tất cả' ||
-      (price === '<400' && doc.price < 400000) ||
-      (price === '400-500' && doc.price >= 400000 && doc.price <= 500000) ||
-      (price === '>500' && doc.price > 500000);
-
-    return matchesSearch && matchesSpecialty && matchesLocation && matchesGender && matchesPrice;
+  const [filters, setFilters] = useState({
+    specialty: 'Tất cả',
+    gender: 'Tất cả',
   });
 
-  const totalPages = Math.ceil(filtered.length / perPage);
-  const paginated = filtered.slice((page - 1) * perPage, page * perPage);
+  const [consultants, setConsultants] = useState([]);
+  const perPage = 6;
+
+  // ✅ Fetch data từ API mỗi khi filter hoặc search thay đổi
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const params = {
+          specialty: filters.specialty !== 'Tất cả' ? filters.specialty : undefined,
+          gender: filters.gender !== 'Tất cả' ? filters.gender : undefined,
+        };
+
+        const response = await axios.get('http://localhost:8080/api/public/consultants', { params });
+        const data = response.data;
+
+        // ✅ Lọc client-side nếu có tìm kiếm
+        const filtered = data.filter(doc => {
+          const matchesSearch =
+            doc.name.toLowerCase().includes(search.toLowerCase()) ||
+            doc.hospital.toLowerCase().includes(search.toLowerCase()) ||
+            doc.specialties.some(s => s.toLowerCase().includes(search.toLowerCase()));
+
+          return matchesSearch;
+        });
+
+        setConsultants(filtered);
+        setPage(1); // Reset trang đầu
+      } catch (err) {
+        console.error('❌ Lỗi lấy danh sách tư vấn viên:', err);
+      }
+    };
+
+    fetchData();
+  }, [filters, search]);
+
+  const totalPages = Math.ceil(consultants.length / perPage);
+  const paginated = consultants.slice((page - 1) * perPage, page * perPage);
 
   return (
     <section className="consultant-section">
@@ -53,15 +69,9 @@ const ConsultantContent = () => {
       <ConsultantFilters
         viewMode={viewMode}
         setViewMode={setViewMode}
-        total={filtered.length}
-        specialty={specialty}
-        setSpecialty={setSpecialty}
-        location={location}
-        setLocation={setLocation}
-        gender={gender}
-        setGender={setGender}
-        price={price}
-        setPrice={setPrice}
+        total={consultants.length}
+        filters={filters}
+        setFilters={setFilters}
       />
 
       <div className={viewMode === 'grid' ? 'consultant-grid' : 'consultant-list'}>
