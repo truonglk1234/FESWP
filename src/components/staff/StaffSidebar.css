@@ -1,4 +1,6 @@
-.sidebar {
+/* StaffSidebar.css */
+
+.ss-sidebar {
   width: 260px;
   background: white;
   border-right: 1px solid #e5e7eb;
@@ -10,25 +12,25 @@
   font-family: 'Inter', sans-serif;
 }
 
-.sidebar-top {
+.ss-sidebar-top {
   margin-bottom: 2rem;
 }
 
-.sidebar-header {
+.ss-sidebar-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.logo-link {
+.ss-logo-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
 }
 
-.logo-square {
-  background: #1d4ed8; /* Blue tone for medical staff */
+.ss-logo-square {
+  background: #047857; /* xanh lá đậm */
   padding: 0.5rem;
   border-radius: 0.75rem;
   display: flex;
@@ -36,42 +38,42 @@
   justify-content: center;
 }
 
-.icon-white {
+.ss-icon-white {
   color: white;
   width: 1.25rem;
   height: 1.25rem;
 }
 
-.logo-text-group {
+.ss-logo-text-group {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
 }
 
-.sidebar-title {
-  font-size: 1.05rem;
+.ss-sidebar-title {
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #064e3b;
   margin: 0;
 }
 
-.sidebar-subtitle {
+.ss-sidebar-subtitle {
   font-size: 0.85rem;
   color: #6b7280;
   margin-top: 2px;
 }
 
-.sidebar-middle {
+.ss-sidebar-middle {
   flex-grow: 1;
 }
 
-.nav-label {
+.ss-nav-label {
   font-size: 0.875rem;
   color: #6b7280;
   margin-bottom: 0.75rem;
 }
 
-.sidebar-middle ul {
+.ss-sidebar-middle ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -80,11 +82,11 @@
   gap: 0.25rem;
 }
 
-.sidebar-middle li {
+.ss-sidebar-middle li {
   border-radius: 0.5rem;
 }
 
-.nav-link {
+.ss-nav-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -96,18 +98,18 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.nav-link:hover {
+.ss-nav-link:hover {
   background: #f3f4f6;
   color: #111827;
 }
 
-.nav-link.active {
+.ss-nav-link.active {
   background: #f3f4f6;
   font-weight: 600;
   color: #111827;
 }
 
-.sidebar-footer {
+.ss-sidebar-footer {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -115,10 +117,32 @@
   padding-top: 2rem;
 }
 
-.sidebar-footer .nav-link {
+.ss-sidebar-footer .ss-nav-link {
   padding: 0.5rem 0.75rem;
 }
 
-.sidebar-footer .nav-link:hover {
+.ss-sidebar-footer .ss-nav-link:hover {
   background-color: #f9fafb;
+}
+
+.ss-logout-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  text-align: left;
+  border-radius: 0.5rem;
+  width: 100%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ss-logout-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
 }

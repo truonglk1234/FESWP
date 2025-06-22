@@ -1,0 +1,92 @@
+.blog-create-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.blog-create-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.blog-header-buttons {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Nút quay lại (đồng bộ style với cancel-btn) */
+.back-btn {
+  background-color: #e5e7eb;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #d1d5db;
+}
+
+.blog-create-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.blog-create-form input,
+.blog-create-form textarea,
+.blog-create-form select {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* Các nút dưới cùng */
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.submit-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #1e40af;
+}
+
+.cancel-btn {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.cancel-btn:hover {
+  background-color: #d1d5db;
+}

@@ -1,11 +1,11 @@
-import MBFooter from "./MBFooter";
-import MBHeader from "./MBHeader";
+import SBFooter from "./SBFooter";
+import SBHeader from "./SBHeader";
 
 const MedicalBlog = () => {
   return (
     <div>
-      <MBHeader/>
-      <MBFooter/>
+      <SBHeader/>
+      <SBFooter/>
     </div>  
   );
 };

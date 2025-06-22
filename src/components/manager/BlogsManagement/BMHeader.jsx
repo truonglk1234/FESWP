@@ -1,4 +1,3 @@
-import React from 'react';
 import './BMHeader.css';
 
 const BMHeader = ({
@@ -6,7 +5,7 @@ const BMHeader = ({
   onTopicChange,
   searchKeyword,
   setSearchKeyword,
-  topics = [] // Đảm bảo không undefined
+  topics = [],
 }) => {
   return (
     <div className="bm-header">
@@ -17,7 +16,34 @@ const BMHeader = ({
         </div>
       </div>
 
-      
+      <div className="bm-header-filters">
+        {/* Ô tìm kiếm */}
+        <div className="search-wrapper">
+          <input
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            placeholder="Tìm kiếm bài viết..."
+            className="search-input"
+          />
+        </div>
+
+        {/* Dropdown chủ đề */}
+        <select className="filter-select" onChange={(e) => onTopicChange(e.target.value)}>
+          <option value="">Tất cả chủ đề</option>
+          {topics.map((topic) => (
+            <option key={topic.id} value={topic.name}>{topic.name}</option>
+          ))}
+        </select>
+
+        {/* Dropdown trạng thái */}
+        <select className="filter-select" onChange={(e) => onStatusChange(e.target.value)}>
+          <option value="">Tất cả trạng thái</option>
+          <option value="Published">Đã xác nhận</option>
+          <option value="Pending">Chờ xác nhận</option>
+          <option value="Rejected">Đã từ chối</option>
+        </select>
+      </div>
     </div>
   );
 };
