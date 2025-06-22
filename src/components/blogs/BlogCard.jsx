@@ -6,10 +6,6 @@ const BlogCard = ({
   blog,
   role = "public",
   viewMode = "grid",
-  onView,
-  onDelete,
-  onApprove,
-  onReject,
 }) => {
   const {
     id,
@@ -46,7 +42,7 @@ const BlogCard = ({
       {/* Tiêu đề & mô tả */}
       <h3 className="title">{title}</h3>
       <p className="excerpt">
-        {description || content?.slice(0, 100) + "..."}
+        {description || (content ? content.slice(0, 100) + "..." : "Không có nội dung")}
       </p>
 
       {/* Tác giả & ngày */}
@@ -58,20 +54,6 @@ const BlogCard = ({
           <CalendarDays size={14} /> {date || new Date(createdAt).toLocaleDateString()}
         </span>
       </div>
-
-      {/* Nút thao tác nếu là manager/staff */}
-      {(role === "manager" || role === "staff") && (
-        <div className="actions">
-          {onView && <button className="view-btn" onClick={onView}>Xem</button>}
-          {onDelete && <button className="delete-btn" onClick={onDelete}>Xóa</button>}
-          {status === "Pending" && onApprove && (
-            <>
-              <button className="view-btn" onClick={() => onApprove(id)}>Duyệt</button>
-              <button className="delete-btn" onClick={() => onReject(id)}>Từ chối</button>
-            </>
-          )}
-        </div>
-      )}
     </div>
   );
 

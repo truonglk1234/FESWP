@@ -83,34 +83,4 @@
   gap: 4px;
 }
 
-/* Nút thao tác riêng cho manager/staff */
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-}
 
-.actions button {
-  padding: 6px 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.actions .view-btn {
-  background-color: #10b981;
-  color: white;
-}
-.actions .view-btn:hover {
-  background-color: #059669;
-}
-
-.actions .delete-btn {
-  background-color: #ef4444;
-  color: white;
-}
-.actions .delete-btn:hover {
-  background-color: #dc2626;
-}
