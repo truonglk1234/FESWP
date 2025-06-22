@@ -1,36 +1,30 @@
 import React from 'react';
-import { Calendar, Clock3, MapPin, Star, User } from 'lucide-react';
+import { Mail, Phone, User, BadgeCheck, Info } from 'lucide-react';
 
 const ConsultantCard = ({ doc, viewMode }) => {
   return (
     <div className={`consultant-card ${viewMode}`}>
       <div className="card-top">
         <img
-          src={doc.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.name)}`}
-          alt={doc.name}
+          src={doc.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}`}
+          alt={doc.fullName}
           className="avatar"
         />
-        <div className="rating"><Star size={14} /> {doc.rating}</div>
+        <div className="badge-gender">{doc.gender ? 'Nam' : 'Nữ'}</div>
       </div>
+
       <div className="card-body">
-        <h3 className="doctor-name">{doc.name}</h3>
-        <div className="badges">
-          {doc.specialties.map((s, i) => (
-            <span key={i} className="badge">{s}</span>
-          ))}
-        </div>
-        <div className="info"><MapPin size={14} /> {doc.location}</div>
-        <div className="info"><User size={14} /> {doc.experience} năm</div>
-        <div className="hospital">{doc.hospital}</div>
-        <div className="info"><Clock3 size={14} /> {doc.nextSchedule}</div>
-        <div className="info">👥 {doc.consults} lượt tư vấn • {doc.reviews} đánh giá</div>
+        <h3 className="doctor-name">{doc.fullName}</h3>
+        <div className="info"><BadgeCheck size={14} /> {doc.specialty}</div>
+        <div className="info"><User size={14} /> {doc.experienceYears || 0} năm kinh nghiệm</div>
+        <div className="info"><Mail size={14} /> {doc.email}</div>
+        <div className="info"><Phone size={14} /> {doc.phone}</div>
+        <div className="description"><Info size={14} /> {doc.description || "Chưa có mô tả"}</div>
       </div>
+
       <div className="consultant-footer">
-        <div className="consultant-price">{doc.price.toLocaleString()} VND</div>
-        <div className="consultant-actions">
-            <button className="outline">Xem hồ sơ</button>
-            <button className="solid"><Calendar size={16} /> Đặt khám</button>
-        </div>
+        <button className="solid">Xem hồ sơ</button>
+        <button className="outline">Đặt lịch</button>
       </div>
     </div>
   );
