@@ -1,38 +1,48 @@
-import { useState } from 'react';
-import blogData from './blogData';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import BlogCard from './BlogCard';
 import BlogFilters from './BlogFilters';
 import Pagination from './Pagination';
 import { Search } from 'lucide-react';
-import './BlogContent.css'; // Dùng chung cho toàn bộ Blog
+import './BlogContent.css';
 
 const BlogContent = () => {
+  const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState('grid');
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Tất cả');
   const [author, setAuthor] = useState('Tất cả');
   const [sortBy, setSortBy] = useState('newest');
-
   const perPage = 6;
 
+  // Gọi API
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/blogs')
+      .then(res => {
+        const published = res.data.filter(blog => blog.status === "Published");
+        setBlogs(published);
+      })
+      .catch(err => console.error("Lỗi khi tải blog:", err));
+  }, []);
+
   // Lọc và sắp xếp
-  const filtered = blogData
+  const filtered = blogs
     .filter(blog => {
       const keyword = search.toLowerCase();
       const matchesKeyword =
         blog.title.toLowerCase().includes(keyword) ||
-        blog.description.toLowerCase().includes(keyword) ||
-        blog.author.toLowerCase().includes(keyword);
+        blog.content.toLowerCase().includes(keyword) ||
+        blog.authorName?.toLowerCase().includes(keyword);
 
-      const matchesCategory = category === 'Tất cả' || blog.category === category;
-      const matchesAuthor = author === 'Tất cả' || blog.author === author;
+      const matchesCategory = category === 'Tất cả' || blog.topicName === category;
+      const matchesAuthor = author === 'Tất cả' || blog.authorName === author;
 
       return matchesKeyword && matchesCategory && matchesAuthor;
     })
     .sort((a, b) => {
-      if (sortBy === 'newest') return new Date(b.date) - new Date(a.date);
-      if (sortBy === 'oldest') return new Date(a.date) - new Date(b.date);
+      if (sortBy === 'newest') return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortBy === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
       return 0;
     });
 
@@ -72,7 +82,16 @@ const BlogContent = () => {
       {/* Danh sách bài viết */}
       <div className={viewMode === 'grid' ? 'blog-grid' : 'blog-list'}>
         {paginated.map((blog) => (
-          <BlogCard key={blog.id} blog={blog} viewMode={viewMode} />
+          <BlogCard
+            key={blog.id}
+            blog={{
+              ...blog,
+              topic: { name: blog.topicName },
+              createdBy: { fullName: blog.authorName }
+            }}
+            role="public"
+            viewMode={viewMode}
+          />
         ))}
       </div>
 

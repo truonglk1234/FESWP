@@ -7,6 +7,8 @@ import ConsultantPage from './pages/ConsultantPage';
 import BlogPage from './pages/BlogPage';
 import { AuthProvider } from './context/AuthContext';
 
+import BlogDetailPublic from './components/blogs/BlogDetailPublic';
+
 // Profile layout & pages
 import Profile from './components/profile/Profile';
 import PersonalInfo from './components/profile/pages/PersonalInfo';
@@ -56,6 +58,7 @@ const App = () => {
           <Route path="/services" element={<ServicePage />} />
           <Route path="/consultants" element={<ConsultantPage />} />
           <Route path="/blogs" element={<BlogPage />} />
+          <Route path="/blogs/:id" element={<BlogDetailPublic />} />
 
           {/* Profile layout + nested tabs */}
           <Route path="/profile" element={<Profile />}>
