@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./StaffBlogCreate.css";
 
+
 const StaffBlogCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -10,6 +11,7 @@ const StaffBlogCreate = () => {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
 
+  // Lấy danh sách chủ đề
   useEffect(() => {
     const fetchTopics = async () => {
       try {
@@ -22,18 +24,17 @@ const StaffBlogCreate = () => {
     fetchTopics();
   }, []);
 
+  // Xử lý submit tạo bài viết mới
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const token = localStorage.getItem("token");
-
       await axios.post(
-        "http://localhost:8080/api/staff/blogs",
+        "http://localhost:8080/api/auth/staff/blogs",
         {
           title,
           content,
-          topicName: topic,
+          topicId: topic, // gửi ID của chủ đề
         },
         {
           headers: {
@@ -41,7 +42,6 @@ const StaffBlogCreate = () => {
           },
         }
       );
-
       alert("✅ Bài viết đã được tạo!");
       navigate("/staff/blogs");
     } catch (error) {
@@ -89,7 +89,7 @@ const StaffBlogCreate = () => {
         >
           <option value="">-- Chọn chủ đề --</option>
           {topics.map((t) => (
-            <option key={t.id} value={t.name}>
+            <option key={t.id} value={t.id}>
               {t.name}
             </option>
           ))}
@@ -113,3 +113,4 @@ const StaffBlogCreate = () => {
 };
 
 export default StaffBlogCreate;
+

@@ -9,19 +9,23 @@ const SBFooter = ({ searchKeyword, statusFilter, topicFilter }) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/management/blogs/all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => setPosts(res.data))
-      .catch((err) => console.error("Lỗi khi tải bài viết:", err));
-  }, []);
+useEffect(() => {
+  axios
+    .get("http://localhost:8080/api/auth/staff/blogs/my", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => setPosts(res.data))
+    .catch((err) => console.error("Lỗi khi tải bài viết:", err));
+}, []);
 
-  const filteredPosts = posts.filter((post) => {
-    const matchKeyword = post.title.toLowerCase().includes(searchKeyword.toLowerCase());
+  const filteredPosts = posts
+  .filter((post) => post && post.title) // lọc null/undefined
+  .filter((post) => {
+    const matchKeyword = searchKeyword
+      ? post.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      : true;
     const matchStatus = statusFilter ? post.status === statusFilter : true;
     const matchTopic = topicFilter ? post.topicName === topicFilter : true;
     return matchKeyword && matchStatus && matchTopic;
@@ -31,13 +35,15 @@ const SBFooter = ({ searchKeyword, statusFilter, topicFilter }) => {
   const visiblePosts = filteredPosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const handleView = (post) => {
-    navigate(`/staff/blogs/${post.id}`); // Đường dẫn khác nếu dùng cho Staff
+    navigate(`/api/auth/staff/blogs/${post.id}`); 
+    // Đường dẫn khác nếu dùng cho Staff
   };
 
   const handleDelete = async (post) => {
     if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
       try {
-        await axios.delete(`http://localhost:8080/api/management/blogs/${post.id}`, {
+        await axios.delete(`http://localhost:8080/api/auth/staff/blogs/${post.id}`,
+                   {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
