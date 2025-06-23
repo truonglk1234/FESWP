@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import '../pages/PersonalInfo.css';
 import axios from 'axios';
@@ -10,10 +9,11 @@ const PersonalInfo = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     gender: null,
-    dateOfBirth: '', // dùng lại tên chuẩn
+    dateOfBirth: '',
     email: '',
     phone: '',
     address: '',
+    avatar: null,
     avatarUrl: ''
   });
 
@@ -22,14 +22,16 @@ const PersonalInfo = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/auth/user/profile', {
+        const res = await axios.get('http://localhost:8080/api/auth/profileuser', {
           headers: {
             Authorization: `Bearer ${user?.token}`
           }
         });
+
         const data = res.data;
 
-        setFormData({
+        setFormData(prev => ({
+          ...prev,
           fullName: data.fullName || '',
           gender: data.gender,
           dateOfBirth: data.dateOfBirth || '',
@@ -37,7 +39,7 @@ const PersonalInfo = () => {
           phone: data.phone || '',
           address: data.address || '',
           avatarUrl: data.avatarUrl || ''
-        });
+        }));
       } catch (err) {
         console.error('❌ Lỗi khi lấy profile:', err.response?.data || err.message);
         alert('Không thể tải thông tin cá nhân!');
@@ -57,18 +59,42 @@ const PersonalInfo = () => {
     }));
   };
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        avatar: file,
+        avatarUrl: URL.createObjectURL(file)
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const submitData = new FormData();
+    submitData.append('fullName', formData.fullName);
+    submitData.append('gender', formData.gender);
+    submitData.append('dateOfBirthday', formData.dateOfBirth);
+    submitData.append('email', formData.email);
+    submitData.append('phone', formData.phone);
+    submitData.append('address', formData.address);
+    if (formData.avatar) {
+      submitData.append('avatar', formData.avatar);
+    }
+
     try {
-      await axios.put('http://localhost:8080/api/auth/user/profile', formData, {
+      await axios.put('http://localhost:8080/api/auth/profileuser', submitData, {
         headers: {
-          Authorization: `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
+          'Content-Type': 'multipart/form-data'
         }
       });
-      alert('✅ Thông tin đã được cập nhật thành công!');
+      alert('✅ Cập nhật thông tin thành công!');
     } catch (err) {
-      console.error('❌ Lỗi khi cập nhật:', err.response?.data || err.message);
-      alert('Cập nhật thất bại: ' + (err.response?.data?.message || 'Lỗi không xác định'));
+      console.error('❌ Lỗi khi cập nhật:', err);
+      alert('❌ Cập nhật thất bại!');
     }
   };
 
@@ -144,6 +170,22 @@ const PersonalInfo = () => {
               onChange={handleChange}
               placeholder="Nhập địa chỉ của bạn"
             />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-col">
+            <label>Ảnh đại diện</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
+            {formData.avatarUrl && (
+              <div className="avatar-preview">
+                <img src={formData.avatarUrl} alt="Avatar preview" />
+              </div>
+            )}
           </div>
         </div>
 

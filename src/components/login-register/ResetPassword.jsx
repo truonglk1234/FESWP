@@ -11,6 +11,17 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  // ✅ Lấy email + code từ localStorage nếu không truyền qua props
+ const storedEmail = email || localStorage.getItem('resetEmail');
+  const storedCode = code || localStorage.getItem('resetCode');
+
+  console.log('📨 Gửi thông tin đặt lại mật khẩu:', {
+    email: storedEmail,
+    code: storedCode,
+    newPassword,
+    confirmPassword
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -23,13 +34,19 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
 
     try {
       const res = await axios.post('http://localhost:8080/api/auth/reset-password-with-code', {
-        email,
-        code,
+        email: storedEmail,
+        code: storedCode,
         newPassword,
         confirmPassword
       });
 
       setSuccess(res.data || 'Đặt lại mật khẩu thành công!');
+
+      // ✅ Dọn dẹp localStorage
+      localStorage.removeItem('resetEmail');
+      localStorage.removeItem('resetCode');
+
+
       setTimeout(() => {
         if (onDone) onDone();
       }, 1500);
