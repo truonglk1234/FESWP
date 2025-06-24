@@ -45,6 +45,8 @@ import TestResults from './components/staff/Result/TestResults';
 import MedicalServices from './components/staff/Service/MedicalServices';
 import MedicalBlog from './components/staff/Blog/MedicalBlog';
 import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
+import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
+import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 
 const App = () => {
 
@@ -88,6 +90,8 @@ const App = () => {
             <Route path="services" element={<MedicalServices />} />
             <Route path="blogs" element={<MedicalBlog />} />
             <Route path="blogs/create" element={<StaffBlogCreate />} />
+            <Route path="blogs/:id" element={<StaffBlogDetail />} />
+            <Route path="blogs/edit/:id" element={<StaffBlogEdit />} />
           </Route>
 
           {/* Manager layout + nested pages */}

@@ -1,0 +1,80 @@
+.sb-edit-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.sb-edit-header {
+  margin-bottom: 20px;
+}
+
+.sb-edit-back-btn {
+  background-color: transparent;
+  color: #2563eb;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding-left: 0;
+  margin-bottom: 16px;
+  text-decoration: underline;
+}
+.sb-edit-back-btn:hover {
+  color: #1d4ed8;
+}
+
+.sb-edit-form label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.sb-edit-form input,
+.sb-edit-form textarea,
+.sb-edit-form select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f9fafb;
+  outline: none;
+}
+
+.sb-edit-form textarea {
+  resize: vertical;
+}
+
+.sb-edit-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.sb-edit-submit-btn {
+  background-color: #10b981;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sb-edit-submit-btn:hover {
+  background-color: #059669;
+}
+
+.sb-edit-cancel-btn {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sb-edit-cancel-btn:hover {
+  background-color: #d1d5db;
+}
