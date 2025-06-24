@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Heart, Phone, Mail, Search, ChevronDown,
-  LogOut, Calendar, User, TestTube2, LayoutDashboard
+  LogOut, Calendar, User, TestTube2, LayoutDashboard, Bell
 } from 'lucide-react';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
@@ -11,7 +11,9 @@ const Header = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [notiOpen, setNotiOpen] = useState(false);
   const dropdownRef = useRef();
+  const notiRef = useRef();
 
   const handleLogout = () => {
     setUser(null);
@@ -20,10 +22,14 @@ const Header = () => {
     setDropdownOpen(false);
     navigate('/');
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (notiRef.current && !notiRef.current.contains(event.target)) {
+        setNotiOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -87,6 +93,23 @@ const Header = () => {
           </nav>
 
           <div className="header-auth-buttons">
+            {/* 🔔 Icon chuông thông báo */}
+            <div className="notification-wrapper" ref={notiRef}>
+              <button className="notification-btn" title="Thông báo" onClick={() => setNotiOpen(!notiOpen)}>
+                <Bell size={20} />
+              </button>
+              {notiOpen && (
+                <div className="notification-dropdown">
+                  <p className="dropdown-title">🔔 Thông báo</p>
+                  <ul>
+                    <li>Bạn có lịch hẹn với bác sĩ A vào ngày mai</li>
+                    <li>Kết quả xét nghiệm XYZ đã sẵn sàng</li>
+                    <li>Bài viết mới về sức khỏe sinh sản</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
             {!user ? (
               <>
                 <button className="header-btn-outline" onClick={() => navigate('/login')}>Đăng nhập</button>

@@ -123,39 +123,47 @@
 
 .header-auth-buttons {
   display: flex;
-  gap: 8px;
+  gap: 20px;
   align-items: center;
-  margin-left: 40px;
 }
 
-.header-auth-buttons button {
-  min-width: 120px;
-  text-align: center;
-  font-weight: 500;
-}
-
+/* ✅ Nút đăng nhập */
 .header-btn-outline {
   border: 1px solid #00986f;
   color: #00986f;
   background-color: white;
-  padding: 6px 25px;
+  padding: 10px 24px;
+  min-width: 130px;
+  height: 40px;
+  font-size: 15px;
   border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
+.header-btn-outline:hover {
+  background-color: #e6f7f1;
+  color: #00664f;
+}
+
+/* ✅ Nút đăng ký */
 .header-btn-solid {
   background-color: #00986f;
   color: white;
   border: none;
-  padding: 6px 16px;
+  padding: 10px 24px;
+  min-width: 130px;
+  height: 40px;
+  font-size: 15px;
   border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.2s;
 }
 
-.header-auth-buttons button:hover {
-  opacity: 0.9;
+.header-btn-solid:hover {
+  background-color: #007f5e;
 }
 
 .header-user-dropdown {
@@ -227,6 +235,91 @@
   background-color: #f5f5f5;
 }
 
+.header-dropdown-menu .manage-button {
+  font-weight: 600;
+  color: #00986f;
+}
+
+.header-dropdown-menu .manage-button:hover {
+  background-color: #e6f7f1;
+}
+
+/* === Notification Bell === */
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.notification-btn:hover {
+  background-color: #e6f7f1;
+}
+
+.notification-btn svg {
+  color: #333;
+}
+
+/* Badge đỏ nếu có thông báo */
+.notification-btn::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: red;
+  border-radius: 50%;
+}
+
+/* === Dropdown Thông báo === */
+.notification-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  width: 260px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  z-index: 999;
+}
+
+.notification-dropdown .dropdown-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #00986f;
+}
+
+.notification-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-dropdown ul li {
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.notification-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+/* === Responsive === */
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
@@ -281,13 +374,10 @@
     height: 32px;
     font-size: 12px;
   }
-}
 
-.header-dropdown-menu .manage-button {
-  font-weight: 600;
-  color: #00986f;
-}
-
-.header-dropdown-menu .manage-button:hover {
-  background-color: #e6f7f1;
+  .notification-dropdown {
+    width: 90vw;
+    left: 0 !important;
+    right: auto !important;
+  }
 }
