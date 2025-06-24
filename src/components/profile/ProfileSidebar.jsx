@@ -7,7 +7,6 @@ const ProfileSidebar = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Tạo chữ viết tắt từ tên người dùng
   const getInitials = (name) => {
     if (!name) return 'U';
     return name
@@ -19,7 +18,6 @@ const ProfileSidebar = () => {
 
   return (
     <aside className="profile-sidebar">
-      {/* Logo về trang chủ */}
       <Link to="/" className="profile-logo">
         <div className="logo-icon">
           <Heart size={20} className="icon-white" />
@@ -30,16 +28,22 @@ const ProfileSidebar = () => {
         </div>
       </Link>
 
-      {/* Thông tin người dùng */}
       <div className="profile-sidebar-header">
         <div className="profile-avatar">
-          <div className="avatar-initials">{getInitials(user?.name)}</div>
+          {user?.avatarUrl ? (
+            <img
+              src={user.avatarUrl}
+              alt="Avatar"
+              className="profile-avatar-img"
+            />
+          ) : (
+            <div className="avatar-initials">{getInitials(user?.name)}</div>
+          )}
         </div>
         <h3 className="profile-name">{user?.name || 'Người dùng'}</h3>
         <p className="profile-email">{user?.email || 'Chưa có email'}</p>
       </div>
 
-      {/* Menu sidebar */}
       <nav className="profile-menu">
         <ul>
           <li>
@@ -70,7 +74,6 @@ const ProfileSidebar = () => {
         </ul>
       </nav>
 
-      {/* Nút quay lại */}
       <div className="profile-back-btn">
         <button onClick={() => navigate('/')}>Quay lại</button>
       </div>

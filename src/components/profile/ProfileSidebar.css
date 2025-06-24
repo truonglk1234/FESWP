@@ -72,6 +72,14 @@
   margin: 0 auto 12px;
 }
 
+.profile-avatar-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #a7f3d0;
+}
+
 /* ✅ Chữ viết tắt bên trong avatar */
 .avatar-initials {
   width: 82px;

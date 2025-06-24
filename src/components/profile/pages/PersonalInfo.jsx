@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../../../context/AuthContext';
 
 const PersonalInfo = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -91,6 +91,15 @@ const PersonalInfo = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
+
+      const updatedUser = {
+        ...user,
+        name: updatedData.fullName,
+        avatarUrl: updatedData.avatarUrl,
+      };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
       alert('✅ Cập nhật thông tin thành công!');
     } catch (err) {
       console.error('❌ Lỗi khi cập nhật:', err);

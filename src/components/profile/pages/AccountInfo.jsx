@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AccountInfo.css';
+import axios from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 const AccountInfo = () => {
-  const [accountData] = useState({
-    username: 'lan_nguyen95',
-    createdAt: '2024-05-15',
-    role: 'Khách hàng',
-    status: 'Hoạt động'
+  const { user } = useAuth();
+
+  const [accountData, setAccountData] = useState({
+    username: '',
+    createdAt: '',
+    role: '',
+    status: ''
   });
 
   const [passwords, setPasswords] = useState({
@@ -15,14 +19,76 @@ const AccountInfo = () => {
     confirmPassword: ''
   });
 
+  useEffect(() => {
+    const fetchAccountInfo = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/api/auth/profileuser', {
+          headers: {
+            Authorization: `Bearer ${user?.token}`
+          }
+        });
+
+        const data = res.data;
+
+        setAccountData({
+          username: data.email || '',
+          createdAt: data.createdAt || '',
+          role: convertRole(data.role),
+          status: data.active === false ? 'Không hoạt động' : 'Hoạt động'
+        });
+      } catch (err) {
+        console.error('❌ Lỗi khi lấy thông tin tài khoản:', err.response?.data || err.message);
+        alert('Không thể tải thông tin tài khoản!');
+      }
+    };
+
+    fetchAccountInfo();
+  }, [user]);
+
+  const convertRole = (role) => {
+    switch (role) {
+      case 'Admin': return 'Quản trị viên';
+      case 'Manager': return 'Quản lý';
+      case 'Staff': return 'Nhân viên';
+      case 'Consultant': return 'Tư vấn viên';
+      case 'Customer': return 'Khách hàng';
+      default: return role;
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPasswords(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Password change request:', passwords);
+
+    if (passwords.newPassword !== passwords.confirmPassword) {
+      alert("❌ Mật khẩu xác nhận không khớp!");
+      return;
+    }
+
+    try {
+      await axios.put(
+        'http://localhost:8080/api/auth/change-password',
+        {
+          currentPassword: passwords.currentPassword,
+          newPassword: passwords.newPassword
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`
+          }
+        }
+      );
+
+      alert('✅ Đổi mật khẩu thành công!');
+      setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (err) {
+      console.error('❌ Lỗi khi đổi mật khẩu:', err.response?.data || err.message);
+      alert('❌ Không thể đổi mật khẩu!');
+    }
   };
 
   return (
@@ -47,11 +113,14 @@ const AccountInfo = () => {
         <div className="form-row">
           <div className="form-col">
             <label>Ngày tạo tài khoản</label>
-            <input value={accountData.createdAt} disabled />
+            <input value={accountData.createdAt?.slice(0, 10)} disabled />
           </div>
           <div className="form-col">
             <label>Trạng thái tài khoản</label>
-            <p className="account-status"><span className="dot" /> {accountData.status}</p>
+            <p className="account-status">
+              <span className={`dot ${accountData.status === 'Hoạt động' ? 'green' : 'red'}`} />
+              {accountData.status}
+            </p>
           </div>
         </div>
 
@@ -69,6 +138,7 @@ const AccountInfo = () => {
               placeholder="Mật khẩu hiện tại"
               value={passwords.currentPassword}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-row">
@@ -78,6 +148,7 @@ const AccountInfo = () => {
               placeholder="Mật khẩu mới"
               value={passwords.newPassword}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-row">
@@ -87,6 +158,7 @@ const AccountInfo = () => {
               placeholder="Xác nhận mật khẩu mới"
               value={passwords.confirmPassword}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-actions">
