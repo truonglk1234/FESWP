@@ -33,25 +33,3 @@
   cursor: pointer;
   font-weight: 500;
 }
-
-.cm-header-controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.cm-search-input {
-  flex: 1;
-  min-width: 250px;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-}
-
-.cm-status-filter {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  min-width: 160px;
-}

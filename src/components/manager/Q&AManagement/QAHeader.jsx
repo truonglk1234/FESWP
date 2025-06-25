@@ -11,28 +11,6 @@ const QAHeader = () => {
         </div>
         <button className="qa-new-btn">Tạo FAQ mới</button>
       </div>
-
-      <div className="qa-filter-bar">
-        <input
-          type="text"
-          placeholder="Tìm kiếm câu hỏi..."
-          className="qa-search-input"
-        />
-        <select className="qa-select">
-          <option>Tất cả trạng thái</option>
-          <option>Chờ duyệt</option>
-          <option>Đã duyệt</option>
-          <option>Từ chối</option>
-        </select>
-        <select className="qa-select">
-          <option>Tất cả danh mục</option>
-          <option>Xét nghiệm</option>
-          <option>Tâm lý</option>
-          <option>Tìm mạch</option>
-          <option>Dinh dưỡng</option>
-          <option>Thuốc</option>
-        </select>
-      </div>
     </div>
   );
 };

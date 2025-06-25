@@ -56,28 +56,3 @@
 .add-btn:hover {
   background-color: #1f2937;
 }
-
-/* Toolbar */
-.toolbar {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.search-input,
-.status-filter {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.search-input {
-  flex: 1;
-  min-width: 220px;
-}
-
-.status-filter {
-  width: 200px;
-}
