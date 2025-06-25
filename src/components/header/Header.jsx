@@ -6,23 +6,21 @@ import {
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
 import { useState, useRef, useEffect } from 'react';
+import axios from "axios";
+
+const API_NOTIFICATION = "http://localhost:8080/api/notifications/me";
 
 const Header = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notiOpen, setNotiOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [loadingNoti, setLoadingNoti] = useState(false);
   const dropdownRef = useRef();
   const notiRef = useRef();
 
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setDropdownOpen(false);
-    navigate('/');
-  };
-
+  // Đóng dropdown khi click ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -36,20 +34,51 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Gọi API lấy danh sách thông báo khi notiOpen bật
+  useEffect(() => {
+    if (notiOpen && user) {
+      const fetchNoti = async () => {
+        setLoadingNoti(true);
+        try {
+          const token = localStorage.getItem("token");
+          const res = await axios.get(API_NOTIFICATION, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setNotifications(res.data || []);
+        } catch (err) {
+          setNotifications([]);
+        }
+        setLoadingNoti(false);
+      };
+      fetchNoti();
+    }
+  }, [notiOpen, user]);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setDropdownOpen(false);
+    navigate('/');
+  };
+
   const getManageLink = () => {
-    switch (user.role) {
-      case 'Admin':
-        return '/admin';
-      case 'Manager':
-        return '/manager';
-      case 'Staff':
-        return '/staff';
-      case 'Consultant':
-        return '/consultant';
-      default:
-        return '/';
+    switch (user?.role) {
+      case 'Admin': return '/admin';
+      case 'Manager': return '/manager';
+      case 'Staff': return '/staff';
+      case 'Consultant': return '/consultant';
+      default: return '/';
     }
   };
+
+  const handleNotificationClick = (noti) => {
+    setNotiOpen(false);
+    if (noti.link) navigate(noti.link);
+  };
+
+  // Đếm số thông báo chưa đọc
+  const unreadCount = notifications.filter(n => !n.is_read).length;
 
   return (
     <header>
@@ -93,23 +122,41 @@ const Header = () => {
           </nav>
 
           <div className="header-auth-buttons">
-            {/* 🔔 Icon chuông thông báo */}
-            <div className="notification-wrapper" ref={notiRef}>
-              <button className="notification-btn" title="Thông báo" onClick={() => setNotiOpen(!notiOpen)}>
-                <Bell size={20} />
-              </button>
-              {notiOpen && (
-                <div className="notification-dropdown">
-                  <p className="dropdown-title">🔔 Thông báo</p>
-                  <ul>
-                    <li>Bạn có lịch hẹn với bác sĩ A vào ngày mai</li>
-                    <li>Kết quả xét nghiệm XYZ đã sẵn sàng</li>
-                    <li>Bài viết mới về sức khỏe sinh sản</li>
-                  </ul>
-                </div>
-              )}
-            </div>
+            {/* Chuông thông báo */}
+            {user && (
+              <div className="notification-wrapper" ref={notiRef}>
+                <button className="notification-btn" title="Thông báo" onClick={() => setNotiOpen(!notiOpen)}>
+                  <Bell size={20} />
+                  {unreadCount > 0 &&
+                    <span className="noti-badge">{unreadCount}</span>
+                  }
+                </button>
+                {notiOpen && (
+                  <div className="notification-dropdown">
+                    <p className="dropdown-title">🔔 Thông báo</p>
+                    {loadingNoti && <div>Đang tải...</div>}
+                    {!loadingNoti && notifications.length === 0 && <div>Không có thông báo</div>}
+                    <ul>
+                      {notifications.map((noti, idx) => (
+                        <li
+                          key={noti.id || idx}
+                          className={!noti.is_read ? "noti-unread" : ""}
+                          onClick={() => handleNotificationClick(noti)}
+                          style={{ cursor: noti.link ? "pointer" : "default" }}
+                        >
+                          <span>{noti.content}</span><br />
+                          <small style={{ color: "#888" }}>
+                            {new Date(noti.created_at || noti.createdAt).toLocaleString()}
+                          </small>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
 
+            {/* Đăng nhập/Đăng ký hoặc Dropdown user */}
             {!user ? (
               <>
                 <button className="header-btn-outline" onClick={() => navigate('/login')}>Đăng nhập</button>
@@ -124,13 +171,11 @@ const Header = () => {
                   <span>{user.name}</span>
                   <ChevronDown size={16} />
                 </div>
-
                 {dropdownOpen && (
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
                     <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
                     <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
-
                     {['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
                       <Link
                         to={getManageLink()}
@@ -140,7 +185,6 @@ const Header = () => {
                         <LayoutDashboard size={16} /> Quản lý
                       </Link>
                     )}
-
                     <button onClick={handleLogout}><LogOut size={16} /> Đăng xuất</button>
                   </div>
                 )}
