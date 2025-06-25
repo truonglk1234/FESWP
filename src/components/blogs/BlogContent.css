@@ -1,40 +1,7 @@
-/* --- Blog Section Layout --- */
 .blog-section {
   max-width: 1450px;
   margin: 0 auto;
   padding: 0 16px;
-}
-
-/* --- Search Box --- */
-.search-box {
-  display: flex;
-  align-items: center;
-  max-width: 700px;
-  margin: 0 auto 24px;
-  background: #fff;
-  border: 1px solid #cdecdc;
-  border-radius: 12px;
-  padding: 10px 14px;
-  box-shadow: 0 0 0 1px #e2f5ee;
-}
-
-.search-box:focus-within {
-  border-color: #17b887;
-  box-shadow: 0 0 0 2px #baf2df;
-}
-
-.blog-search-icon {
-  margin-right: 12px;
-  color: #17b887;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: transparent;
-  color: #333;
 }
 
 /* --- Blog Filters --- */
@@ -77,7 +44,6 @@
   color: #fff;
 }
 
-/* --- Filters --- */
 .filters {
   display: flex;
   gap: 24px;

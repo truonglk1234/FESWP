@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ConsultantFilters from './ConsultantFilters';
 import ConsultantCard from './ConsultantCard';
 import Pagination from './Pagination';
-import { Search } from 'lucide-react';
 import './ConsultantContent.css';
 import axios from 'axios';
 
 const ConsultantContent = () => {
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState('grid');
-  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({
     specialty: 'Tất cả',
     gender: 'Tất cả',
@@ -18,7 +16,7 @@ const ConsultantContent = () => {
   const [consultants, setConsultants] = useState([]);
   const perPage = 6;
 
-  // ✅ Fetch data từ API mỗi khi filter hoặc search thay đổi
+  // ✅ Fetch data từ API mỗi khi filter thay đổi
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,42 +28,21 @@ const ConsultantContent = () => {
         const response = await axios.get('http://localhost:8080/api/public/consultants', { params });
         const data = response.data;
 
-        // ✅ Lọc client-side nếu có tìm kiếm
-        const filtered = data.filter(doc => {
-          const matchesSearch =
-            doc.name.toLowerCase().includes(search.toLowerCase()) ||
-            doc.hospital.toLowerCase().includes(search.toLowerCase()) ||
-            doc.specialties.some(s => s.toLowerCase().includes(search.toLowerCase()));
-
-          return matchesSearch;
-        });
-
-        setConsultants(filtered);
-        setPage(1); // Reset trang đầu
+        setConsultants(data);
+        setPage(1); // Reset về trang đầu
       } catch (err) {
         console.error('❌ Lỗi lấy danh sách tư vấn viên:', err);
       }
     };
 
     fetchData();
-  }, [filters, search]);
+  }, [filters]);
 
   const totalPages = Math.ceil(consultants.length / perPage);
   const paginated = consultants.slice((page - 1) * perPage, page * perPage);
 
   return (
     <section className="consultant-section">
-      <div className="search-box">
-        <Search size={18} className="consultant-search-icon" />
-        <input
-          type="text"
-          placeholder="Tìm kiếm bác sĩ theo tên, chuyên khoa, bệnh viện…"
-          className="search-input"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
       <ConsultantFilters
         viewMode={viewMode}
         setViewMode={setViewMode}

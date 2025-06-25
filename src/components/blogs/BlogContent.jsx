@@ -3,7 +3,6 @@ import axios from 'axios';
 import BlogCard from './BlogCard';
 import BlogFilters from './BlogFilters';
 import Pagination from './Pagination';
-import { Search } from 'lucide-react';
 import './BlogContent.css';
 
 const BlogContent = () => {
@@ -16,7 +15,6 @@ const BlogContent = () => {
   const [sortBy, setSortBy] = useState('newest');
   const perPage = 6;
 
-  // Gọi API
   useEffect(() => {
     axios.get('http://localhost:8080/api/blogs')
       .then(res => {
@@ -26,7 +24,6 @@ const BlogContent = () => {
       .catch(err => console.error("Lỗi khi tải blog:", err));
   }, []);
 
-  // Lọc và sắp xếp
   const filtered = blogs
     .filter(blog => {
       const keyword = search.toLowerCase();
@@ -51,21 +48,6 @@ const BlogContent = () => {
 
   return (
     <section className="blog-section">
-      {/* Thanh tìm kiếm */}
-      <div className="search-box">
-        <Search size={18} className="blog-search-icon" />
-        <input
-          type="text"
-          placeholder="Tìm kiếm bài viết theo tiêu đề, mô tả, tác giả…"
-          className="search-input"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-        />
-      </div>
-
       {/* Bộ lọc & chuyển đổi chế độ xem */}
       <BlogFilters
         viewMode={viewMode}

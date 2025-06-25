@@ -4,39 +4,6 @@
   padding: 0 16px;
 }
 
-/* === Tìm kiếm & Bộ lọc === */
-.service-search-box {
-  display: flex;
-  align-items: center;
-  max-width: 700px;
-  margin: 0 auto 24px;
-  background: #fff;
-  border: 1px solid #cdecdc;
-  border-radius: 12px;
-  padding: 10px 14px;
-  box-shadow: 0 0 0 1px #e2f5ee;
-  transition: border 0.2s ease;
-}
-
-.service-search-box:focus-within {
-  border-color: #17b887;
-  box-shadow: 0 0 0 2px #baf2df;
-}
-
-.service-search-icon {
-  margin-right: 12px;
-  color: #17b887;
-}
-
-.service-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: transparent;
-  color: #333;
-}
-
 .filter-container {
   background: #fff;
   border: 1px solid #d3f0e0;
@@ -101,7 +68,6 @@
   color: #333;
 }
 
-/* === Danh sách dịch vụ === */
 .service-grid {
   display: flex;
   flex-wrap: wrap;
