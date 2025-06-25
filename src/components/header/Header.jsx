@@ -75,15 +75,7 @@ const Header = () => {
             </div>
           </Link>
 
-          <div className="header-search-bar">
-            <div className="header-search-input-wrapper">
-              <Search className="header-search-icon" />
-              <input
-                type="text"
-                placeholder="Tìm kiếm dịch vụ, bác sĩ, bài viết..."
-              />
-            </div>
-          </div>
+          
 
           <nav className="header-nav">
             <Link to="/">Trang chủ</Link>

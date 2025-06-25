@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ServiceFilters from './ServiceFilters';
 import ServiceCard from './ServiceCard';
 import Pagination from './Pagination';
-import { Search } from 'lucide-react';
 import './ServiceContent.css';
 import { servicesData } from './servicesData';
 
@@ -27,8 +26,8 @@ const ServiceContent = () => {
         (category === 'Tư vấn' && service.title.includes('Tư vấn')) ||
         (category === 'Xét nghiệm' && service.title.includes('Xét nghiệm'));
 
-      const priceValue = service.price === 'Miễn phí' ? 0 : typeof service.price === 'string' 
-      ? parseInt(service.price.replace(/\D/g, '')) : service.price;
+      const priceValue = service.price === 'Miễn phí' ? 0 : typeof service.price === 'string'
+        ? parseInt(service.price.replace(/\D/g, '')) : service.price;
       const matchesPrice =
         price === 'Tất cả mức giá' ||
         (price === 'Dưới 500k' && priceValue < 500000) ||
@@ -56,17 +55,6 @@ const ServiceContent = () => {
 
   return (
     <section className="service-section">
-      <div className="search-box">
-        <Search size={18} className="service-search-icon" />
-        <input
-          type="text"
-          placeholder="Tìm kiếm dịch vụ theo tên, mô tả…"
-          className="search-input"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
       <ServiceFilters
         viewMode={viewMode}
         setViewMode={setViewMode}
