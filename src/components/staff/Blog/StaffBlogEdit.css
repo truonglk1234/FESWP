@@ -12,18 +12,28 @@
   margin-bottom: 20px;
 }
 
+/* ✅ Nút quay lại */
 .sb-edit-back-btn {
-  background-color: transparent;
-  color: #2563eb;
-  border: none;
+  background-color: #10b981;
+  color: white;
+  padding: 10px 20px;
   font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  padding-left: 0;
   margin-bottom: 16px;
-  text-decoration: underline;
+  transition: background-color 0.2s;
+  text-decoration: none;
 }
+
 .sb-edit-back-btn:hover {
-  color: #1d4ed8;
+  background-color: #059669;
+}
+
+.sb-edit-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .sb-edit-form label {
@@ -31,6 +41,8 @@
   margin-top: 14px;
   margin-bottom: 6px;
   font-weight: 600;
+  font-size: 14px;
+  color: #111827;
 }
 
 .sb-edit-form input,
@@ -43,6 +55,13 @@
   border: 1px solid #ddd;
   background-color: #f9fafb;
   outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.sb-edit-form input:focus,
+.sb-edit-form textarea:focus,
+.sb-edit-form select:focus {
+  border-color: #10b981;
 }
 
 .sb-edit-form textarea {
@@ -59,10 +78,13 @@
   background-color: #10b981;
   color: white;
   padding: 10px 20px;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
+
 .sb-edit-submit-btn:hover {
   background-color: #059669;
 }
@@ -71,10 +93,13 @@
   background-color: #e5e7eb;
   color: #374151;
   padding: 10px 20px;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
+
 .sb-edit-cancel-btn:hover {
   background-color: #d1d5db;
 }

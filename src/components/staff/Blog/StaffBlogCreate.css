@@ -19,21 +19,21 @@
   margin-bottom: 20px;
 }
 
-/* Nút quay lại (đồng bộ style với cancel-btn) */
+/* ✅ Nút quay lại - đồng bộ với cancel */
 .back-btn {
-  background-color: #e5e7eb;
-  color: #111827;
+  background-color: #00986f;
+  color: #edeef0;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .back-btn:hover {
-  background-color: #d1d5db;
+  background-color: #007a5b;
 }
 
 .blog-create-form label {
@@ -55,7 +55,11 @@
   box-sizing: border-box;
 }
 
-/* Các nút dưới cùng */
+.blog-create-form textarea {
+  resize: vertical;
+}
+
+/* ✅ Nhóm nút dưới form */
 .form-buttons {
   display: flex;
   justify-content: flex-end;
@@ -69,24 +73,24 @@
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  font-weight: 600;
   transition: background-color 0.2s ease;
-  font-weight: 500;
 }
 
+/* ✅ Nút đăng bài */
 .submit-btn {
-  background-color: #2563eb;
+  background-color: #00986f;
   color: white;
 }
-
 .submit-btn:hover {
-  background-color: #1e40af;
+  background-color: #007a5b;
 }
 
+/* ✅ Nút hủy giống quay lại */ 
 .cancel-btn {
   background-color: #e5e7eb;
   color: #111827;
 }
-
 .cancel-btn:hover {
   background-color: #d1d5db;
 }

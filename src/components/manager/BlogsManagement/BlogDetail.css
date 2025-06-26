@@ -1,6 +1,4 @@
-/* ServiceDetail.css */
-
-.service-detail-wrapper {
+.blog-detail-wrapper {
   padding: 30px;
   font-family: "Segoe UI", sans-serif;
   background-color: #fff;
@@ -8,55 +6,73 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.service-detail-header {
+.blog-detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 24px;
 }
 
-.service-detail-actions {
+.blog-detail-left {
+  flex: 1;
+}
+
+.blog-detail-actions {
   display: flex;
   gap: 10px;
 }
 
-.service-detail-btn {
-  padding: 8px 16px;
+.blog-detail-btn {
+  padding: 10px 20px;
   font-size: 14px;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
-  background-color: #4caf50;
-  color: white;
   cursor: pointer;
-  transition: background-color 0.2s;
+  color: white;
+  transition: background-color 0.2s ease;
 }
 
-.service-detail-btn:hover {
-  background-color: #43a047;
+/* Nút quay lại */
+.blog-detail-btn.back {
+  background-color: #00986f;
+}
+.blog-detail-btn.back:hover {
+  background-color: #007a5b;
 }
 
-/* Tùy chỉnh màu theo loại */
-.service-detail-btn.green {
-  background-color: #4caf50;
+/* Nút xác nhận */
+.blog-detail-btn.green {
+  background-color: #00986f;
+  color: white;
 }
-.service-detail-btn.green:hover {
-  background-color: #388e3c;
+.blog-detail-btn.green:hover {
+  background-color: #007a5b;
 }
 
-.service-detail-btn.red {
+/* Nút từ chối */
+.blog-detail-btn.red {
   background-color: #f44336;
 }
-.service-detail-btn.red:hover {
+.blog-detail-btn.red:hover {
   background-color: #d32f2f;
 }
 
-.service-detail-title {
+.blog-detail-title {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.service-detail-meta p {
+.blog-detail-meta p {
   margin: 4px 0;
   font-size: 14px;
   color: #555;
+}
+
+.blog-detail-content {
+  font-size: 16px;
+  color: #333;
+  margin-top: 16px;
+  line-height: 1.6;
 }

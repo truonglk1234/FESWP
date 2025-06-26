@@ -12,19 +12,24 @@
   margin-bottom: 20px;
 }
 
+/* ✅ Nút Quay lại: bo góc, nền xanh đậm, chữ trắng rõ */
 .sb-detail-back-btn {
-  background-color: transparent;
-  color: #2563eb;
-  border: none;
+  background-color: #00986f;
+  color: white;
   font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  padding-left: 0;
+  transition: background-color 0.2s ease;
+  display: inline-block;
   margin-bottom: 16px;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .sb-detail-back-btn:hover {
-  color: #1d4ed8;
+  background-color: #007a5b;
 }
 
 .sb-detail-title {
