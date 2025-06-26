@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ServiceFilters from './ServiceFilters';
 import ServiceCard from './ServiceCard';
 import Pagination from './Pagination';
 import './ServiceContent.css';
-import { servicesData } from './servicesData';
+import axios from 'axios';
 
 const ServiceContent = () => {
+  const [services, setServices] = useState([]);
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState('grid');
   const [search, setSearch] = useState('');
@@ -15,7 +16,13 @@ const ServiceContent = () => {
 
   const perPage = 6;
 
-  const filtered = servicesData
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/public/services')
+      .then((res) => setServices(res.data))
+      .catch((err) => console.error("Lỗi khi tải danh sách dịch vụ:", err));
+  }, []);
+
+  const filtered = services
     .filter(service => {
       const matchesSearch =
         service.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -26,8 +33,7 @@ const ServiceContent = () => {
         (category === 'Tư vấn' && service.title.includes('Tư vấn')) ||
         (category === 'Xét nghiệm' && service.title.includes('Xét nghiệm'));
 
-      const priceValue = service.price === 'Miễn phí' ? 0 : typeof service.price === 'string'
-        ? parseInt(service.price.replace(/\D/g, '')) : service.price;
+      const priceValue = service.price || 0;
       const matchesPrice =
         price === 'Tất cả mức giá' ||
         (price === 'Dưới 500k' && priceValue < 500000) ||
@@ -37,17 +43,9 @@ const ServiceContent = () => {
       return matchesSearch && matchesCategory && matchesPrice;
     })
     .sort((a, b) => {
-      if (sortBy === 'Giá tăng dần') {
-        const aPrice = a.price === 'Miễn phí' ? 0 : parseInt(a.price.replace(/\D/g, ''));
-        const bPrice = b.price === 'Miễn phí' ? 0 : parseInt(b.price.replace(/\D/g, ''));
-        return aPrice - bPrice;
-      }
-      if (sortBy === 'Giá giảm dần') {
-        const aPrice = a.price === 'Miễn phí' ? 0 : parseInt(a.price.replace(/\D/g, ''));
-        const bPrice = b.price === 'Miễn phí' ? 0 : parseInt(b.price.replace(/\D/g, ''));
-        return bPrice - aPrice;
-      }
-      return b.reviews - a.reviews; // Phổ biến nhất
+      if (sortBy === 'Giá tăng dần') return a.price - b.price;
+      if (sortBy === 'Giá giảm dần') return b.price - a.price;
+      return b.reviews - a.reviews;
     });
 
   const totalPages = Math.ceil(filtered.length / perPage);
@@ -65,11 +63,13 @@ const ServiceContent = () => {
         setPrice={setPrice}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        search={search}
+        setSearch={setSearch}
       />
 
       <div className={viewMode === 'grid' ? 'service-grid' : 'service-list'}>
         {paginated.map((service, idx) => (
-          <ServiceCard key={idx} data={service} viewMode={viewMode} />
+          <ServiceCard key={service.id} data={service} viewMode={viewMode} />
         ))}
       </div>
 
