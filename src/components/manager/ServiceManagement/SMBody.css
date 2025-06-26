@@ -1,120 +1,144 @@
-.sm-body {
-  background-color: white;
-  padding: 24px;
-  border-radius: 10px;
-  margin-top: 20px;
+.sm-table-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.sm-body-header h2 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
+.sm-table-container h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
 }
 
 .sm-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
-}
-
-.sm-table thead {
-  background-color: #f2f2f2;
-  color: #666;
 }
 
 .sm-table th,
 .sm-table td {
-  padding: 16px;
+  padding: 12px 16px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
+}
+
+.sm-table th {
+  background-color: #f7f7f8;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.sm-table tr:not(:last-child) {
   border-bottom: 1px solid #eee;
 }
 
-.sm-table td .desc {
-  color: #555;
+.sm-table td {
+  font-size: 14px;
+  color: #222;
+}
+
+.sm-meta {
+  font-size: 12px;
+  color: #888;
   margin-top: 4px;
-  font-size: 13px;
 }
 
-.category-tag {
-  background-color: #f0f4f8;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
+/* ✅ Badges */
+.sm-badge {
   display: inline-block;
-}
-
-.price {
-  color: green;
-  font-weight: 600;
-}
-
-.time {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #333;
-}
-
-.status {
-  padding: 6px 12px;
+  padding: 4px 10px;
+  font-size: 12px;
   border-radius: 999px;
-  font-size: 13px;
   font-weight: 500;
-  display: inline-block;
 }
 
-.status.active {
-  background-color: #d1fae5;
-  color: #065f46;
+.sm-badge.green {
+  background-color: #e0f8ed;
+  color: #2b9b66;
 }
 
-.status.inactive {
-  background-color: #e5e7eb;
-  color: #374151;
+.sm-badge.gray {
+  background-color: #e5e5e5;
+  color: #555;
 }
 
-.actions {
+.sm-badge.red {
+  background-color: #ffe0e0;
+  color: #d91e1e;
+}
+
+/* ✅ Nút thao tác */
+.sm-actions {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  font-size: 16px;
-}
-
-.edit-icon {
-  color: #333;
-  cursor: pointer;
-}
-
-.delete-icon {
-  color: #dc2626;
-  cursor: pointer;
-}
-
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
-.pagination button {
+.sm-view-btn,
+.sm-delete-btn {
   padding: 6px 12px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
+  font-weight: 500;
+  border: none;
   border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.pagination button:disabled {
-  color: #aaa;
-  border-color: #eee;
+/* Xem */
+.sm-view-btn {
+  background-color: #10b981;
+  color: white;
+}
+.sm-view-btn:hover {
+  background-color: #059669;
+}
+
+/* Xóa */
+.sm-delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+.sm-delete-btn:hover {
+  background-color: #dc2626;
+}
+
+/* ✅ Pagination */
+.sm-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.sm-pagination button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.sm-pagination button:hover:not(:disabled) {
+  background-color: #e5e5e5;
+}
+
+.sm-pagination button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.pagination .active {
-  background-color: #0ea5e9;
+.sm-pagination button.active {
+  background-color: #0056d2;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
+  border-color: #0056d2;
 }

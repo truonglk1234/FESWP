@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Heart, Phone, Mail, Search, ChevronDown,
+  Heart, Phone, Mail, ChevronDown,
   LogOut, Calendar, User, TestTube2, LayoutDashboard, Bell
 } from 'lucide-react';
 import './Header.css';
@@ -15,12 +15,12 @@ const Header = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notiOpen, setNotiOpen] = useState(false);
+  const [notiOpenedOnce, setNotiOpenedOnce] = useState(false); // ✅ NEW
   const [notifications, setNotifications] = useState([]);
   const [loadingNoti, setLoadingNoti] = useState(false);
   const dropdownRef = useRef();
   const notiRef = useRef();
 
-  // Đóng dropdown khi click ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,9 +34,9 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Gọi API lấy danh sách thông báo khi notiOpen bật
   useEffect(() => {
     if (notiOpen && user) {
+      setNotiOpenedOnce(true); // ✅ đánh dấu đã nhấn chuông
       const fetchNoti = async () => {
         setLoadingNoti(true);
         try {
@@ -77,7 +77,6 @@ const Header = () => {
     if (noti.link) navigate(noti.link);
   };
 
-  // Đếm số thông báo chưa đọc
   const unreadCount = notifications.filter(n => !n.is_read).length;
 
   return (
@@ -104,8 +103,6 @@ const Header = () => {
             </div>
           </Link>
 
-          
-
           <nav className="header-nav">
             <Link to="/">Trang chủ</Link>
             <Link to="/services">Dịch vụ y tế</Link>
@@ -114,18 +111,18 @@ const Header = () => {
           </nav>
 
           <div className="header-auth-buttons">
-            {/* Chuông thông báo */}
             {user && (
               <div className="notification-wrapper" ref={notiRef}>
-                <button className="notification-btn" title="Thông báo" onClick={() => setNotiOpen(!notiOpen)}>
+                <button
+                  className={`notification-btn ${unreadCount > 0 && !notiOpenedOnce ? 'has-unread' : ''}`}
+                  title="Thông báo"
+                  onClick={() => setNotiOpen(!notiOpen)}
+                >
                   <Bell size={20} />
-                  {unreadCount > 0 &&
-                    <span className="noti-badge">{unreadCount}</span>
-                  }
                 </button>
                 {notiOpen && (
                   <div className="notification-dropdown">
-                    <p className="dropdown-title">🔔 Thông báo</p>
+                    <p className="dropdown-title">Thông báo</p>
                     {loadingNoti && <div>Đang tải...</div>}
                     {!loadingNoti && notifications.length === 0 && <div>Không có thông báo</div>}
                     <ul>
@@ -148,7 +145,6 @@ const Header = () => {
               </div>
             )}
 
-            {/* Đăng nhập/Đăng ký hoặc Dropdown user */}
             {!user ? (
               <>
                 <button className="header-btn-outline" onClick={() => navigate('/login')}>Đăng nhập</button>
@@ -169,11 +165,7 @@ const Header = () => {
                     <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
                     <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
                     {['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
-                      <Link
-                        to={getManageLink()}
-                        className="manage-button"
-                        onClick={() => setDropdownOpen(false)}
-                      >
+                      <Link to={getManageLink()} className="manage-button" onClick={() => setDropdownOpen(false)}>
                         <LayoutDashboard size={16} /> Quản lý
                       </Link>
                     )}
