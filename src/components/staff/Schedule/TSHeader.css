@@ -1,7 +1,6 @@
-/* TSHeader.css */
 .ts-header {
   padding: 1.5rem;
-  background: #f0f9ff;
+  background: #f9fafb;
 }
 
 .ts-header-title {
@@ -28,72 +27,4 @@
   margin: 0;
   font-size: 0.95rem;
   color: #6b7280;
-}
-
-.ts-filter {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.filter-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 1rem;
-}
-
-.filter-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  align-items: end;
-  flex-wrap: wrap;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group.full {
-  grid-column: span 2;
-}
-
-.form-group label {
-  font-size: 0.9rem;
-  color: #374151;
-  margin-bottom: 0.5rem;
-}
-
-.input-icon {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-}
-
-.input-icon input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  font-size: 0.95rem;
-}
-
-select {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  background: #f9fafb;
-  color: #111827;
-  outline: none;
-  cursor: pointer;
 }

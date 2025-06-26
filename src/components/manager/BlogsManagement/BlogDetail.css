@@ -1,6 +1,6 @@
-/* BlogDetail.css */
+/* ServiceDetail.css */
 
-.blog-detail-wrapper {
+.service-detail-wrapper {
   padding: 30px;
   font-family: "Segoe UI", sans-serif;
   background-color: #fff;
@@ -8,19 +8,19 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.blog-detail-header {
+.service-detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
 }
 
-.blog-detail-actions {
+.service-detail-actions {
   display: flex;
   gap: 10px;
 }
 
-.blog-detail-btn {
+.service-detail-btn {
   padding: 8px 16px;
   font-size: 14px;
   border: none;
@@ -31,24 +31,32 @@
   transition: background-color 0.2s;
 }
 
-.blog-detail-btn:hover {
+.service-detail-btn:hover {
   background-color: #43a047;
 }
 
-.blog-detail-title {
+/* Tùy chỉnh màu theo loại */
+.service-detail-btn.green {
+  background-color: #4caf50;
+}
+.service-detail-btn.green:hover {
+  background-color: #388e3c;
+}
+
+.service-detail-btn.red {
+  background-color: #f44336;
+}
+.service-detail-btn.red:hover {
+  background-color: #d32f2f;
+}
+
+.service-detail-title {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.blog-detail-meta p {
+.service-detail-meta p {
   margin: 4px 0;
   font-size: 14px;
   color: #555;
-}
-
-.blog-detail-content {
-  margin-top: 16px;
-  line-height: 1.6;
-  font-size: 15px;
-  color: #333;
 }

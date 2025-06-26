@@ -1,22 +1,21 @@
 .ms-footer-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
-  justify-content: start;
   padding: 20px 0;
 }
 
+/* Card dịch vụ */
 .ms-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
-  width: 320px;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
 
+/* Header */
 .ms-header {
   display: flex;
   align-items: center;
@@ -33,6 +32,7 @@
   font-weight: 500;
 }
 
+/* Tiêu đề */
 .ms-title {
   font-size: 18px;
   font-weight: 700;
@@ -53,12 +53,14 @@
   gap: 4px;
 }
 
+/* Mô tả */
 .ms-description {
   font-size: 14px;
   margin-bottom: 8px;
   color: #555;
 }
 
+/* Tags nổi bật */
 .ms-highlights {
   display: flex;
   flex-wrap: wrap;
@@ -74,6 +76,7 @@
   border-radius: 8px;
 }
 
+/* Giá và giảm giá */
 .ms-price-box {
   background: #ecfdf5;
   padding: 10px;
@@ -105,6 +108,7 @@
   border-radius: 6px;
 }
 
+/* Thống kê */
 .ms-stats {
   display: flex;
   justify-content: space-between;
@@ -128,6 +132,7 @@
   color: #888;
 }
 
+/* Nút đặt lịch */
 .ms-book-btn {
   background: #2563eb;
   color: white;
