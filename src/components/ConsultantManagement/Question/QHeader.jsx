@@ -10,13 +10,6 @@ const QHeader = () => {
         <p>Trả lời câu hỏi và hỗ trợ khách hàng</p>
       </div>
 
-      <div className="q-search-bar">
-        <input
-          type="text"
-          placeholder="Tìm kiếm câu hỏi theo tên khách hàng, nội dung hoặc danh mục..."
-        />
-      </div>
-
       <div className="q-stats">
         <div className="q-card orange">
           <MessageSquare size={20} />
