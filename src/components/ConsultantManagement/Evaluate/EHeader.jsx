@@ -38,7 +38,9 @@ const EHeader = () => {
               const count = star === 5 ? 4 : star === 4 ? 2 : 0;
               return (
                 <div className="e-bar-line" key={idx}>
-                  <span className="e-star-label">{star} <Star size={14} fill="#facc15" stroke="#facc15" /></span>
+                  <span className="e-star-label">
+                    {star} <Star size={14} fill="#facc15" stroke="#facc15" />
+                  </span>
                   <div className="e-bar-wrapper">
                     <div className="e-bar-bg">
                       <div
@@ -64,13 +66,6 @@ const EHeader = () => {
             <li><span>Đánh giá gần nhất</span> <strong>17/6/2024</strong></li>
           </ul>
         </div>
-      </div>
-
-      <div className="e-search">
-        <input
-          type="text"
-          placeholder="Tìm kiếm trong các đánh giá..."
-        />
       </div>
     </div>
   );
