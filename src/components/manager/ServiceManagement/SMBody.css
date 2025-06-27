@@ -45,7 +45,7 @@
   margin-top: 4px;
 }
 
-/* ✅ Badges */
+/* ✅ Badge (chỉ giữ màu xám) */
 .sm-badge {
   display: inline-block;
   padding: 4px 10px;
@@ -54,19 +54,9 @@
   font-weight: 500;
 }
 
-.sm-badge.green {
-  background-color: #e0f8ed;
-  color: #2b9b66;
-}
-
 .sm-badge.gray {
   background-color: #e5e5e5;
   color: #555;
-}
-
-.sm-badge.red {
-  background-color: #ffe0e0;
-  color: #d91e1e;
 }
 
 /* ✅ Nút thao tác */
@@ -141,4 +131,54 @@
   color: white;
   font-weight: 600;
   border-color: #0056d2;
+}
+
+/* ✅ Mô tả với Tooltip */
+.sm-description {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sm-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.sm-tooltip .sm-tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: max-content;
+  max-width: 400px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 4px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.sm-tooltip .sm-tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.sm-tooltip:hover .sm-tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }

@@ -46,21 +46,6 @@ const SMBody = () => {
     }
   };
 
-  const getStatusClass = (status) => {
-    switch (status?.toLowerCase()) {
-      case "đang hoạt động":
-      case "published":
-        return "sm-badge green";
-      case "bị từ chối":
-      case "rejected":
-        return "sm-badge red";
-      case "chờ xét duyệt":
-      case "pending":
-      default:
-        return "sm-badge gray";
-    }
-  };
-
   const formatCurrency = (number) => `$ ${number.toLocaleString("vi-VN")} VNĐ`;
 
   return (
@@ -72,8 +57,7 @@ const SMBody = () => {
             <th>DỊCH VỤ</th>
             <th>DANH MỤC</th>
             <th>GIÁ</th>
-            <th>THỜI GIAN</th>
-            <th>TRẠNG THÁI</th>
+            <th>MÔ TẢ</th> {/* ✅ Giữ lại Mô tả */}
             <th>THAO TÁC</th>
           </tr>
         </thead>
@@ -86,8 +70,12 @@ const SMBody = () => {
               </td>
               <td><span className="sm-badge gray">{service.category}</span></td>
               <td>{formatCurrency(service.price)}</td>
-              <td>{service.time} phút</td>
-              <td><span className={getStatusClass(service.status)}>{service.status}</span></td>
+              <td className="sm-description">
+                <span className="sm-tooltip">
+                  {service.description || "—"}
+                  <span className="sm-tooltip-text">{service.description || "—"}</span>
+                </span>
+              </td>
               <td>
                 <div className="sm-actions">
                   <button className="sm-view-btn" onClick={() => handleView(service)}>Xem</button>
