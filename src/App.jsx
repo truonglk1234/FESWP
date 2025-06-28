@@ -27,6 +27,7 @@
   import ManagerBM from './components/manager/BlogsManagement/ManagerBM';
   import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
   import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
+  import ManagerPriceManage from './components/manager/PriceManagement/PriceManagement';
 
   import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
   import ServiceDetail from './components/manager/ServiceManagement/ServiceDetail';
@@ -109,6 +110,7 @@
                 <Route path="blogs/:id" element={<BlogDetail />} />
               <Route path="feedbacks" element={<ManagerFM />} />
               <Route path="qna" element={<ManagerQA />} />
+              <Route path="prices" element={<ManagerPriceManage />} />
             </Route>
 
           </Routes>

@@ -1,6 +1,6 @@
 import {
   BarChart3, Users, UserCheck, Heart, Stethoscope,
-  FileText, MessageSquare, HelpCircle, LogOut, UserPlus
+  FileText, MessageSquare, HelpCircle, LogOut, UserPlus, DollarSign
 } from 'lucide-react';
 import './ManagerSidebar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -38,6 +38,7 @@ export const ManagerSidebar = () => {
           <li><Link to="/manager/consultants" className="ms-nav-link"><UserCheck /> Quản lý tư vấn viên</Link></li>
           <li><Link to="/manager/staffs" className="ms-nav-link"><UserPlus /> Quản lý nhân viên</Link></li>
           <li><Link to="/manager/services" className="ms-nav-link"><Stethoscope /> Quản lý dịch vụ</Link></li>
+          <li><Link to="/manager/prices" className="ms-nav-link"><DollarSign /> Quản lý giá</Link></li> {/* ✅ Thêm mới */}
           <li><Link to="/manager/blogs" className="ms-nav-link"><FileText /> Quản lý blog</Link></li>
           <li><Link to="/manager/feedbacks" className="ms-nav-link"><MessageSquare /> Quản lý phản hồi</Link></li>
           <li><Link to="/manager/qna" className="ms-nav-link"><HelpCircle /> Quản lý Q&A</Link></li>
