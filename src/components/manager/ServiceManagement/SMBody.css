@@ -182,3 +182,33 @@
   visibility: visible;
   opacity: 1;
 }
+.status-badge {
+  padding: 3px 14px;
+  border-radius: 12px;
+  font-weight: 500;
+  display: inline-block;
+  font-size: 13px;
+  background: #eee;
+  color: #222;
+  border: 1px solid #bbb;
+}
+.status-badge.green {
+  background: #e6fff0;
+  color: #13ce66;
+  border: 1px solid #13ce66;
+}
+.status-badge.red {
+  background: #ffeaea;
+  color: #e63946;
+  border: 1px solid #e63946;
+}
+.status-badge.yellow {
+  background: #fff8e1;
+  color: #e0ac07;
+  border: 1px solid #e0ac07;
+}
+.status-badge.gray {
+  background: #eee;
+  color: #666;
+  border: 1px solid #bbb;
+}
