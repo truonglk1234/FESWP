@@ -20,14 +20,14 @@
   // Manager Layout & Pages
   import ManagerLayout from './components/manager/ManagerLayout';
   import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
-  import ManagerUserManage from './components/manager/UserManagement/ManagerUserManage';
+  import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
   import ManagerCM from './components/manager/ConsultantManagement/ManagerCM';
   import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaffManage';
   import ManagerSM from './components/manager/ServiceManagement/ManagerSM';
   import ManagerBM from './components/manager/BlogsManagement/ManagerBM';
   import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
-  import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
-  import ManagerPriceManage from './components/manager/PriceManagement/PriceManagement';
+  import ManagerQA from './components/manager/Q&AManagement/ManagerQA'; 
+
 
   import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
   import ServiceDetail from './components/manager/ServiceManagement/ServiceDetail';
@@ -101,7 +101,7 @@
             {/* Manager layout + nested pages */}
             <Route path="/manager" element={<ManagerLayout />}>
               <Route index element={<ManagerDashboard />} />
-              <Route path="users" element={<ManagerUserManage />} />
+              <Route path="users" element={<UserManagementPage />} />
               <Route path="consultants" element={<ManagerCM />} />
               <Route path="staffs" element={<ManagerStaffManage />} />
               <Route path="services" element={<ManagerSM />} />
@@ -110,7 +110,6 @@
                 <Route path="blogs/:id" element={<BlogDetail />} />
               <Route path="feedbacks" element={<ManagerFM />} />
               <Route path="qna" element={<ManagerQA />} />
-              <Route path="prices" element={<ManagerPriceManage />} />
             </Route>
 
           </Routes>
