@@ -26,15 +26,15 @@ import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
 import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
 import ManagerCM from './components/manager/ConsultantManagement/ManagerCM';
 import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaffManage';
-import ManagerSM from './components/manager/ServiceManagement/ManagerSM';
-import ManagerBM from './components/manager/BlogsManagement/ManagerBM';
+import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
+import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
+import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
 import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
-
 import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
-import ServiceDetail from './components/manager/ServiceManagement/ServiceDetail';
-
+import TestingServiceDetail from './components/manager/ServiceManagement/TestingServiceDetail';
+import ConsultingServiceDetail from './components/manager/ServiceManagement/ConsultingServiceDetail';
 
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -56,7 +56,6 @@ import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
 import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 
 const App = () => {
-
   return (
     <Router>
       <AuthProvider>
@@ -110,14 +109,15 @@ const App = () => {
             <Route path="users" element={<UserManagementPage />} />
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
-            <Route path="services" element={<ManagerSM />} />
-            <Route path="services/:id" element={<ServiceDetail />} />
-            <Route path="blogs" element={<ManagerBM />} />
+            <Route path="services" element={<TestingServiceManage />} />
+            <Route path="services/:id" element={<TestingServiceDetail />} />
+            <Route path="consulting-services" element={<ConsultingServiceManage />} />
+            <Route path="consulting-services/:id" element={<ConsultingServiceDetail />} />
+            <Route path="blogs" element={<ManagerBlogManage />} />
             <Route path="blogs/:id" element={<BlogDetail />} />
             <Route path="feedbacks" element={<ManagerFM />} />
             <Route path="qna" element={<ManagerQA />} />
           </Route>
-
         </Routes>
       </AuthProvider>
     </Router>
