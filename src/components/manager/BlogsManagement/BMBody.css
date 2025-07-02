@@ -1,53 +1,28 @@
-/* ========== HEADER ========== */
-.mbm-header {
-  margin-bottom: 24px;
-}
-
-.mbm-header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.mbm-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.mbm-subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  margin-top: 4px;
-}
-
-/* ========== BODY ========== */
-.mbm-table-container {
+.blog-table-container {
   padding: 20px;
   background: #fff;
   border-radius: 12px;
   font-family: "Segoe UI", sans-serif;
 }
 
-.mbm-table-container h2 {
+.blog-table-container h2 {
   font-size: 20px;
   margin-bottom: 16px;
 }
 
-.mbm-table {
+.blog-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.mbm-table th,
-.mbm-table td {
+.blog-table th,
+.blog-table td {
   padding: 12px 16px;
   text-align: left;
   vertical-align: middle;
 }
 
-.mbm-table th {
+.blog-table th {
   background-color: #f7f7f8;
   color: #333;
   font-weight: 600;
@@ -55,22 +30,22 @@
   white-space: nowrap;
 }
 
-.mbm-table tr:not(:last-child) {
+.blog-table tr:not(:last-child) {
   border-bottom: 1px solid #eee;
 }
 
-.mbm-table td {
+.blog-table td {
   font-size: 14px;
   color: #222;
 }
 
-.mbm-post-meta {
+.post-meta {
   font-size: 12px;
   color: #888;
   margin-top: 4px;
 }
 
-.mbm-badge {
+.badge {
   display: inline-block;
   padding: 4px 10px;
   font-size: 12px;
@@ -78,23 +53,23 @@
   font-weight: 500;
 }
 
-.mbm-badge.mbm-green {
+.badge.green {
   background-color: #e0f8ed;
   color: #2b9b66;
 }
 
-.mbm-badge.mbm-gray {
+.badge.gray {
   background-color: #e5e5e5;
   color: #555;
 }
 
-.mbm-badge.mbm-blue {
+.badge.blue {
   background-color: #e0ecff;
   color: #3366cc;
 }
 
-/* ✅ Nút thao tác */
-.mbm-actions {
+/* ✅ Nút thao tác: xem - sửa - xóa */
+.actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -102,9 +77,9 @@
   justify-content: center;
 }
 
-.mbm-view-btn,
-.mbm-edit-btn,
-.mbm-delete-btn {
+.view-btn,
+.edit-btn,
+.delete-btn {
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 500;
@@ -115,34 +90,34 @@
 }
 
 /* Xem - xanh lá */
-.mbm-view-btn {
+.view-btn {
   background-color: #10b981;
   color: white;
 }
-.mbm-view-btn:hover {
+.view-btn:hover {
   background-color: #059669;
 }
 
 /* Sửa - xanh dương */
-.mbm-edit-btn {
+.edit-btn {
   background-color: #3b82f6;
   color: white;
 }
-.mbm-edit-btn:hover {
+.edit-btn:hover {
   background-color: #2563eb;
 }
 
 /* Xóa - đỏ */
-.mbm-delete-btn {
+.delete-btn {
   background-color: #ef4444;
   color: white;
 }
-.mbm-delete-btn:hover {
+.delete-btn:hover {
   background-color: #dc2626;
 }
 
 /* Pagination */
-.mbm-pagination {
+.pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,7 +125,7 @@
   margin-top: 20px;
 }
 
-.mbm-pagination button {
+.pagination button {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   padding: 6px 12px;
@@ -161,16 +136,16 @@
   transition: all 0.2s ease;
 }
 
-.mbm-pagination button:hover:not(:disabled) {
+.pagination button:hover:not(:disabled) {
   background-color: #e5e5e5;
 }
 
-.mbm-pagination button:disabled {
+.pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.mbm-pagination button.active {
+.pagination button.active {
   background-color: #0056d2;
   color: white;
   font-weight: 600;

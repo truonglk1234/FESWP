@@ -14,30 +14,21 @@ const PersonalInfo = () => {
     phone: '',
     address: '',
     avatar: null,
-    avatarUrl: '',
-    // Consultant fields
-    specialization: '',
-    yearsOfExperience: '',
-    consultationFee: '',
-    education: '',
-    certifications: ''
+    avatarUrl: ''
   });
 
   const [loading, setLoading] = useState(true);
-  const [isConsultant, setIsConsultant] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/auth/profile', {
+        const res = await axios.get('http://localhost:8080/api/auth/profileuser', {
           headers: {
             Authorization: `Bearer ${user?.token}`
           }
         });
 
         const data = res.data;
-
-        console.log('✅ Fetched profile:', data);
 
         setFormData(prev => ({
           ...prev,
@@ -47,16 +38,8 @@ const PersonalInfo = () => {
           email: data.email || '',
           phone: data.phone || '',
           address: data.address || '',
-          avatarUrl: data.avatarUrl || '',
-          specialization: data.specialty || '',  // chú ý: nếu BE trả về `specialty`
-          yearsOfExperience: data.experienceYears || '',
-          consultationFee: data.consultationFee || '',
-          education: data.education || '',
-          certifications: data.certifications || ''
+          avatarUrl: data.avatarUrl || ''
         }));
-
-        setIsConsultant(data.roleName?.toUpperCase() === 'CONSULTANT');
-
       } catch (err) {
         console.error('❌ Lỗi khi lấy profile:', err.response?.data || err.message);
         alert('Không thể tải thông tin cá nhân!');
@@ -93,41 +76,27 @@ const PersonalInfo = () => {
     const submitData = new FormData();
     submitData.append('fullName', formData.fullName);
     submitData.append('gender', formData.gender);
-    submitData.append('dateOfBirth', formData.dateOfBirth); // sửa đúng tên
+    submitData.append('dateOfBirthday', formData.dateOfBirth);
+    submitData.append('email', formData.email);
     submitData.append('phone', formData.phone);
     submitData.append('address', formData.address);
     if (formData.avatar) {
       submitData.append('avatar', formData.avatar);
     }
 
-    // Consultant fields
-    if (isConsultant) {
-      submitData.append('specialization', formData.specialization);
-      submitData.append('yearsOfExperience', formData.yearsOfExperience);
-      submitData.append('consultationFee', formData.consultationFee);
-      submitData.append('education', formData.education);
-      submitData.append('certifications', formData.certifications);
-    }
-
     try {
-      const res = await axios.put('http://localhost:8080/api/auth/profile', submitData, {
+      await axios.put('http://localhost:8080/api/auth/profileuser', submitData, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      const updatedData = res.data;
-
-      console.log('✅ Updated profile:', updatedData);
-
       const updatedUser = {
         ...user,
         name: updatedData.fullName,
         avatarUrl: updatedData.avatarUrl,
-        role: updatedData.roleName // gán lại role
       };
-
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
@@ -199,60 +168,19 @@ const PersonalInfo = () => {
             <label>Email</label>
             <input name="email" value={formData.email} readOnly />
           </div>
+        </div>
+
+        <div className="form-row">
           <div className="form-col">
             <label>Địa chỉ</label>
             <input
               name="address"
               value={formData.address}
               onChange={handleChange}
-              placeholder="Nhập địa chỉ"
+              placeholder="Nhập địa chỉ của bạn"
             />
           </div>
         </div>
-
-        {isConsultant && (
-          <div className="consultant-section">
-            <h3>Thông tin chuyên môn</h3>
-            <div className="form-row">
-              <div className="form-col">
-                <label>Chuyên khoa</label>
-                <input name="specialization" value={formData.specialization} onChange={handleChange} />
-              </div>
-              <div className="form-col">
-                <label>Số năm kinh nghiệm</label>
-                <input
-                  type="number"
-                  name="yearsOfExperience"
-                  value={formData.yearsOfExperience}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-col">
-                <label>Phí tư vấn</label>
-                <input
-                  type="number"
-                  name="consultationFee"
-                  value={formData.consultationFee}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-col">
-                <label>Học vấn</label>
-                <input name="education" value={formData.education} onChange={handleChange} />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-col">
-                <label>Chứng chỉ</label>
-                <input name="certifications" value={formData.certifications} onChange={handleChange} />
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="form-row">
           <div className="form-col">

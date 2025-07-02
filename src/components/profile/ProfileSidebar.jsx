@@ -1,19 +1,20 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Bell, Heart, RotateCcw, Calendar, Clock } from 'lucide-react';
+import { User, Lock, Bell, Heart, RotateCcw } from 'lucide-react';
 import './ProfileSidebar.css';
-import { useAuth } from '../../context/AuthContext'; // 👈 CHỈ import useAuth
+import { useAuth } from '../../context/AuthContext';
 
 const ProfileSidebar = () => {
   const navigate = useNavigate();
-  const { user, profile } = useAuth(); // ✅ Không cần useContext thủ công
+  const { user } = useAuth();
 
-  const roleName = user?.role?.roleName?.toUpperCase() || user?.role?.toUpperCase() || '';
-  const isConsultant = roleName === 'CONSULTANT';
-  const isCustomer = roleName === 'CUSTOMER';
-
-  const displayName = profile?.fullName || user?.name || user?.email || 'Người dùng';
-  const displayEmail = user?.email || '';
-  const isActive = user?.enabled !== false;
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name
+      .split(' ')
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase();
+  };
 
   return (
     <aside className="profile-sidebar">
@@ -29,83 +30,47 @@ const ProfileSidebar = () => {
 
       <div className="profile-sidebar-header">
         <div className="profile-avatar">
-          {profile?.avatarUrl ? (
-            <img src={profile.avatarUrl} alt="Avatar" />
+          {user?.avatarUrl ? (
+            <img
+              src={user.avatarUrl}
+              alt="Avatar"
+              className="profile-avatar-img"
+            />
           ) : (
-            <div className="avatar-placeholder">
-              {displayName
-                .split(' ')
-                .map(word => word[0])
-                .join('')
-                .toUpperCase()
-                .slice(0, 2)}
-            </div>
+            <div className="avatar-initials">{getInitials(user?.name)}</div>
           )}
         </div>
-        <h3 className="profile-name">{displayName}</h3>
-        <p className="profile-email">{displayEmail}</p>
-        <span className="profile-status">
-          ● {isActive ? 'Tài khoản hoạt động' : 'Tài khoản không hoạt động'}
-        </span>
+        <h3 className="profile-name">{user?.name || 'Người dùng'}</h3>
+        <p className="profile-email">{user?.email || 'Chưa có email'}</p>
       </div>
 
       <nav className="profile-menu">
         <ul>
           <li>
-            <NavLink to="info" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink to="info" className={({ isActive }) => isActive ? 'active' : ''}>
               <User size={18} /> Thông tin cá nhân
             </NavLink>
           </li>
           <li>
-            <NavLink to="account" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink to="account" className={({ isActive }) => isActive ? 'active' : ''}>
               <Lock size={18} /> Thông tin tài khoản
             </NavLink>
           </li>
           <li>
-            <NavLink to="notifications" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink to="notifications" className={({ isActive }) => isActive ? 'active' : ''}>
               <Bell size={18} /> Thông báo
             </NavLink>
           </li>
-
-          {isCustomer && (
-            <>
-              <li>
-                <NavLink to="appointments" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <Calendar size={18} /> Lịch hẹn của tôi
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="health" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <Heart size={18} /> Sức khỏe sinh sản
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="history" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <RotateCcw size={18} /> Lịch sử dịch vụ
-                </NavLink>
-              </li>
-            </>
-          )}
-
-          {isConsultant && (
-            <>
-              <li>
-                <NavLink to="schedule-setup" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <Calendar size={18} /> Sắp xếp lịch
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="consultant-appointments" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <Clock size={18} /> Lịch hẹn
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="history" className={({ isActive }) => (isActive ? 'active' : '')}>
-                  <RotateCcw size={18} /> Lịch sử tư vấn
-                </NavLink>
-              </li>
-            </>
-          )}
+          <li>
+            <NavLink to="health" className={({ isActive }) => isActive ? 'active' : ''}>
+              <Heart size={18} /> Sức khỏe sinh sản
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="history" className={({ isActive }) => isActive ? 'active' : ''}>
+              <RotateCcw size={18} /> Lịch sử dịch vụ
+            </NavLink>
+          </li>
         </ul>
       </nav>
 
