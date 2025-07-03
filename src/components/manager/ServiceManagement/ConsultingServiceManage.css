@@ -1,28 +1,70 @@
-.sm-table-container {
+/* === HEADER === */
+.csm-header {
+  background-color: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.csm-header-top {
+  margin-bottom: 20px;
+}
+
+.csm-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1d1d1f;
+}
+
+.csm-subtitle {
+  font-size: 16px;
+  color: #555;
+}
+
+.csm-add-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: #0d1b2a;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.csm-add-btn:hover {
+  background-color: #1c2d3f;
+}
+
+/* === BODY === */
+.csm-table-container {
   padding: 20px;
   background: #fff;
   border-radius: 12px;
   font-family: "Segoe UI", sans-serif;
 }
 
-.sm-table-container h2 {
+.csm-table-container h2 {
   font-size: 20px;
   margin-bottom: 16px;
 }
 
-.sm-table {
+.csm-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.sm-table th,
-.sm-table td {
+.csm-table th,
+.csm-table td {
   padding: 12px 16px;
   text-align: left;
   vertical-align: middle;
 }
 
-.sm-table th {
+.csm-table th {
   background-color: #f7f7f8;
   color: #333;
   font-weight: 600;
@@ -30,23 +72,23 @@
   white-space: nowrap;
 }
 
-.sm-table tr:not(:last-child) {
+.csm-table tr:not(:last-child) {
   border-bottom: 1px solid #eee;
 }
 
-.sm-table td {
+.csm-table td {
   font-size: 14px;
   color: #222;
 }
 
-.sm-meta {
+.csm-meta {
   font-size: 12px;
   color: #888;
   margin-top: 4px;
 }
 
-/* ✅ Badge (chỉ giữ màu xám) */
-.sm-badge {
+/* ✅ Badge */
+.csm-badge {
   display: inline-block;
   padding: 4px 10px;
   font-size: 12px;
@@ -54,13 +96,13 @@
   font-weight: 500;
 }
 
-.sm-badge.gray {
+.csm-badge.gray {
   background-color: #e5e5e5;
   color: #555;
 }
 
-/* ✅ Nút thao tác */
-.sm-actions {
+/* ✅ Actions */
+.csm-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -68,8 +110,8 @@
   justify-content: center;
 }
 
-.sm-view-btn,
-.sm-delete-btn {
+.csm-view-btn,
+.csm-delete-btn {
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 500;
@@ -80,25 +122,25 @@
 }
 
 /* Xem */
-.sm-view-btn {
+.csm-view-btn {
   background-color: #10b981;
   color: white;
 }
-.sm-view-btn:hover {
+.csm-view-btn:hover {
   background-color: #059669;
 }
 
 /* Xóa */
-.sm-delete-btn {
+.csm-delete-btn {
   background-color: #ef4444;
   color: white;
 }
-.sm-delete-btn:hover {
+.csm-delete-btn:hover {
   background-color: #dc2626;
 }
 
 /* ✅ Pagination */
-.sm-pagination {
+.csm-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,7 +148,7 @@
   margin-top: 20px;
 }
 
-.sm-pagination button {
+.csm-pagination button {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   padding: 6px 12px;
@@ -117,36 +159,36 @@
   transition: all 0.2s ease;
 }
 
-.sm-pagination button:hover:not(:disabled) {
+.csm-pagination button:hover:not(:disabled) {
   background-color: #e5e5e5;
 }
 
-.sm-pagination button:disabled {
+.csm-pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.sm-pagination button.active {
+.csm-pagination button.active {
   background-color: #0056d2;
   color: white;
   font-weight: 600;
   border-color: #0056d2;
 }
 
-/* ✅ Mô tả với Tooltip */
-.sm-description {
+/* ✅ Tooltip */
+.csm-description {
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.sm-tooltip {
+.csm-tooltip {
   position: relative;
   cursor: help;
 }
 
-.sm-tooltip .sm-tooltip-text {
+.csm-tooltip .csm-tooltip-text {
   visibility: hidden;
   opacity: 0;
   width: max-content;
@@ -167,7 +209,7 @@
   white-space: normal;
 }
 
-.sm-tooltip .sm-tooltip-text::after {
+.csm-tooltip .csm-tooltip-text::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -178,10 +220,12 @@
   border-color: #333 transparent transparent transparent;
 }
 
-.sm-tooltip:hover .sm-tooltip-text {
+.csm-tooltip:hover .csm-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
+
+/* ✅ Status badge */
 .status-badge {
   padding: 3px 14px;
   border-radius: 12px;

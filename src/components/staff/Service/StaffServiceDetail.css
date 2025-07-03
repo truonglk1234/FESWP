@@ -1,0 +1,65 @@
+.ssd-detail-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.ssd-detail-container h1 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+.ssd-field {
+  margin-bottom: 20px;
+}
+
+.ssd-field strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.ssd-field p {
+  font-size: 15px;
+  color: #111827;
+  margin: 0;
+}
+
+.ssd-reject-reason {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.ssd-back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ssd-back-btn:hover {
+  background-color: #4b5563;
+}
+
+.ssd-loading {
+  text-align: center;
+  font-size: 16px;
+  color: #374151;
+}

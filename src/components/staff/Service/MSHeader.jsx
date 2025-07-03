@@ -1,15 +1,21 @@
 import './MSHeader.css';
-import { ClipboardList, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const MSHeader = () => {
+  const navigate = useNavigate();
+
+  const handleAddService = () => {
+    navigate('/staff/services/create');
+  };
+
   return (
     <div className="ms-header-container">
       <div className="ms-header-bar">
         <h2>
-          <ClipboardList size={22} className="ms-icon" />
           Danh sách dịch vụ y tế
         </h2>
-        <button className="ms-add-btn">
+        <button className="ms-add-btn" onClick={handleAddService}>
           <Plus size={16} /> Thêm dịch vụ
         </button>
       </div>
@@ -19,3 +25,4 @@ const MSHeader = () => {
 };
 
 export default MSHeader;
+  

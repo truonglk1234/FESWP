@@ -1,12 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./ServiceDetail.css";
-import { FaCheckCircle, FaBan } from "react-icons/fa"; // dùng react-icons cho đẹp
+import "./ServiceDetail.css"; // Dùng lại CSS detail chung
+import { FaCheckCircle, FaBan } from "react-icons/fa";
 
-const formatCurrency = (number) => number ? number.toLocaleString("vi-VN") + " VNĐ" : "-";
+const formatCurrency = (number) =>
+  number ? number.toLocaleString("vi-VN") + " VNĐ" : "-";
 
-const ServiceDetail = () => {
+const TestingServiceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState(null);
@@ -15,6 +16,7 @@ const ServiceDetail = () => {
   const [statusLoading, setStatusLoading] = useState(false);
   const token = localStorage.getItem("token");
 
+  // Lấy chi tiết dịch vụ xét nghiệm
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/prices/detail/${id}`, {
@@ -25,6 +27,7 @@ const ServiceDetail = () => {
       .finally(() => setLoading(false));
   }, [id, token]);
 
+  // Lấy danh mục
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/categories", {
@@ -58,10 +61,16 @@ const ServiceDetail = () => {
     setStatusLoading(false);
   };
 
-  if (loading) return <div className="service-detail-wrapper">⏳ Đang tải...</div>;
-  if (!service) return <div className="service-detail-wrapper">❌ Không tìm thấy dịch vụ.</div>;
+  if (loading)
+    return <div className="service-detail-wrapper">⏳ Đang tải...</div>;
 
-  // Badge trạng thái
+  if (!service)
+    return (
+      <div className="service-detail-wrapper">
+        ❌ Không tìm thấy dịch vụ.
+      </div>
+    );
+
   const badge =
     service.status === "Active" ? (
       <span className="status-badge">
@@ -80,7 +89,9 @@ const ServiceDetail = () => {
       </button>
       <h1 className="service-detail-title">{service.name}</h1>
       <div className="service-detail-meta">
-        <p><strong>ID:</strong> {service.id}</p>
+        <p>
+          <strong>ID:</strong> {service.id}
+        </p>
         <p>
           <strong>Danh mục:</strong>{" "}
           <span className="service-category-badge">
@@ -109,13 +120,16 @@ const ServiceDetail = () => {
             <FaBan style={{ fontSize: 17 }} /> Ngưng áp dụng
           </button>
         </div>
+
         <p>
-          <strong>Mô tả:</strong>
-          <span className="service-description">{service.description || "—"}</span>
+          <strong>Mô tả:</strong>{" "}
+          <span className="service-description">
+            {service.description || "—"}
+          </span>
         </p>
       </div>
     </div>
   );
 };
 
-export default ServiceDetail;
+export default TestingServiceDetail;

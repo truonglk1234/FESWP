@@ -1,149 +1,150 @@
-.ms-footer-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
-}
-
-/* Card dịch vụ */
-.ms-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.ms-table-container {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* Header */
-.ms-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
+.ms-table-container h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.ms-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ms-table th,
+.ms-table td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ms-table th {
+  background-color: #f7f7f8;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ms-table tr:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.ms-table td {
+  font-size: 14px;
+  color: #222;
+}
+
+.ms-meta {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
 }
 
 .ms-badge {
-  background: #e0e7ff;
-  color: #3730a3;
-  padding: 2px 8px;
+  display: inline-block;
+  padding: 4px 10px;
   font-size: 12px;
-  border-radius: 6px;
+  border-radius: 999px;
   font-weight: 500;
 }
 
-/* Tiêu đề */
-.ms-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 8px;
+.ms-badge.green {
+  background-color: #e0f8ed;
+  color: #2b9b66;
 }
 
-.ms-subinfo {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 6px;
-}
-
-.ms-rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Mô tả */
-.ms-description {
-  font-size: 14px;
-  margin-bottom: 8px;
+.ms-badge.gray {
+  background-color: #e5e5e5;
   color: #555;
 }
 
-/* Tags nổi bật */
-.ms-highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
+.ms-badge.blue {
+  background-color: #e0ecff;
+  color: #3366cc;
 }
 
-.ms-tag {
-  background: #f1f5f9;
-  color: #0f172a;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-/* Giá và giảm giá */
-.ms-price-box {
-  background: #ecfdf5;
-  padding: 10px;
-  border-radius: 8px;
+/* Nút thao tác */
+.ms-actions {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: center;
 }
 
-.ms-price-new {
-  font-size: 16px;
-  font-weight: bold;
-  color: #059669;
-}
-
-.ms-price-old {
-  text-decoration: line-through;
-  font-size: 13px;
-  color: #888;
-  margin-left: 6px;
-}
-
-.ms-discount {
-  background: #f87171;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 6px;
-}
-
-/* Thống kê */
-.ms-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.ms-stats div {
-  flex: 1;
-  padding: 4px 0;
-}
-
-.ms-stats div p {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e3a8a;
-}
-
-.ms-stats div span {
-  font-size: 12px;
-  color: #888;
-}
-
-/* Nút đặt lịch */
-.ms-book-btn {
-  background: #2563eb;
-  color: white;
+.ms-view-btn,
+.ms-edit-btn,
+.ms-delete-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
   border: none;
-  padding: 10px 0;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.2s ease;
 }
 
-.ms-book-btn:hover {
-  background: #1d4ed8;
+.ms-view-btn {
+  background-color: #10b981;
+  color: white;
+}
+.ms-view-btn:hover {
+  background-color: #059669;
+}
+
+.ms-edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+.ms-edit-btn:hover {
+  background-color: #2563eb;
+}
+
+.ms-delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+.ms-delete-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Pagination */
+.ms-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.ms-pagination button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.ms-pagination button:hover:not(:disabled) {
+  background-color: #e5e5e5;
+}
+
+.ms-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ms-pagination button.active {
+  background-color: #0056d2;
+  color: white;
+  font-weight: 600;
+  border-color: #0056d2;
 }

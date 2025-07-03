@@ -37,7 +37,8 @@ export const ManagerSidebar = () => {
           <li><Link to="/manager/users" className="ms-nav-link"><Users /> Quản lý người dùng</Link></li>
           <li><Link to="/manager/consultants" className="ms-nav-link"><UserCheck /> Quản lý tư vấn viên</Link></li>
           <li><Link to="/manager/staffs" className="ms-nav-link"><UserPlus /> Quản lý nhân viên</Link></li>
-          <li><Link to="/manager/services" className="ms-nav-link"><Stethoscope /> Quản lý dịch vụ</Link></li>
+          <li><Link to="/manager/services" className="ms-nav-link"><Stethoscope /> Quản lý dịch vụ xét nghiệm</Link></li>
+          <li><Link to="/manager/consulting-services" className="ms-nav-link"><Stethoscope /> Quản lý dịch vụ tư vấn</Link></li>
           <li><Link to="/manager/blogs" className="ms-nav-link"><FileText /> Quản lý blog</Link></li>
           <li><Link to="/manager/feedbacks" className="ms-nav-link"><MessageSquare /> Quản lý phản hồi</Link></li>
           <li><Link to="/manager/qna" className="ms-nav-link"><HelpCircle /> Quản lý Q&A</Link></li>
