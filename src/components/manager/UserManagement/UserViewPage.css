@@ -1,0 +1,25 @@
+.uv-container {
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.uv-container h1 {
+  margin-bottom: 24px;
+  font-size: 24px;
+}
+
+.uv-info p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.uv-loading {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 18px;
+  color: #666;
+}

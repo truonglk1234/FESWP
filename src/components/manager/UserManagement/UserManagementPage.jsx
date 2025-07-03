@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './UserManagementPage.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  // ✅ Thêm dòng này
 
 const PAGE_SIZE = 3;
 
 const UserManagementPage = () => {
   const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate(); // ✅ Hook điều hướng
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -32,11 +34,15 @@ const UserManagementPage = () => {
   );
 
   const handleView = (user) => {
-    alert(`🔍 Xem chi tiết người dùng:\n\nTên: ${user.name}\nEmail: ${user.email}\nSĐT: ${user.phone}`);
+    navigate(`/manager/users/view/${user.id}`);  // ✅ Chuyển trang
   };
 
   const handleEdit = (user) => {
-    alert(`✏️ Bạn đang sửa thông tin của: ${user.name}`);
+    navigate(`/manager/users/edit/${user.id}`);  // ✅ Chuyển trang
+  };
+
+  const handleAddNew = () => {
+    navigate('/manager/users/add');  // ✅ Chuyển trang thêm
   };
 
   const handleDelete = async (user) => {
@@ -79,7 +85,7 @@ const UserManagementPage = () => {
           <p className="um-subtitle">Quản lý tài khoản khách hàng</p>
         </div>
         <div className="um-top-right-buttons">
-          <button className="um-user-add-btn">Thêm người dùng mới</button>
+          <button className="um-user-add-btn" onClick={handleAddNew}>Thêm người dùng mới</button>
         </div>
       </div>
 

@@ -30,6 +30,9 @@ import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogM
 import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
+import UserAddPage from './components/manager/UserManagement/UserAddPage';
+import UserViewPage from './components/manager/UserManagement/UserViewPage';
+import UserEditPage from './components/manager/UserManagement/UserEditPage';
 import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
 import TestingServiceDetail from './components/manager/ServiceManagement/TestingServiceDetail';
 import ConsultingServiceDetail from './components/manager/ServiceManagement/ConsultingServiceDetail';
@@ -108,6 +111,9 @@ const App = () => {
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
             <Route path="users" element={<UserManagementPage />} />
+            <Route path="users/add" element={<UserAddPage />} /> 
+            <Route path="users/view/:id" element={<UserViewPage />} />  
+            <Route path="users/edit/:id" element={<UserEditPage />} />  
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
             <Route path="services" element={<TestingServiceManage />} />
