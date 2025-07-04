@@ -18,7 +18,7 @@ const UserAddPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('user'))?.token;
     try {
       await axios.post('http://localhost:8080/api/auth/manager/customers', formData, {
         headers: { Authorization: `Bearer ${token}` }

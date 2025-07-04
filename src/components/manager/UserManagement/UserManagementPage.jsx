@@ -11,7 +11,7 @@ const UserManagementPage = () => {
   const navigate = useNavigate(); // ✅ Hook điều hướng
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('user'))?.token;
     if (!token) return;
 
     axios.get('http://localhost:8080/api/auth/manager/customers', {
@@ -114,7 +114,7 @@ const UserManagementPage = () => {
               </div>
               <div>
                 <span className={`um-status ${user.verifiedStatus === 'Đã xác thực' ? 'active' : 'inactive'}`}>
-                  {user.verifiedStatus}
+                  {user.verifiedStatus || 'Chưa xác thực'}
                 </span>
               </div>
               <div className="um-action-buttons">

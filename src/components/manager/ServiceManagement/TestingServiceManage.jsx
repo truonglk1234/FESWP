@@ -47,21 +47,6 @@ const TestingServiceManage = () => {
       ? number.toLocaleString("vi-VN") + " VNĐ"
       : "-";
 
-  const handleDelete = async (service) => {
-    if (!service.id) return;
-    if (window.confirm(`❌ Bạn có chắc muốn xóa dịch vụ "${service.name}"?`)) {
-      try {
-        await axios.delete(`http://localhost:8080/api/prices/${service.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setServices((prev) => prev.filter((s) => s.id !== service.id));
-        alert(`🗑️ Đã xóa dịch vụ: ${service.name}`);
-      } catch (err) {
-        console.error("Lỗi khi xóa dịch vụ:", err);
-        alert("❌ Xóa thất bại!");
-      }
-    }
-  };
 
   const handleView = (service) => {
     window.location.href = `/manager/services/${service.id}`;
@@ -72,7 +57,7 @@ const TestingServiceManage = () => {
     let lower = status.toLowerCase();
     let color = "gray";
     if (lower === "active" || lower === "đang áp dụng") color = "green";
-    else if (lower === "inactive" || lower === "ngưng áp dụng") color = "red";
+    else if (lower === "inactive" || lower === "ngừng áp dụng") color = "red";
     else if (lower === "pending" || lower === "chờ duyệt") color = "yellow";
     return <span className={`status-badge ${color}`}>{status}</span>;
   };
@@ -132,12 +117,7 @@ const TestingServiceManage = () => {
                     >
                       Xem
                     </button>
-                    <button
-                      className="tsm-delete-btn"
-                      onClick={() => handleDelete(service)}
-                    >
-                      Xóa
-                    </button>
+                    
                   </div>
                 </td>
               </tr>

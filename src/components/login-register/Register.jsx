@@ -39,33 +39,34 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/register', payload, {
-        withCredentials: true,
-      });
+  const response = await axios.post('http://localhost:8080/api/auth/register', payload, {
+    withCredentials: true,
+  });
 
-      console.log('Đăng ký thành công:', response.data);
-      setEmail(formData.email);
-      setIsRegistered(true);
-    } catch (err) {
-      console.error("Lỗi khi đăng ký:", err.response?.data || err.message);
+  console.log('Đăng ký thành công:', response.data);
+  setEmail(formData.email);     
+  setIsRegistered(true);        
+  alert("🎉 Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.");
+} catch (err) {
+  console.error("Lỗi khi đăng ký:", err.response?.data || err.message);
 
-      if (err.response && err.response.data) {
-        const { message, errors } = err.response.data;
+  if (err.response && err.response.data) {
+    const { message, errors } = err.response.data;
 
-        if (message) {
-          setError(message);
-        } else if (errors && typeof errors === 'object') {
-          const firstError = Object.values(errors)[0];
-          setError(firstError || 'Đăng ký thất bại');
-        } else {
-          setError('Đăng ký thất bại');
-        }
-      } else {
-        setError('Không thể kết nối đến máy chủ');
-      }
+    if (message) {
+      setError(message);
+    } else if (errors && typeof errors === 'object') {
+      const firstError = Object.values(errors)[0];
+      setError(firstError || 'Đăng ký thất bại');
+    } else {
+      setError('Đăng ký thất bại');
     }
-  };
+  } else {
+    setError('Không thể kết nối đến máy chủ');
+  }
 
+}
+  }
   return (
     <div className="register-wrapper">
       <div className="register-info">
@@ -103,7 +104,7 @@ const Register = () => {
 
       <div className="register-form-box">
         {isRegistered ? (
-          <VerifyEmail email={email} />
+          <VerifyEmail email={email} onNext={() => window.location.href = "/login"} />
         ) : (
           <>
             <h2>Đăng ký</h2>
@@ -207,7 +208,6 @@ const Register = () => {
                 </span>
               </div>
 
-              {/* ✅ Checkbox sửa lỗi xuống dòng */}
               <label className="register-checkbox-label">
                 <input type="checkbox" required />
                 <span>

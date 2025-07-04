@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './VerifyEmail.css';
 import { Send } from 'lucide-react';
+import './VerifyEmail.css';
 import axios from 'axios';
 
-const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
+const VerifyEmail = ({ email, onBack, onNext, type = 'reset' }) => {
   const [otp, setOtp] = useState(Array(6).fill(''));
 
   const handleChange = (e, index) => {
@@ -28,33 +28,39 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const code = otp.join('');
+  e.preventDefault();
+  const code = otp.join('');
 
-    console.log('🔍 Sending verify-code:', { email, code });
+  if (code.length !== 6) {
+    alert('Mã xác thực phải đủ 6 chữ số.');
+    return;
+  }
 
-    if (code.length !== 6) {
-      alert('Mã xác thực phải đủ 6 chữ số.');
-      return;
+  try {
+    await axios.post('http://localhost:8080/api/auth/verify-code', { email, code });
+
+    if (type === 'reset') {
+      localStorage.setItem('resetEmail', email);
+      localStorage.setItem('resetCode', code);
+      if (onNext) onNext(code);
+    } else {
+      // 👉 Đăng ký: xác thực thành công thì về trang login
+      alert("✅ Tài khoản đã được kích hoạt! Vui lòng đăng nhập.");
+      if (onNext) onNext(); // nếu có truyền onNext từ Register thì gọi
+      else window.location.href = '/login';
     }
-
-    try {
-      await axios.post('http://localhost:8080/api/auth/verify-code', { email, code }, { withCredentials: true });
-
-      if (type === 'register') {
-        window.location.href = '/login';
-      } else if (type === 'reset') {
-        if (onNext) onNext(code);
-      }
-    } catch (err) {
-      const msg = err.response?.data;
-      alert("Xác thực thất bại: " + (typeof msg === 'string' ? msg : msg?.message || 'Lỗi máy chủ'));
-    }
-  };
+  } catch (err) {
+    const msg = err.response?.data;
+    alert("Xác thực thất bại: " + (typeof msg === 'string' ? msg : msg?.message || 'Lỗi máy chủ'));
+  }
+};
 
   const handleResendCode = async () => {
     try {
-      await axios.post('http://localhost:8080/api/auth/resend-code', { email }, { withCredentials: true });
+      await axios.post('http://localhost:8080/api/auth/resend-code', {
+        email,
+        type: type === 'reset' ? 'reset-password' : 'register'
+      });
       alert('✅ Mã xác thực đã được gửi lại.');
     } catch (err) {
       alert('❌ Không thể gửi lại mã: ' + (err.response?.data || 'Lỗi máy chủ'));
@@ -86,9 +92,7 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
           ))}
         </div>
 
-        <button type="submit" className="btn-verify">
-          ✓ Xác thực tài khoản
-        </button>
+        <button type="submit" className="btn-verify">✓ Xác thực tài khoản</button>
 
         <div className="resend-group">
           <p className="resend-question">Không nhận được mã xác thực?</p>
@@ -99,9 +103,7 @@ const VerifyEmail = ({ email, onBack, onNext, type = 'register' }) => {
         </div>
 
         <div className="back-button">
-          <button type="button" onClick={onBack}>
-            ← {type === 'register' ? 'Quay lại đăng ký' : 'Quay lại quên mật khẩu'}
-          </button>
+          <button type="button" onClick={onBack}>← Quay lại quên mật khẩu</button>
         </div>
       </form>
     </div>

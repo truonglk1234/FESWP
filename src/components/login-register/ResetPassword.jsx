@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ResetPassword.css';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 
-const ResetPassword = ({ onBack, onDone, email, code }) => {
+const ResetPassword = ({ onBack, onDone }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNew, setShowNew] = useState(false);
@@ -11,16 +11,13 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // ✅ Lấy email + code từ localStorage nếu không truyền qua props
- const storedEmail = email || localStorage.getItem('resetEmail');
-  const storedCode = code || localStorage.getItem('resetCode');
+  const storedEmail = localStorage.getItem('resetEmail');
 
-  console.log('📨 Gửi thông tin đặt lại mật khẩu:', {
-    email: storedEmail,
-    code: storedCode,
-    newPassword,
-    confirmPassword
-  });
+  useEffect(() => {
+    if (!storedEmail) {
+      setError('Thiếu thông tin xác thực. Vui lòng quay lại bước trước.');
+    }
+  }, [storedEmail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,24 +25,20 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
     setSuccess('');
 
     if (newPassword !== confirmPassword) {
-      setError('Mật khẩu không khớp');
+      setError('Mật khẩu không khớp.');
       return;
     }
 
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/reset-password-with-code', {
+      const res = await axios.post('http://localhost:8080/api/auth/set-new-password', {
         email: storedEmail,
-        code: storedCode,
-        newPassword,
-        confirmPassword
+        newPassword: newPassword.trim(),
+        confirmPassword: confirmPassword.trim()
       });
 
-      setSuccess(res.data || 'Đặt lại mật khẩu thành công!');
-
-      // ✅ Dọn dẹp localStorage
+      setSuccess(res.data || 'Đổi mật khẩu thành công.');
       localStorage.removeItem('resetEmail');
       localStorage.removeItem('resetCode');
-
 
       setTimeout(() => {
         if (onDone) onDone();
@@ -90,8 +83,8 @@ const ResetPassword = ({ onBack, onDone, email, code }) => {
           </span>
         </div>
 
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
+        {!success && error && <p className="error">{error}</p>}
+        {success && <p className="success">✅ {success}</p>}
 
         <button type="submit" className="btn-submit">
           ✓ Xác nhận & Đăng nhập

@@ -17,22 +17,29 @@ const ServiceContent = () => {
   const perPage = 6;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/services')
-      .then((res) => setServices(res.data))
-      .catch((err) => console.error("Lỗi khi tải danh sách dịch vụ:", err));
+    axios.get('http://localhost:8080/api/public/prices/test') // hoặc đổi sang /advice nếu cần
+      .then((res) => {
+        console.log('📦 Dữ liệu dịch vụ:', res.data);
+        setServices(res.data || []);
+      })
+      .catch((err) => {
+        console.error("❌ Lỗi khi tải danh sách dịch vụ:", err);
+      });
   }, []);
 
-  // Defensive: always use array for filter
   const filtered = Array.isArray(services)
     ? services.filter(service => {
+        const title = (service.title || service.name || '').toLowerCase();
+        const description = (service.description || '').toLowerCase();
+        const searchLower = search.toLowerCase();
+
         const matchesSearch =
-          service.title.toLowerCase().includes(search.toLowerCase()) ||
-          service.description.toLowerCase().includes(search.toLowerCase());
+          title.includes(searchLower) || description.includes(searchLower);
 
         const matchesCategory =
           category === 'Tất cả' ||
-          (category === 'Tư vấn' && service.title.includes('Tư vấn')) ||
-          (category === 'Xét nghiệm' && service.title.includes('Xét nghiệm'));
+          (category === 'Tư vấn' && title.includes('tư vấn')) ||
+          (category === 'Xét nghiệm' && title.includes('xét nghiệm'));
 
         const priceValue = service.price || 0;
         const matchesPrice =
@@ -65,7 +72,7 @@ const ServiceContent = () => {
       />
 
       <div className={viewMode === 'grid' ? 'service-grid' : 'service-list'}>
-        {paginated.map((service, idx) => (
+        {paginated.map((service) => (
           <ServiceCard key={service.id} data={service} viewMode={viewMode} />
         ))}
       </div>

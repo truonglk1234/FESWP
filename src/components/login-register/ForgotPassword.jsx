@@ -14,8 +14,9 @@ const ForgotPassword = ({ onNext, onBack }) => {
     setMessage('');
 
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/forgot-password', {
-        email: emailInput
+      const res = await axios.post('http://localhost:8080/api/auth/resend-code', {
+        email: emailInput,
+        type: 'reset-password'
       });
 
       setMessage(res.data || 'Mã xác thực đã được gửi đến email của bạn.');

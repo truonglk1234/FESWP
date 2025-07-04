@@ -13,7 +13,7 @@ const ManagerBlogManage = () => {
   useEffect(() => {
     axios.get("http://localhost:8080/api/management/blogs/all", {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))?.token}`,
       }
     })
     .then((res) => setPosts(res.data))

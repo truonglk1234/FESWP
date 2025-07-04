@@ -1,7 +1,5 @@
 import {
   Calendar,
-  Clock3,
-  Star,
   ShieldCheck,
   TestTube,
   Microscope,
@@ -9,7 +7,6 @@ import {
   Brain,
   CheckCircle
 } from 'lucide-react';
-
 
 const iconMap = {
   TestTube: <TestTube className="service-icon" />,
@@ -45,27 +42,18 @@ const ServiceCard = ({ data, viewMode }) => {
       </div>
 
       <div className="service-content">
-        {/* Tiêu đề và đánh giá */}
+        {/* Tiêu đề */}
         <div className="service-header">
-          <h3>{data.title}</h3>
-          <div className="rating">
-            <Star size={14} /> {data.rating}
-          </div>
-        </div>
-
-        {/* Thời lượng & lượt đánh giá */}
-        <div className="service-meta">
-          <Clock3 size={14} />
-          <span>{data.duration} phút</span>
-          <span>•</span>
-          <span>{data.reviews} đánh giá</span>
+          <h3>{data.title || data.name || 'Không có tiêu đề'}</h3>
         </div>
 
         {/* Mô tả ngắn */}
-        <p className="service-description">{data.description}</p>
+        <p className="service-description">
+          {data.description || 'Không có mô tả.'}
+        </p>
 
         {/* Danh sách tính năng (nếu có) */}
-        {data.features?.length > 0 && (
+        {Array.isArray(data.features) && data.features.length > 0 && (
           <ul className="features">
             {data.features.map((feature, i) => (
               <li key={i}>
@@ -79,7 +67,9 @@ const ServiceCard = ({ data, viewMode }) => {
         {/* Giá tiền + nút đặt lịch */}
         <div className="service-footer">
           <div className="price">
-            {oldPriceDisplay && <span className="old-price">{oldPriceDisplay}</span>}
+            {oldPriceDisplay && (
+              <span className="old-price">{oldPriceDisplay}</span>
+            )}
             <span className="current-price">{priceDisplay}</span>
           </div>
 

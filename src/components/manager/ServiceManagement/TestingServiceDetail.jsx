@@ -117,7 +117,7 @@ const TestingServiceDetail = () => {
             disabled={statusLoading || service.status === "Inactive"}
             onClick={() => handleChangeStatus("Inactive")}
           >
-            <FaBan style={{ fontSize: 17 }} /> Ngưng áp dụng
+            <FaBan style={{ fontSize: 17 }} /> Ngừng áp dụng
           </button>
         </div>
 

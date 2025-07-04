@@ -22,6 +22,7 @@ const Login = () => {
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false); // ✅ MỚI: State cho checkbox
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,12 +31,12 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login', {
         email,
-        password
+        password,
+        rememberMe // ✅ MỚI: gửi lên backend
       }, { withCredentials: true });
 
       const token = response.data.token;
       const decoded = jwtDecode(token);
-
       const role = Array.isArray(decoded.role) ? decoded.role[0] : decoded.role;
 
       const user = {
@@ -46,9 +47,14 @@ const Login = () => {
       };
 
       setUser(user);
-      localStorage.setItem('token', token);
 
-      // Navigate based on role
+      // ✅ MỚI: Lưu token vào localStorage hoặc sessionStorage
+      if (rememberMe) {
+        localStorage.setItem('token', token);
+      } else {
+        sessionStorage.setItem('token', token);
+      }
+
       navigate('/');
     } catch (err) {
       const res = err.response?.data;
@@ -134,7 +140,11 @@ const Login = () => {
 
               <div className="login-options">
                 <label className="login-checkbox">
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={rememberMe} // ✅ MỚI
+                    onChange={(e) => setRememberMe(e.target.checked)} // ✅ MỚI
+                  />
                   <span>Ghi nhớ đăng nhập</span>
                 </label>
                 <button
