@@ -5,25 +5,20 @@ import './ConsultantContent.css';
 import axios from 'axios';
 
 const ConsultantContent = () => {
-  const [page, setPage] = useState(1);
   const [consultants, setConsultants] = useState([]);
+  const [page, setPage] = useState(1);
+
   const perPage = 6;
 
-  // ✅ Fetch toàn bộ, không filter
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/public/consultants');
-        const data = response.data;
-
-        setConsultants(data);
-        setPage(1);
-      } catch (err) {
-        console.error('❌ Lỗi lấy danh sách tư vấn viên:', err);
-      }
-    };
-
-    fetchData();
+    axios.get('http://localhost:8080/api/public/consultants') // 🔗 Sửa endpoint cho tư vấn viên
+      .then((res) => {
+        console.log('📦 Dữ liệu tư vấn viên:', res.data);
+        setConsultants(res.data || []);
+      })
+      .catch((err) => {
+        console.error("❌ Lỗi khi tải danh sách tư vấn viên:", err);
+      });
   }, []);
 
   const totalPages = Math.ceil(consultants.length / perPage);
@@ -32,8 +27,8 @@ const ConsultantContent = () => {
   return (
     <section className="consultant-section">
       <div className="consultant-grid">
-        {paginated.map((doc, idx) => (
-          <ConsultantCard key={idx} doc={doc} />
+        {paginated.map((consultant) => (
+          <ConsultantCard key={consultant.id} data={consultant} />
         ))}
       </div>
 

@@ -30,27 +30,7 @@
   margin-top: 4px;
 }
 
-.um-top-right-buttons {
-  display: flex;
-  gap: 12px;
-}
-
-.um-user-add-btn {
-  background-color: #111827;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
-}
-
-.um-user-add-btn:hover {
-  background-color: #1f2937;
-}
+/* ✅ Đã BỎ: .um-top-right-buttons + .um-user-add-btn */
 
 /* ========== TABLE & CONTENT ========== */
 .um-user-page {
@@ -78,7 +58,7 @@
 .um-table-row {
   display: grid;
   grid-template-columns: 2fr 2fr 1.5fr 1fr; /* cột thao tác đủ rộng */
-  padding: 16px 24px; /* padding trái/phải đều */
+  padding: 16px 24px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -93,13 +73,13 @@
 .um-table-row {
   font-size: 15px;
   background-color: white;
-  min-height: 72px; /* cao đều, không bị lệch */
+  min-height: 72px;
 }
 
 .um-table-row > div {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* canh giữa dọc */
+  justify-content: center;
   gap: 4px;
 }
 
@@ -166,46 +146,25 @@
 .um-action-buttons {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* hoặc center tùy ý */
+  justify-content: flex-start;
   align-items: center;
   gap: 8px;
 }
 
-.um-view-btn,
-.um-edit-btn,
-.um-delete-btn {
+.um-view-btn {
   padding: 8px 20px;
   font-size: 15px;
   font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  background-color: #10b981;
+  color: white;
   transition: all 0.2s ease;
 }
 
-/* Xem - xanh lá */
-.um-view-btn {
-  background-color: #10b981;
-  color: white;
-}
 .um-view-btn:hover {
   background-color: #059669;
 }
 
-/* Sửa - xanh dương */
-.um-edit-btn {
-  background-color: #3b82f6;
-  color: white;
-}
-.um-edit-btn:hover {
-  background-color: #2563eb;
-}
-
-/* Xóa - đỏ */
-.um-delete-btn {
-  background-color: #ef4444;
-  color: white;
-}
-.um-delete-btn:hover {
-  background-color: #dc2626;
-}
+/* ✅ Đã BỎ: .um-edit-btn & .um-delete-btn */

@@ -10,7 +10,6 @@ const ManagerStaffManage = () => {
 
   // Gọi API lấy danh sách nhân viên
   useEffect(() => {
-
     const token = JSON.parse(localStorage.getItem('user'))?.token;
     if (!token) return;
     axios.get('http://localhost:8080/api/auth/manager/staff', {
@@ -34,39 +33,6 @@ const ManagerStaffManage = () => {
 
   const handleView = (staff) => {
     alert(`🔍 Xem chi tiết nhân viên:\n\nTên: ${staff.name}\nEmail: ${staff.email}\nSĐT: ${staff.phone}`);
-  };
-
-  const handleEdit = (staff) => {
-    alert(`✏️ Bạn đang sửa thông tin của: ${staff.name}`);
-  };
-
-  const handleDelete = async (staff) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert("⚠️ Chưa đăng nhập hoặc token không tồn tại!");
-      return;
-    }
-
-    if (!window.confirm(`❗Bạn có chắc muốn xóa "${staff.name}"?`)) return;
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/auth/manager/staffs/${staff.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': '*/*'
-        }
-      });
-
-      if (!response.ok) throw new Error(`Lỗi khi xóa: ${response.status}`);
-
-      alert(`🗑️ Đã xóa nhân viên: ${staff.name}`);
-      setStaffs(prev => prev.filter(s => s.id !== staff.id));
-
-    } catch (err) {
-      console.error(err);
-      alert('🚫 Không thể xóa nhân viên. Vui lòng thử lại sau.');
-    }
   };
 
   return (
@@ -107,13 +73,11 @@ const ManagerStaffManage = () => {
               </div>
               <div>
                 <span className={`stm-status ${staff.active ? 'active' : 'inactive'}`}>
-                  {staff.active ? 'Toạt động' : 'Hoạt động'}
+                  {staff.active ? 'Hoạt động' : 'Ngừng hoạt động'}
                 </span>
               </div>
               <div className="stm-action-buttons">
                 <button className="stm-view-btn" onClick={() => handleView(staff)}>Xem</button>
-                <button className="stm-edit-btn" onClick={() => handleEdit(staff)}>Sửa</button>
-                <button className="stm-delete-btn" onClick={() => handleDelete(staff)}>Xóa</button>
               </div>
             </div>
           ))}

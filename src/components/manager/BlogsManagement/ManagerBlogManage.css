@@ -102,9 +102,7 @@
   justify-content: center;
 }
 
-.mbm-view-btn,
-.mbm-edit-btn,
-.mbm-delete-btn {
+.mbm-view-btn {
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 500;
@@ -112,33 +110,12 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-/* Xem - xanh lá */
-.mbm-view-btn {
   background-color: #10b981;
   color: white;
 }
+
 .mbm-view-btn:hover {
   background-color: #059669;
-}
-
-/* Sửa - xanh dương */
-.mbm-edit-btn {
-  background-color: #3b82f6;
-  color: white;
-}
-.mbm-edit-btn:hover {
-  background-color: #2563eb;
-}
-
-/* Xóa - đỏ */
-.mbm-delete-btn {
-  background-color: #ef4444;
-  color: white;
-}
-.mbm-delete-btn:hover {
-  background-color: #dc2626;
 }
 
 /* Pagination */

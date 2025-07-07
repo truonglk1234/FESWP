@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Calendar,
   ShieldCheck,
@@ -7,6 +8,8 @@ import {
   Brain,
   CheckCircle
 } from 'lucide-react';
+// import { Link } from 'react-router-dom'; // Bỏ Link vì không dùng nữa
+import BookingModal from './BookingModal'; // Import component modal
 
 const iconMap = {
   TestTube: <TestTube className="service-icon" />,
@@ -17,7 +20,6 @@ const iconMap = {
   Brain: <Brain className="service-icon" />
 };
 
-// Chuẩn hóa tên icon từ API (VD: test-tube → TestTube)
 const normalizeIcon = (icon) => {
   if (!icon) return <ShieldCheck className="service-icon" />;
   const key = icon.replace(/[-_]/g, '').toLowerCase();
@@ -25,7 +27,9 @@ const normalizeIcon = (icon) => {
   return iconMap[matchedKey] ?? <ShieldCheck className="service-icon" />;
 };
 
-const ServiceCard = ({ data, viewMode }) => {
+const ServiceCard = ({ data }) => {
+  const [showBooking, setShowBooking] = useState(false);
+
   const priceDisplay = data.price === 0
     ? 'Miễn phí'
     : `${data.price.toLocaleString()}đ`;
@@ -36,49 +40,57 @@ const ServiceCard = ({ data, viewMode }) => {
       : null;
 
   return (
-    <div className={`service-card ${viewMode}`}>
-      <div className="service-icon-wrapper">
-        {normalizeIcon(data.icon)}
-      </div>
-
-      <div className="service-content">
-        {/* Tiêu đề */}
-        <div className="service-header">
-          <h3>{data.title || data.name || 'Không có tiêu đề'}</h3>
+    <>
+      <div className="service-card">
+        <div className="service-icon-wrapper">
+          {normalizeIcon(data.icon)}
         </div>
 
-        {/* Mô tả ngắn */}
-        <p className="service-description">
-          {data.description || 'Không có mô tả.'}
-        </p>
-
-        {/* Danh sách tính năng (nếu có) */}
-        {Array.isArray(data.features) && data.features.length > 0 && (
-          <ul className="features">
-            {data.features.map((feature, i) => (
-              <li key={i}>
-                <CheckCircle size={14} style={{ marginRight: '6px' }} />
-                {feature}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {/* Giá tiền + nút đặt lịch */}
-        <div className="service-footer">
-          <div className="price">
-            {oldPriceDisplay && (
-              <span className="old-price">{oldPriceDisplay}</span>
-            )}
-            <span className="current-price">{priceDisplay}</span>
+        <div className="service-content">
+          <div className="service-header">
+            <h3>{data.title || data.name || 'Không có tiêu đề'}</h3>
           </div>
 
-          <button className="book-btn">
-            <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
-          </button>
+          <p className="service-description">
+            {data.description || 'Không có mô tả.'}
+          </p>
+
+          {Array.isArray(data.features) && data.features.length > 0 && (
+            <ul className="features">
+              {data.features.map((feature, i) => (
+                <li key={i}>
+                  <CheckCircle size={14} style={{ marginRight: '6px' }} />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="service-footer">
+            <div className="price">
+              {oldPriceDisplay && (
+                <span className="old-price">{oldPriceDisplay}</span>
+              )}
+              <span className="current-price">{priceDisplay}</span>
+            </div>
+
+            <button
+              className="book-btn"
+              onClick={() => setShowBooking(true)}
+            >
+              <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {showBooking && (
+        <BookingModal
+          service={data}
+          onClose={() => setShowBooking(false)}
+        />
+      )}
+    </>
   );
 };
 

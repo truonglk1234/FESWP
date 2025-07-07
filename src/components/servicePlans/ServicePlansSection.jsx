@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   TestTube,
   Microscope,
@@ -8,10 +9,9 @@ import {
   Stethoscope
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { servicesData } from '../servicePlans/servicesData';
+import axios from 'axios';
 import './ServicePlansSection.css';
 
-// Bản đồ ánh xạ tên icon (string) sang component React
 const iconMap = {
   TestTube: <TestTube className="service-icon" />,
   Microscope: <Microscope className="service-icon" />,
@@ -23,6 +23,18 @@ const iconMap = {
 
 const ServicePlansSection = () => {
   const navigate = useNavigate();
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/public/prices/test')
+      .then((res) => {
+        console.log('✅ Dịch vụ lấy từ API:', res.data);
+        setServices(res.data || []);
+      })
+      .catch((err) => {
+        console.error('❌ Lỗi tải dịch vụ:', err);
+      });
+  }, []);
 
   return (
     <section className="plans-section">
@@ -36,12 +48,12 @@ const ServicePlansSection = () => {
         </div>
 
         <div className="plans-grid">
-          {servicesData.slice(0, 4).map((service, index) => (
-            <div className="plan-card" key={index}>
+          {services.slice(0, 4).map((service) => (
+            <div className="plan-card" key={service.id}>
               <div className="plan-icon">
                 {iconMap[service.icon] || <ShieldCheck className="service-icon" />}
               </div>
-              <h3>{service.title}</h3>
+              <h3>{service.title || service.name}</h3>
               <p className="plan-desc">{service.description}</p>
 
               <div className="plan-price">
@@ -53,15 +65,21 @@ const ServicePlansSection = () => {
                 </span>
               </div>
 
-              <div className="plan-duration">{service.duration}</div>
+              {service.duration && (
+                <div className="plan-duration">{service.duration}</div>
+              )}
 
-              <ul className="plan-features">
-                {service.features.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
+              {Array.isArray(service.features) && service.features.length > 0 && (
+                <ul className="plan-features">
+                  {service.features.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
 
-              <button className="btn-primary">Đặt lịch</button>
+              <button className="btn-primary" onClick={() => navigate(`/booking/${service.id}`)}>
+                Đặt lịch
+              </button>
             </div>
           ))}
         </div>

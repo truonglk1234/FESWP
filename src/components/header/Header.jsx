@@ -105,10 +105,12 @@ const Header = () => {
 
           <nav className="header-nav">
             <Link to="/">Trang chủ</Link>
-            <Link to="/services">Dịch vụ y tế</Link>
+            <Link to="/services/testing">Dịch vụ xét nghiệm</Link>
+            <Link to="/services/consulting">Dịch vụ tư vấn</Link>
             <Link to="/consultants">Tư vấn viên</Link>
             <Link to="/blogs">Tin tức</Link>
           </nav>
+
 
           <div className="header-auth-buttons">
             {user && (

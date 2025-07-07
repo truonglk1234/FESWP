@@ -3,8 +3,7 @@ import Footer from '../components/footer/Footer';
 import ServiceIntroSection from '../components/servicePlans/ServiceIntroSection';
 import ServiceContent from '../components/servicePlans/ServiceContent';
 
-
-const ServicePage = () => {
+const ServiceTestingPage = () => {
   return (
     <>
       <Header />
@@ -15,4 +14,4 @@ const ServicePage = () => {
   );
 };
 
-export default ServicePage;
+export default ServiceTestingPage;

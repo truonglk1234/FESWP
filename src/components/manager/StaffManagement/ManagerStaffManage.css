@@ -5,7 +5,6 @@
   background-color: #f9fafb;
 }
 
-/* Header chứa tiêu đề và nút */
 .smh-header-row {
   display: flex;
   justify-content: space-between;
@@ -35,7 +34,6 @@
   gap: 12px;
 }
 
-/* Nút thêm nhân viên */
 .smh-add-btn {
   padding: 10px 16px;
   border-radius: 8px;
@@ -157,50 +155,25 @@
   border-color: #111827;
 }
 
-/* ==================== HÀNH ĐỘNG: Xem - Sửa - Xóa ==================== */
+/* ==================== HÀNH ĐỘNG: Xem ==================== */
 .stm-action-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   justify-content: center;
   align-items: center;
 }
 
-.stm-view-btn,
-.stm-edit-btn,
-.stm-delete-btn {
+.stm-view-btn {
   padding: 8px 20px;
   font-size: 15px;
   font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  background-color: #10b981;
+  color: white;
   transition: all 0.2s ease;
 }
 
-/* Xem - xanh lá */
-.stm-view-btn {
-  background-color: #10b981;
-  color: white;
-}
 .stm-view-btn:hover {
   background-color: #059669;
-}
-
-/* Sửa - xanh dương */
-.stm-edit-btn {
-  background-color: #3b82f6;
-  color: white;
-}
-.stm-edit-btn:hover {
-  background-color: #2563eb;
-}
-
-/* Xóa - đỏ */
-.stm-delete-btn {
-  background-color: #ef4444;
-  color: white;
-}
-.stm-delete-btn:hover {
-  background-color: #dc2626;
 }

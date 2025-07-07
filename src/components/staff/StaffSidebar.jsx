@@ -1,5 +1,5 @@
 import {
-  Home, Calendar, FileText, Stethoscope,
+  Home, Calendar, FileText,
   BookOpen, LogOut, UserPlus
 } from 'lucide-react';
 import './StaffSidebar.css';
@@ -36,7 +36,6 @@ export const StaffSidebar = () => {
           <li><Link to="/staff" className="ss-nav-link"><Home /> Trang chủ</Link></li>
           <li><Link to="/staff/schedule" className="ss-nav-link"><Calendar /> Lịch xét nghiệm</Link></li>
           <li><Link to="/staff/results" className="ss-nav-link"><FileText /> Kết quả xét nghiệm</Link></li>
-          <li><Link to="/staff/services" className="ss-nav-link"><Stethoscope /> Dịch vụ y tế</Link></li>
           <li><Link to="/staff/blogs" className="ss-nav-link"><BookOpen /> Blog Y Tế</Link></li>
         </ul>
       </div>

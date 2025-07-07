@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './UserManagementPage.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  // ✅ Thêm dòng này
+import { useNavigate } from 'react-router-dom';
 
 const PAGE_SIZE = 3;
 
 const UserManagementPage = () => {
   const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate(); // ✅ Hook điều hướng
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('user'))?.token;
@@ -34,46 +34,7 @@ const UserManagementPage = () => {
   );
 
   const handleView = (user) => {
-    navigate(`/manager/users/view/${user.id}`);  // ✅ Chuyển trang
-  };
-
-  const handleEdit = (user) => {
-    navigate(`/manager/users/edit/${user.id}`);  // ✅ Chuyển trang
-  };
-
-  const handleAddNew = () => {
-    navigate('/manager/users/add');  // ✅ Chuyển trang thêm
-  };
-
-  const handleDelete = async (user) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("⚠️ Chưa đăng nhập hoặc token không tồn tại!");
-      return;
-    }
-
-    if (!window.confirm(`❗Bạn có chắc muốn xóa "${user.name}"?`)) return;
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/auth/manager/customers/${user.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': '*/*'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Lỗi khi xóa: ${response.status}`);
-      }
-
-      alert(`🗑️ Đã xóa người dùng: ${user.name}`);
-      setUsersData(prev => prev.filter(u => u.id !== user.id));
-
-    } catch (err) {
-      console.error(err);
-      alert('🚫 Không thể xóa người dùng. Vui lòng thử lại sau.');
-    }
+    navigate(`/manager/users/view/${user.id}`);
   };
 
   return (
@@ -83,9 +44,6 @@ const UserManagementPage = () => {
         <div className="um-header-text">
           <h1 className="um-title">Quản lý người dùng</h1>
           <p className="um-subtitle">Quản lý tài khoản khách hàng</p>
-        </div>
-        <div className="um-top-right-buttons">
-          <button className="um-user-add-btn" onClick={handleAddNew}>Thêm người dùng mới</button>
         </div>
       </div>
 
@@ -119,8 +77,6 @@ const UserManagementPage = () => {
               </div>
               <div className="um-action-buttons">
                 <button className="um-view-btn" onClick={() => handleView(user)}>Xem</button>
-                <button className="um-edit-btn" onClick={() => handleEdit(user)}>Sửa</button>
-                <button className="um-delete-btn" onClick={() => handleDelete(user)}>Xóa</button>
               </div>
             </div>
           ))}

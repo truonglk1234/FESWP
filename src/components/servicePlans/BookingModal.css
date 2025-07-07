@@ -1,0 +1,146 @@
+.bm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.bm-modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 95%;
+  position: relative;
+}
+
+.bm-modal-section {
+  margin-bottom: 1rem;
+}
+
+.bm-options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bm-options-grid button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #333;
+}
+
+.bm-options-grid button:hover {
+  background: #e0f2f1;
+  border-color: #10b981;
+}
+
+.bm-options-grid button.bm-selected {
+  background: #10b981;
+  color: #fff;
+  border: 1px solid #10b981;
+}
+
+.bm-options-grid button:disabled {
+  background: #f0f0f0;
+  color: #999;
+  border: 1px solid #ddd;
+  cursor: not-allowed;
+}
+
+.bm-form-group {
+  margin-bottom: 1rem;
+}
+
+.bm-form-group input,
+.bm-form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.bm-next-btn {
+  background: #10b981;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bm-next-btn:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+.bm-confirm-box {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #d1fae5;
+  border-radius: 8px;
+}
+
+.bm-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.bm-cancel-btn,
+.bm-confirm-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.bm-cancel-btn {
+  background: #ddd;
+}
+
+.bm-confirm-btn {
+  background: #10b981;
+  color: #fff;
+}
+
+.bm-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 24px; /* Tăng size để nhìn rõ */
+  color: #333;     /* Đảm bảo có màu hiển thị */
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.bm-close-btn:hover {
+  color: #10b981;
+}
+
+.bm-form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  appearance: none; 
+}
+
+.bm-form-group select:focus {
+  border-color: #10b981;
+  outline: none;
+}

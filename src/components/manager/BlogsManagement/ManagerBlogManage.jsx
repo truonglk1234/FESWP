@@ -27,23 +27,6 @@ const ManagerBlogManage = () => {
     navigate(`/manager/blogs/${post.id}`);
   };
 
-  const handleDelete = async (post) => {
-    if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
-      try {
-        await axios.delete(`http://localhost:8080/api/management/blogs/${post.id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        });
-        setPosts(prev => prev.filter(p => p.id !== post.id));
-        alert(`🗑️ Đã xóa bài viết: ${post.title}`);
-      } catch (err) {
-        console.error("Lỗi khi xóa bài viết:", err);
-        alert("❌ Xóa thất bại!");
-      }
-    }
-  };
-
   const getStatusClass = (status) => {
     switch (status) {
       case "Đã xác nhận":
@@ -100,7 +83,6 @@ const ManagerBlogManage = () => {
                 <td>
                   <div className="mbm-actions">
                     <button className="mbm-view-btn" onClick={() => handleView(post)}>Xem</button>
-                    <button className="mbm-delete-btn" onClick={() => handleDelete(post)}>Xóa</button>
                   </div>
                 </td>
               </tr>
