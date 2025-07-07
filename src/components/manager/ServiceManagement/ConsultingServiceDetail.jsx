@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./ServiceDetail.css"; // Có thể dùng chung nếu style giống nhau
+import "./ServiceDetail.css";
 import { FaCheckCircle, FaBan } from "react-icons/fa";
 
-const formatCurrency = (number) => number ? number.toLocaleString("vi-VN") + " VNĐ" : "-";
+const formatCurrency = (number) =>
+  number ? number.toLocaleString("vi-VN") + " VNĐ" : "-";
 
 const ConsultingServiceDetail = () => {
   const { id } = useParams();
@@ -13,12 +14,18 @@ const ConsultingServiceDetail = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusLoading, setStatusLoading] = useState(false);
-  const token = localStorage.getItem("token");
 
+  // ✅ Lấy token đúng từ localStorage
+  const storedUser = localStorage.getItem("user");
+  const token = storedUser ? JSON.parse(storedUser).token : null;
+
+  // ✅ Lấy chi tiết dịch vụ tư vấn
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get(`http://localhost:8080/api/prices/detail/${id}`, {
-        params: { type: "consulting" }, // ✅ Thêm type: consulting
+        params: { type: "advice" }, // ✅ đúng loại
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setService(res.data))
@@ -26,7 +33,10 @@ const ConsultingServiceDetail = () => {
       .finally(() => setLoading(false));
   }, [id, token]);
 
+  // ✅ Lấy danh sách danh mục
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
@@ -59,8 +69,15 @@ const ConsultingServiceDetail = () => {
     setStatusLoading(false);
   };
 
-  if (loading) return <div className="service-detail-wrapper">⏳ Đang tải...</div>;
-  if (!service) return <div className="service-detail-wrapper">❌ Không tìm thấy dịch vụ.</div>;
+  if (loading)
+    return <div className="service-detail-wrapper">⏳ Đang tải...</div>;
+
+  if (!service)
+    return (
+      <div className="service-detail-wrapper">
+        ❌ Không tìm thấy dịch vụ.
+      </div>
+    );
 
   const badge =
     service.status === "Active" ? (
@@ -87,9 +104,7 @@ const ConsultingServiceDetail = () => {
             {service.categoryName || getCategoryName(service.categoryId)}
           </span>
         </p>
-        <p>
-          <strong>Giá:</strong> {formatCurrency(service.price)}
-        </p>
+        <p><strong>Giá:</strong> {formatCurrency(service.price)}</p>
 
         <div className="service-status-row">
           <strong>Trạng thái:</strong>
@@ -109,9 +124,12 @@ const ConsultingServiceDetail = () => {
             <FaBan style={{ fontSize: 17 }} /> Ngừng áp dụng
           </button>
         </div>
+
         <p>
-          <strong>Mô tả:</strong>
-          <span className="service-description">{service.description || "—"}</span>
+          <strong>Mô tả:</strong>{" "}
+          <span className="service-description">
+            {service.description || "—"}
+          </span>
         </p>
       </div>
     </div>

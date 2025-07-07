@@ -11,7 +11,7 @@ const ConsultantContent = () => {
   const perPage = 6;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/consultants') // 🔗 Sửa endpoint cho tư vấn viên
+    axios.get('http://localhost:8080/api/public/prices/advice') // 🔗 Sửa endpoint cho tư vấn viên
       .then((res) => {
         console.log('📦 Dữ liệu tư vấn viên:', res.data);
         setConsultants(res.data || []);

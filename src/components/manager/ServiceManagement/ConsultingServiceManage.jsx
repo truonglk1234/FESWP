@@ -8,19 +8,30 @@ const ConsultingServiceManage = () => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
-  const token = localStorage.getItem("token");
+  // ✅ Lấy token từ localStorage.user
+  const storedUser = localStorage.getItem("user");
+  const token = storedUser ? JSON.parse(storedUser).token : null;
 
+  // ✅ Gọi API lấy danh sách dịch vụ tư vấn
   useEffect(() => {
+    if (!token) {
+      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
+      return;
+    }
+
     axios
       .get("http://localhost:8080/api/prices", {
-        params: { type: "advice" }, // ✅ Loại dịch vụ tư vấn
+        params: { type: "advice" },
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setServices(res.data))
       .catch((err) => console.error("❌ Lỗi tải dịch vụ:", err));
   }, [token]);
 
+  // ✅ Gọi API lấy danh sách danh mục
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +55,6 @@ const ConsultingServiceManage = () => {
     typeof number === "number"
       ? number.toLocaleString("vi-VN") + " VNĐ"
       : "-";
-
 
   const handleView = (service) => {
     window.location.href = `/manager/consulting-services/${service.id}`;
@@ -115,7 +125,6 @@ const ConsultingServiceManage = () => {
                     >
                       Xem
                     </button>
-                   
                   </div>
                 </td>
               </tr>

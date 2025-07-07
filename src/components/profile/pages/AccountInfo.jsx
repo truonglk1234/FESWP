@@ -70,7 +70,7 @@ const AccountInfo = () => {
     }
 
     try {
-      await axios.put(
+      await axios.post(
         'http://localhost:8080/api/auth/change-password',
         {
           currentPassword: passwords.currentPassword,

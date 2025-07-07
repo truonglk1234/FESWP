@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./ServiceDetail.css"; // Dùng lại CSS detail chung
+import "./ServiceDetail.css";
 import { FaCheckCircle, FaBan } from "react-icons/fa";
 
 const formatCurrency = (number) =>
@@ -14,10 +14,15 @@ const TestingServiceDetail = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusLoading, setStatusLoading] = useState(false);
-  const token = localStorage.getItem("token");
 
-  // Lấy chi tiết dịch vụ xét nghiệm
+  // ✅ Lấy token từ localStorage.user
+  const storedUser = localStorage.getItem("user");
+  const token = storedUser ? JSON.parse(storedUser).token : null;
+
+  // ✅ Lấy chi tiết dịch vụ
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get(`http://localhost:8080/api/prices/detail/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -27,8 +32,10 @@ const TestingServiceDetail = () => {
       .finally(() => setLoading(false));
   }, [id, token]);
 
-  // Lấy danh mục
+  // ✅ Lấy danh mục
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
@@ -89,9 +96,7 @@ const TestingServiceDetail = () => {
       </button>
       <h1 className="service-detail-title">{service.name}</h1>
       <div className="service-detail-meta">
-        <p>
-          <strong>ID:</strong> {service.id}
-        </p>
+        <p><strong>ID:</strong> {service.id}</p>
         <p>
           <strong>Danh mục:</strong>{" "}
           <span className="service-category-badge">

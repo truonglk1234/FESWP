@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./TestingServiceManage.css"; // File CSS gộp
+import "./TestingServiceManage.css";
 
 const TestingServiceManage = () => {
   const [services, setServices] = useState([]);
@@ -8,24 +8,37 @@ const TestingServiceManage = () => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
-  const token = localStorage.getItem("token");
+  // ✅ Lấy token từ user trong localStorage
+  const storedUser = localStorage.getItem("user");
+  const token = storedUser ? JSON.parse(storedUser).token : null;
 
-  // Lấy danh sách dịch vụ xét nghiệm
+  // ✅ Gọi API: lấy dịch vụ tư vấn (advice)
   useEffect(() => {
+    if (!token) {
+      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
+      return;
+    }
+
     axios
       .get("http://localhost:8080/api/prices", {
         params: { type: "test" },
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => setServices(res.data))
       .catch((err) => console.error("❌ Lỗi tải dịch vụ:", err));
   }, [token]);
 
-  // Lấy danh sách danh mục
+  // ✅ Gọi API: lấy danh mục
   useEffect(() => {
+    if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("❌ Lỗi tải danh mục:", err));
@@ -47,7 +60,6 @@ const TestingServiceManage = () => {
       ? number.toLocaleString("vi-VN") + " VNĐ"
       : "-";
 
-
   const handleView = (service) => {
     window.location.href = `/manager/services/${service.id}`;
   };
@@ -64,18 +76,16 @@ const TestingServiceManage = () => {
 
   return (
     <div className="tsm-container">
-      {/* HEADER */}
       <div className="tsm-header">
         <h1 className="tsm-title">Quản lý dịch vụ xét nghiệm</h1>
         <p className="tsm-subtitle">
-          Quản lý danh sách dịch vụ, giá cả và thời gian thực hiện
+          Quản lý danh sách dịch vụ, giá tư vấn và trạng thái áp dụng
         </p>
         <button className="tsm-add-btn">Thêm dịch vụ mới</button>
       </div>
 
-      {/* BODY */}
       <div className="tsm-table-container">
-        <h2>Danh sách dịch vụ xét nghiệm ({services.length})</h2>
+        <h2>Danh sách dịch vụ tư vấn ({services.length})</h2>
         <table className="tsm-table">
           <thead>
             <tr>
@@ -117,7 +127,6 @@ const TestingServiceManage = () => {
                     >
                       Xem
                     </button>
-                    
                   </div>
                 </td>
               </tr>
@@ -125,7 +134,7 @@ const TestingServiceManage = () => {
           </tbody>
         </table>
 
-        {/* Pagination */}
+        {/* Phân trang */}
         <div className="tsm-pagination">
           <button onClick={() => setPage(page - 1)} disabled={page === 1}>
             ‹ Trước
