@@ -10,6 +10,7 @@ const ManagerStaffManage = () => {
 
   // Gọi API lấy danh sách nhân viên
   useEffect(() => {
+
     const token = JSON.parse(localStorage.getItem('user'))?.token;
     if (!token) return;
     axios.get('http://localhost:8080/api/auth/manager/staff', {
@@ -73,7 +74,7 @@ const ManagerStaffManage = () => {
               </div>
               <div>
                 <span className={`stm-status ${staff.active ? 'active' : 'inactive'}`}>
-                  {staff.active ? 'Hoạt động' : 'Ngừng hoạt động'}
+                  {staff.active ? 'Toạt động' : 'Hoạt động'}
                 </span>
               </div>
               <div className="stm-action-buttons">

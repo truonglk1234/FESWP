@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../../../context/AuthContext"; // ✅ IMPORT AuthContext
 import "./BlogDetail.css";
 
 const BlogDetail = () => {
@@ -9,9 +10,15 @@ const BlogDetail = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("token");
+  const { user } = useAuth(); // ✅ LẤY user TỪ CONTEXT
+  const token = user?.token;  // ✅ TOKEN LUÔN ĐÚNG
 
   useEffect(() => {
+    if (!token) {
+      console.warn("🚫 Không có token, chặn gọi API!");
+      return;
+    }
+
     axios
       .get(`http://localhost:8080/api/management/blogs/${id}`, {
         headers: {
@@ -26,7 +33,7 @@ const BlogDetail = () => {
         setPost(null);
       })
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, token]);
 
   const updateStatus = (newStatus) => {
     const endpoint =
@@ -41,11 +48,11 @@ const BlogDetail = () => {
         },
       })
       .then(() => {
-        alert(`Đã cập nhật trạng thái: ${newStatus}`);
+        alert(`✅ Đã cập nhật trạng thái: ${newStatus}`);
         navigate(-1);
       })
       .catch((err) => {
-        console.error("Lỗi cập nhật trạng thái:", err);
+        console.error("❌ Lỗi cập nhật trạng thái:", err);
         alert("Không thể cập nhật trạng thái!");
       });
   };
