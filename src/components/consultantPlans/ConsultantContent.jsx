@@ -11,7 +11,7 @@ const ConsultantContent = () => {
   const perPage = 6;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/prices/advice') // 🔗 Sửa endpoint cho tư vấn viên
+    axios.get('http://localhost:8080/api/public/prices/advice')
       .then((res) => {
         console.log('📦 Dữ liệu tư vấn viên:', res.data);
         setConsultants(res.data || []);
@@ -25,14 +25,16 @@ const ConsultantContent = () => {
   const paginated = consultants.slice((page - 1) * perPage, page * perPage);
 
   return (
-    <section className="consultant-section">
-      <div className="consultant-grid">
+    <section className="cc-section">
+      <div className="cc-grid">
         {paginated.map((consultant) => (
           <ConsultantCard key={consultant.id} data={consultant} />
         ))}
       </div>
 
-      <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+      <div className="cc-pagination">
+        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+      </div>
     </section>
   );
 };

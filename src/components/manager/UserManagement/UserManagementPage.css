@@ -1,11 +1,11 @@
-/* ========== PHẦN CHUNG ========== */
+/* ==================== CONTAINER ==================== */
 .um-container {
   padding: 24px;
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9fafb;
 }
 
-/* ========== HEADER ========== */
+/* ==================== HEADER ==================== */
 .um-header-row {
   display: flex;
   justify-content: space-between;
@@ -30,13 +30,11 @@
   margin-top: 4px;
 }
 
-/* ✅ Đã BỎ: .um-top-right-buttons + .um-user-add-btn */
-
-/* ========== TABLE & CONTENT ========== */
+/* ==================== TABLE ==================== */
 .um-user-page {
   background-color: #f9fafb;
   border-radius: 8px;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   max-width: 1200px;
   margin: auto;
 }
@@ -57,7 +55,7 @@
 .um-table-head,
 .um-table-row {
   display: grid;
-  grid-template-columns: 2fr 2fr 1.5fr 1fr; /* cột thao tác đủ rộng */
+  grid-template-columns: 2fr 2fr 1.5fr 1fr; /* 4 cột: Info, Contact, Status, Action */
   padding: 16px 24px;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -83,26 +81,30 @@
   gap: 4px;
 }
 
+/* ==================== STATUS BADGE ==================== */
 .um-status {
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 12px;
   font-size: 14px;
   text-align: center;
   display: inline-block;
   width: fit-content;
+  font-weight: 500;
 }
 
 .um-status.active {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: #e6fff0;
+  color: #13ce66;
+  border: 1px solid #13ce66;
 }
 
 .um-status.inactive {
-  background-color: #e5e7eb;
-  color: #1f2937;
+  background-color: #ffeaea;
+  color: #e63946;
+  border: 1px solid #e63946;
 }
 
-/* ========== PHÂN TRANG ========== */
+/* ==================== PAGINATION ==================== */
 .um-pagination {
   display: flex;
   justify-content: center;
@@ -142,7 +144,7 @@
   cursor: not-allowed;
 }
 
-/* ========== ACTION BUTTONS ========== */
+/* ==================== ACTION BUTTONS ==================== */
 .um-action-buttons {
   display: flex;
   flex-direction: row;
@@ -167,4 +169,34 @@
   background-color: #059669;
 }
 
-/* ✅ Đã BỎ: .um-edit-btn & .um-delete-btn */
+.um-edit-btn {
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.um-edit-btn:hover {
+  background-color: #2563eb;
+}
+
+.um-delete-btn {
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #ef4444;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.um-delete-btn:hover {
+  background-color: #dc2626;
+}

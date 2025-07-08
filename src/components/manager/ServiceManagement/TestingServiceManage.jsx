@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./TestingServiceManage.css";
+import TestingServiceDetailModal from "./TestingServiceDetailModal"; // Modal Xem + Trạng thái
+import AddTestingServiceModal from "./AddTestingServiceModal";     // ✅ Modal Thêm mới
 
 const TestingServiceManage = () => {
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false); // ✅ State mở modal thêm
   const itemsPerPage = 3;
 
-  // ✅ Lấy token từ user trong localStorage
   const storedUser = localStorage.getItem("user");
   const token = storedUser ? JSON.parse(storedUser).token : null;
 
-  // ✅ Gọi API: lấy dịch vụ tư vấn (advice)
-  useEffect(() => {
-    if (!token) {
-      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
-      return;
-    }
-
+  const fetchServices = () => {
     axios
       .get("http://localhost:8080/api/prices", {
         params: { type: "test" },
@@ -28,9 +25,16 @@ const TestingServiceManage = () => {
       })
       .then((res) => setServices(res.data))
       .catch((err) => console.error("❌ Lỗi tải dịch vụ:", err));
+  };
+
+  useEffect(() => {
+    if (!token) {
+      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
+      return;
+    }
+    fetchServices();
   }, [token]);
 
-  // ✅ Gọi API: lấy danh mục
   useEffect(() => {
     if (!token) return;
 
@@ -61,7 +65,7 @@ const TestingServiceManage = () => {
       : "-";
 
   const handleView = (service) => {
-    window.location.href = `/manager/services/${service.id}`;
+    setSelectedId(service.id);
   };
 
   const getStatusBadge = (status) => {
@@ -81,11 +85,13 @@ const TestingServiceManage = () => {
         <p className="tsm-subtitle">
           Quản lý danh sách dịch vụ, giá tư vấn và trạng thái áp dụng
         </p>
-        <button className="tsm-add-btn">Thêm dịch vụ mới</button>
+        <button className="tsm-add-btn" onClick={() => setShowAddModal(true)}>
+          Thêm dịch vụ mới
+        </button>
       </div>
 
       <div className="tsm-table-container">
-        <h2>Danh sách dịch vụ tư vấn ({services.length})</h2>
+        <h2>Danh sách dịch vụ xét nghiệm ({services.length})</h2>
         <table className="tsm-table">
           <thead>
             <tr>
@@ -134,7 +140,6 @@ const TestingServiceManage = () => {
           </tbody>
         </table>
 
-        {/* Phân trang */}
         <div className="tsm-pagination">
           <button onClick={() => setPage(page - 1)} disabled={page === 1}>
             ‹ Trước
@@ -156,6 +161,23 @@ const TestingServiceManage = () => {
           </button>
         </div>
       </div>
+
+      {/* ✅ Modal Xem */}
+      {selectedId && (
+        <TestingServiceDetailModal
+          id={selectedId}
+          onClose={() => setSelectedId(null)}
+          onStatusUpdate={fetchServices}
+        />
+      )}
+
+      {/* ✅ Modal Thêm */}
+      {showAddModal && (
+        <AddTestingServiceModal
+          onClose={() => setShowAddModal(false)}
+          onAdded={fetchServices}
+        />
+      )}
     </div>
   );
 };

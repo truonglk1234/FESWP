@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './ManagerStaffManage.css';
 import axios from 'axios';
+import AddStaffForm from './AddStaffForm';
+import StaffDetailModal from './StaffDetailModal'; // ✅ NEW IMPORT
 
 const PAGE_SIZE = 3;
 
 const ManagerStaffManage = () => {
   const [staffs, setStaffs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedStaff, setSelectedStaff] = useState(null); // ✅ NEW
 
-  // Gọi API lấy danh sách nhân viên
-  useEffect(() => {
-
+  // Lấy danh sách nhân viên
+  const fetchStaffs = () => {
     const token = JSON.parse(localStorage.getItem('user'))?.token;
     if (!token) return;
     axios.get('http://localhost:8080/api/auth/manager/staff', {
@@ -24,6 +27,10 @@ const ManagerStaffManage = () => {
       .catch(err => {
         console.error('❌ Lỗi khi tải danh sách nhân viên:', err);
       });
+  };
+
+  useEffect(() => {
+    fetchStaffs();
   }, []);
 
   const totalPages = Math.ceil(staffs.length / PAGE_SIZE);
@@ -33,7 +40,7 @@ const ManagerStaffManage = () => {
   );
 
   const handleView = (staff) => {
-    alert(`🔍 Xem chi tiết nhân viên:\n\nTên: ${staff.name}\nEmail: ${staff.email}\nSĐT: ${staff.phone}`);
+    setSelectedStaff(staff); // ✅ Mở modal
   };
 
   return (
@@ -45,7 +52,9 @@ const ManagerStaffManage = () => {
           <p className="smh-subtitle">Quản lý thông tin và phân quyền nhân viên</p>
         </div>
         <div className="smh-top-right-buttons">
-          <button className="smh-add-btn">Thêm nhân viên mới</button>
+          <button className="smh-add-btn" onClick={() => setShowAddForm(true)}>
+            Thêm nhân viên mới
+          </button>
         </div>
       </div>
 
@@ -73,8 +82,8 @@ const ManagerStaffManage = () => {
                 <span>{staff.phone}</span>
               </div>
               <div>
-                <span className={`stm-status ${staff.active ? 'active' : 'inactive'}`}>
-                  {staff.active ? 'Toạt động' : 'Hoạt động'}
+                <span className={`stm-status ${staff.active === false ? 'inactive' : 'active'}`}>
+                  {staff.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
                 </span>
               </div>
               <div className="stm-action-buttons">
@@ -109,6 +118,22 @@ const ManagerStaffManage = () => {
           </button>
         </div>
       </div>
+
+      {/* ---------- MODAL ADD ---------- */}
+      {showAddForm && (
+        <AddStaffForm
+          onClose={() => setShowAddForm(false)}
+          onAdded={fetchStaffs}
+        />
+      )}
+
+      {/* ---------- MODAL VIEW ---------- */}
+      {selectedStaff && (
+        <StaffDetailModal
+          staff={selectedStaff}
+          onClose={() => setSelectedStaff(null)}
+        />
+      )}
     </div>
   );
 };

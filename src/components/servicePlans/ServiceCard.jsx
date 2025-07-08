@@ -67,7 +67,7 @@ const ServiceCard = ({ data }) => {
           )}
 
           <div className="service-footer">
-            <div className="price">
+            <div className="service-price">
               {oldPriceDisplay && (
                 <span className="old-price">{oldPriceDisplay}</span>
               )}

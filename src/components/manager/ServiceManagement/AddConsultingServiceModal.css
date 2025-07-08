@@ -1,0 +1,76 @@
+.acsm-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.acsm-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 95%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.acsm-content h2 {
+  margin-top: 0;
+}
+
+.acsm-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.acsm-content label {
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.acsm-content input,
+.acsm-content select,
+.acsm-content textarea {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.acsm-content textarea {
+  min-height: 80px;
+}
+
+.acsm-error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.acsm-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.acsm-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.acsm-actions button[type="submit"] {
+  background: #22c55e;
+  color: #fff;
+}
+
+.acsm-actions button[type="button"] {
+  background: #ccc;
+  color: #333;
+}

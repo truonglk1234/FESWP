@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ConsultingServiceManage.css";
+import ConsultingServiceDetailModal from "./ConsultingServiceDetailModal"; // ✅ Xem chi tiết
+import AddConsultingServiceModal from "./AddConsultingServiceModal";       // ✅ Thêm mới
 
 const ConsultingServiceManage = () => {
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false); // ✅ NEW
   const itemsPerPage = 3;
 
-  // ✅ Lấy token từ localStorage.user
   const storedUser = localStorage.getItem("user");
   const token = storedUser ? JSON.parse(storedUser).token : null;
 
-  // ✅ Gọi API lấy danh sách dịch vụ tư vấn
-  useEffect(() => {
-    if (!token) {
-      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
-      return;
-    }
-
+  const fetchServices = () => {
     axios
       .get("http://localhost:8080/api/prices", {
         params: { type: "advice" },
@@ -26,9 +23,16 @@ const ConsultingServiceManage = () => {
       })
       .then((res) => setServices(res.data))
       .catch((err) => console.error("❌ Lỗi tải dịch vụ:", err));
+  };
+
+  useEffect(() => {
+    if (!token) {
+      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
+      return;
+    }
+    fetchServices();
   }, [token]);
 
-  // ✅ Gọi API lấy danh sách danh mục
   useEffect(() => {
     if (!token) return;
 
@@ -57,7 +61,7 @@ const ConsultingServiceManage = () => {
       : "-";
 
   const handleView = (service) => {
-    window.location.href = `/manager/consulting-services/${service.id}`;
+    setSelectedId(service.id);
   };
 
   const getStatusBadge = (status) => {
@@ -78,7 +82,12 @@ const ConsultingServiceManage = () => {
         <p className="csm-subtitle">
           Quản lý danh sách dịch vụ, giá tư vấn và trạng thái áp dụng
         </p>
-        <button className="csm-add-btn">Thêm dịch vụ mới</button>
+        <button
+          className="csm-add-btn"
+          onClick={() => setShowAddModal(true)} // ✅ Mở modal thêm
+        >
+          Thêm dịch vụ mới
+        </button>
       </div>
 
       {/* BODY */}
@@ -154,6 +163,23 @@ const ConsultingServiceManage = () => {
           </button>
         </div>
       </div>
+
+      {/* Modal Xem */}
+      {selectedId && (
+        <ConsultingServiceDetailModal
+          id={selectedId}
+          onClose={() => setSelectedId(null)}
+          onStatusUpdate={fetchServices}
+        />
+      )}
+
+      {/* ✅ Modal Thêm mới */}
+      {showAddModal && (
+        <AddConsultingServiceModal
+          onClose={() => setShowAddModal(false)}
+          onAdded={fetchServices}
+        />
+      )}
     </div>
   );
 };

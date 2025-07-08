@@ -1,4 +1,4 @@
-.bm-modal-overlay {
+.cbm-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.4);
@@ -8,7 +8,7 @@
   z-index: 9999;
 }
 
-.bm-modal-content {
+.cbm-modal-content {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
@@ -17,17 +17,17 @@
   position: relative;
 }
 
-.bm-modal-section {
+.cbm-modal-section {
   margin-bottom: 1rem;
 }
 
-.bm-options-grid {
+.cbm-options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 10px;
 }
 
-.bm-options-grid button {
+.cbm-options-grid button {
   padding: 8px 12px;
   border: 1px solid #ccc;
   background: #f5f5f5;
@@ -37,37 +37,37 @@
   color: #333;
 }
 
-.bm-options-grid button:hover {
+.cbm-options-grid button:hover {
   background: #e0f2f1;
   border-color: #10b981;
 }
 
-.bm-options-grid button.bm-selected {
+.cbm-options-grid button.cbm-selected {
   background: #10b981;
   color: #fff;
   border: 1px solid #10b981;
 }
 
-.bm-options-grid button:disabled {
+.cbm-options-grid button:disabled {
   background: #f0f0f0;
   color: #999;
   border: 1px solid #ddd;
   cursor: not-allowed;
 }
 
-.bm-form-group {
+.cbm-form-group {
   margin-bottom: 1rem;
 }
 
-.bm-form-group input,
-.bm-form-group textarea {
+.cbm-form-group input,
+.cbm-form-group textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 6px;
 }
 
-.bm-next-btn {
+.cbm-next-btn {
   background: #10b981;
   color: #fff;
   padding: 10px 20px;
@@ -76,12 +76,12 @@
   cursor: pointer;
 }
 
-.bm-next-btn:disabled {
+.cbm-next-btn:disabled {
   background: #bbb;
   cursor: not-allowed;
 }
 
-.bm-confirm-box {
+.cbm-confirm-box {
   margin: 1rem 0;
   padding: 1rem;
   background: #f0fdf4;
@@ -89,30 +89,30 @@
   border-radius: 8px;
 }
 
-.bm-confirm-actions {
+.cbm-confirm-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.bm-cancel-btn,
-.bm-confirm-btn {
+.cbm-cancel-btn,
+.cbm-confirm-btn {
   padding: 10px 20px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
 }
 
-.bm-cancel-btn {
+.cbm-cancel-btn {
   background: #ddd;
 }
 
-.bm-confirm-btn {
+.cbm-confirm-btn {
   background: #10b981;
   color: #fff;
 }
 
-.bm-close-btn {
+.cbm-close-btn {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -124,11 +124,11 @@
   transition: color 0.2s ease;
 }
 
-.bm-close-btn:hover {
+.cbm-close-btn:hover {
   color: #10b981;
 }
 
-.bm-form-group select {
+.cbm-form-group select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -137,7 +137,7 @@
   appearance: none;
 }
 
-.bm-form-group select:focus {
+.cbm-form-group select:focus {
   border-color: #10b981;
   outline: none;
 }

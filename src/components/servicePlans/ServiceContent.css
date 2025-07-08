@@ -99,6 +99,11 @@
   gap: 2px;
 }
 
+.service-price{
+  font-size: 22px;
+  font-weight: 700;
+  color: #009f63;
+}
 .old-price {
   text-decoration: line-through;
   color: #888;

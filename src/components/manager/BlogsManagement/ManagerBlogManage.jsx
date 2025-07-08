@@ -1,30 +1,34 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import BlogDetailModal from "./BlogDetailModal"; // ✅ IMPORT modal
 import "./ManagerBlogManage.css";
 
 const PAGE_SIZE = 3;
 
 const ManagerBlogManage = () => {
-  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
+  const [selectedId, setSelectedId] = useState(null); // ✅ State để mở modal
+
+  const token = JSON.parse(localStorage.getItem("user"))?.token;
 
   useEffect(() => {
+    if (!token) return;
+
     axios.get("http://localhost:8080/api/management/blogs/all", {
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))?.token}`,
+        Authorization: `Bearer ${token}`,
       }
     })
     .then((res) => setPosts(res.data))
     .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
-  }, []);
+  }, [token]);
 
   const totalPages = Math.ceil(posts.length / PAGE_SIZE);
   const visiblePosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const handleView = (post) => {
-    navigate(`/manager/blogs/${post.id}`);
+    setSelectedId(post.id); // ✅ Mở modal thay vì navigate
   };
 
   const getStatusClass = (status) => {
@@ -41,6 +45,20 @@ const ManagerBlogManage = () => {
       default:
         return "mbm-badge";
     }
+  };
+
+  const closeModal = () => {
+    setSelectedId(null);
+  };
+
+  const reloadBlogs = () => {
+    axios.get("http://localhost:8080/api/management/blogs/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    .then((res) => setPosts(res.data))
+    .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
   };
 
   return (
@@ -104,6 +122,15 @@ const ManagerBlogManage = () => {
           <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>Sau ›</button>
         </div>
       </div>
+
+      {/* ---------- BLOG DETAIL MODAL ---------- */}
+      {selectedId && (
+        <BlogDetailModal
+          id={selectedId}
+          onClose={closeModal}
+          onStatusUpdate={reloadBlogs}
+        />
+      )}
     </div>
   );
 };

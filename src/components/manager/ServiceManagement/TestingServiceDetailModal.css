@@ -1,0 +1,86 @@
+.tsdm-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.tsdm-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 95%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.2s ease forwards;
+}
+
+.tsdm-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  color: #333; /* ✅ BẮT BUỘC để thấy nút ✖ */
+}
+
+.tsdm-status-row {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tsdm-status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.tsdm-status-badge.active {
+  background: #22c55e;
+  color: #fff;
+}
+
+.tsdm-status-badge.inactive {
+  background: #ef4444;
+  color: #fff;
+}
+
+.tsdm-status-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tsdm-status-btn.green {
+  background: #22c55e;
+  color: #fff;
+}
+
+.tsdm-status-btn.red {
+  background: #ef4444;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

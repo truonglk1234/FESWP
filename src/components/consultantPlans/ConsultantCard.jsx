@@ -1,17 +1,22 @@
+import React, { useState } from 'react';
 import {
   Calendar,
   ShieldCheck,
+  TestTube,
+  Microscope,
   User,
   Brain,
   CheckCircle
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import ConsultingBookingModal from './ConsultingBookingModal';
 
-// Bản đồ icon riêng (tuỳ bạn thêm icon khác nếu cần)
 const iconMap = {
+  TestTube: <TestTube className="consultant-icon" />,
+  Microscope: <Microscope className="consultant-icon" />,
   User: <User className="consultant-icon" />,
-  Brain: <Brain className="consultant-icon" />,
-  ShieldCheck: <ShieldCheck className="consultant-icon" />
+  ShieldCheck: <ShieldCheck className="consultant-icon" />,
+  Calendar: <Calendar className="consultant-icon" />,
+  Brain: <Brain className="consultant-icon" />
 };
 
 const normalizeIcon = (icon) => {
@@ -22,6 +27,8 @@ const normalizeIcon = (icon) => {
 };
 
 const ConsultantCard = ({ data }) => {
+  const [showBooking, setShowBooking] = useState(false);
+
   const priceDisplay = data.price === 0
     ? 'Miễn phí'
     : `${data.price.toLocaleString()}đ`;
@@ -32,45 +39,58 @@ const ConsultantCard = ({ data }) => {
       : null;
 
   return (
-    <div className="consultant-card">
-      <div className="consultant-icon-wrapper">
-        {normalizeIcon(data.icon)}
-      </div>
-
-      <div className="consultant-content">
-        <div className="consultant-header">
-          <h3>{data.name || data.title || 'Không có tên'}</h3>
+    <>
+      <div className="consultant-card">
+        <div className="consultant-icon-wrapper">
+          {normalizeIcon(data.icon)}
         </div>
 
-        <p className="consultant-description">
-          {data.description || 'Không có mô tả.'}
-        </p>
-
-        {Array.isArray(data.features) && data.features.length > 0 && (
-          <ul className="features">
-            {data.features.map((feature, i) => (
-              <li key={i}>
-                <CheckCircle size={14} style={{ marginRight: '6px' }} />
-                {feature}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="consultant-footer">
-          <div className="price">
-            {oldPriceDisplay && (
-              <span className="old-price">{oldPriceDisplay}</span>
-            )}
-            <span className="current-price">{priceDisplay}</span>
+        <div className="consultant-content">
+          <div className="consultant-header">
+            <h3>{data.title || data.name || 'Không có tiêu đề'}</h3>
           </div>
 
-          <Link to={`/booking/${data.id}`} className="book-btn">
-            <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
-          </Link>
+          <p className="consultant-description">
+            {data.description || 'Không có mô tả.'}
+          </p>
+
+          {Array.isArray(data.features) && data.features.length > 0 && (
+            <ul className="consultant-features">
+              {data.features.map((feature, i) => (
+                <li key={i}>
+                  <CheckCircle size={14} style={{ marginRight: '6px' }} />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* ✅ Footer: giá + nút nằm cùng 1 hàng */}
+          <div className="consultants-footer">
+            <div className="consultant-price">
+              {oldPriceDisplay && (
+                <span className="consultant-old-price">{oldPriceDisplay}</span>
+              )}
+              <span className="current-price">{priceDisplay}</span>
+            </div>
+
+            <button
+              className="consultant-book-btn"
+              onClick={() => setShowBooking(true)}
+            >
+              <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {showBooking && (
+        <ConsultingBookingModal
+          service={data}
+          onClose={() => setShowBooking(false)}
+        />
+      )}
+    </>
   );
 };
 

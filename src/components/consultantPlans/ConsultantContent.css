@@ -1,16 +1,18 @@
-.consultant-section {
+/* ========== WRAPPER & GRID ========== */
+.cc-section {
   max-width: 1450px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
-.consultant-grid {
+.cc-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   padding-bottom: 32px;
 }
 
+/* ========== CARD ========== */
 .consultant-card {
   background: #fff;
   border: 1px solid #d1f2e2;
@@ -57,55 +59,39 @@
   color: #062f2d;
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #1dbf73;
-}
-
-.consultant-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 8px;
-}
-
 .consultant-description {
   font-size: 15px;
   color: #333;
   margin-bottom: 8px;
 }
 
-.features {
+.consultant-features {
   padding-left: 18px;
   color: #057e56;
   font-size: 14px;
   margin-bottom: 12px;
 }
 
-.consultant-footer {
+.consultants-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* ✅ chia đều */
   align-items: center;
 }
 
-.consultant-footer .price {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.consultant-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
 }
 
-.old-price {
+.consultant-old-price {
   text-decoration: line-through;
   color: #888;
   font-size: 14px;
+  margin-right: 8px;
 }
 
-.book-btn {
+.consultant-book-btn {
   background: #1dbf73;
   border: none;
   color: white;
@@ -113,23 +99,24 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  text-decoration: none; /* Link */
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
 }
 
-.book-btn:hover {
+.consultant-book-btn:hover {
   background: #17b887;
 }
 
-.pagination {
+/* ========== PAGINATION ========== */
+.cc-pagination {
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-bottom: 32px;
 }
 
-.page {
+.cc-page {
   background: transparent;
   border: 1px solid #e0e0e0;
   padding: 6px 12px;
@@ -140,16 +127,16 @@
   transition: all 0.2s;
 }
 
-.page:hover {
+.cc-page:hover {
   background-color: #f0f0f0;
 }
 
-.page.active {
+.cc-page.active {
   background: #f0fdf9;
   border-color: #1dbf73;
   color: #1dbf73;
 }
 
-.page.next {
+.cc-page.next {
   font-weight: 600;
 }

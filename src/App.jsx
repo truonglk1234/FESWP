@@ -3,7 +3,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ServiceTestingPage from './pages/ServiceTestingPage';
-import ConsultantServicePage from './pages/ConsultantServicePage'; // ✅ ĐÚNG TÊN FILE
+import ConsultantServicePage from './pages/ConsultantServicePage';
 import ConsultantPage from './pages/ConsultantPage';
 import BlogPage from './pages/BlogPage';
 import { AuthProvider } from './context/AuthContext';
@@ -22,7 +22,6 @@ import ServiceHistory from './components/profile/pages/ServiceHistory';
 import ManagerLayout from './components/manager/ManagerLayout';
 import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
 import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
-import UserViewPage from './components/manager/UserManagement/UserViewPage';
 import ManagerCM from './components/manager/ConsultantManagement/ManagerCM';
 import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaffManage';
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
@@ -30,9 +29,6 @@ import ConsultingServiceManage from './components/manager/ServiceManagement/Cons
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
 import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
-import BlogDetail from './components/manager/BlogsManagement/BlogDetail';
-import TestingServiceDetail from './components/manager/ServiceManagement/TestingServiceDetail';
-import ConsultingServiceDetail from './components/manager/ServiceManagement/ConsultingServiceDetail';
 
 // Consultant Layout & Pages
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -57,17 +53,17 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Routes>
-          {/* Public routes */}
+          {/* --------- PUBLIC --------- */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/services/testing" element={<ServiceTestingPage />} /> {/* ✅ ĐÚNG URL */}
-          <Route path="/services/consulting" element={<ConsultantServicePage />} /> {/* ✅ ĐÚNG TÊN */}
+          <Route path="/services/testing" element={<ServiceTestingPage />} />
+          <Route path="/services/consulting" element={<ConsultantServicePage />} />
           <Route path="/consultants" element={<ConsultantPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
 
-          {/* Profile layout + nested tabs */}
+          {/* --------- PROFILE --------- */}
           <Route path="/profile" element={<Profile />}>
             <Route index element={<PersonalInfo />} />
             <Route path="info" element={<PersonalInfo />} />
@@ -77,7 +73,7 @@ const App = () => {
             <Route path="history" element={<ServiceHistory />} />
           </Route>
 
-          {/* Consultant layout + nested pages */}
+          {/* --------- CONSULTANT --------- */}
           <Route path="/consultant" element={<ConsultantLayout />}>
             <Route index element={<ConsultantDashboard />} />
             <Route path="schedule" element={<ConsultingSchedule />} />
@@ -86,7 +82,7 @@ const App = () => {
             <Route path="reviews" element={<ConsultantEvaluate />} />
           </Route>
 
-          {/* Staff layout + nested pages */}
+          {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
             <Route index element={<StaffHome />} />
             <Route path="schedule" element={<TestSchedule />} />
@@ -97,19 +93,15 @@ const App = () => {
             <Route path="blogs/edit/:id" element={<StaffBlogEdit />} />
           </Route>
 
-          {/* Manager layout + nested pages */}
+          {/* --------- MANAGER --------- */}
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
             <Route path="users" element={<UserManagementPage />} />
-            <Route path="users/view/:id" element={<UserViewPage />} />
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
             <Route path="services" element={<TestingServiceManage />} />
-            <Route path="services/:id" element={<TestingServiceDetail />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />
-            <Route path="consulting-services/:id" element={<ConsultingServiceDetail />} />
             <Route path="blogs" element={<ManagerBlogManage />} />
-            <Route path="blogs/:id" element={<BlogDetail />} />
             <Route path="feedbacks" element={<ManagerFM />} />
             <Route path="qna" element={<ManagerQA />} />
           </Route>

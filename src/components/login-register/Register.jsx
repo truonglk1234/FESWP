@@ -14,6 +14,7 @@ const Register = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,41 +33,62 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Validate mật khẩu khớp
+    if (formData.password !== formData.confirmPassword) {
+      setError('❌ Mật khẩu không khớp');
+      return;
+    }
+
+    // Validate độ dài mật khẩu
+    if (formData.password.length < 6) {
+      setError('❌ Mật khẩu phải từ 6 ký tự trở lên');
+      return;
+    }
+
+    // Validate ngày sinh không được là tương lai
+    const today = new Date().toISOString().split('T')[0];
+    if (formData.dateOfBirthday > today) {
+      setError('❌ Ngày sinh không hợp lệ');
+      return;
+    }
+
     const payload = {
       ...formData,
       gender: formData.gender === 'true',
-      dateOfBirthday: formData.dateOfBirthday,
     };
 
     try {
-  const response = await axios.post('http://localhost:8080/api/auth/register', payload, {
-    withCredentials: true,
-  });
+      setLoading(true);
+      const response = await axios.post('http://localhost:8080/api/auth/register', payload, {
+        withCredentials: true,
+      });
 
-  console.log('Đăng ký thành công:', response.data);
-  setEmail(formData.email);     
-  setIsRegistered(true);        
-  alert("🎉 Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.");
-} catch (err) {
-  console.error("Lỗi khi đăng ký:", err.response?.data || err.message);
+      console.log('Đăng ký thành công:', response.data);
+      setEmail(formData.email);
+      setIsRegistered(true);
+    } catch (err) {
+      console.error("Lỗi khi đăng ký:", err.response?.data || err.message);
 
-  if (err.response && err.response.data) {
-    const { message, errors } = err.response.data;
+      if (err.response && err.response.data) {
+        const { message, errors } = err.response.data;
 
-    if (message) {
-      setError(message);
-    } else if (errors && typeof errors === 'object') {
-      const firstError = Object.values(errors)[0];
-      setError(firstError || 'Đăng ký thất bại');
-    } else {
-      setError('Đăng ký thất bại');
+        if (message) {
+          setError(message);
+        } else if (errors && typeof errors === 'object') {
+          const firstError = Object.values(errors)[0];
+          setError(firstError || 'Đăng ký thất bại');
+        } else {
+          setError('Đăng ký thất bại');
+        }
+      } else {
+        setError('Không thể kết nối đến máy chủ');
+      }
+    } finally {
+      setLoading(false);
     }
-  } else {
-    setError('Không thể kết nối đến máy chủ');
-  }
+  };
 
-}
-  }
   return (
     <div className="register-wrapper">
       <div className="register-info">
@@ -215,11 +237,11 @@ const Register = () => {
                 </span>
               </label>
 
-              <button type="submit" className="register-submit-btn">
-                Đăng ký →
+              <button type="submit" className="register-submit-btn" disabled={loading}>
+                {loading ? 'Đang xử lý...' : 'Đăng ký →'}
               </button>
 
-              {typeof error === 'string' && <p className="register-error-msg">{error}</p>}
+              {error && <p className="register-error-msg">{error}</p>}
 
               <div className="register-login-link">
                 Đã có tài khoản? <Link to="/login">Đăng nhập</Link>

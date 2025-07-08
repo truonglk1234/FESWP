@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './UserManagementPage.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import UserDetailModal from './UserDetailModal'; // ✅ NEW IMPORT
 
 const PAGE_SIZE = 3;
 
 const UserManagementPage = () => {
   const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
+  const [selectedUser, setSelectedUser] = useState(null); // ✅ NEW
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('user'))?.token;
@@ -34,7 +34,7 @@ const UserManagementPage = () => {
   );
 
   const handleView = (user) => {
-    navigate(`/manager/users/view/${user.id}`);
+    setSelectedUser(user); // ✅ Mở modal
   };
 
   return (
@@ -106,6 +106,14 @@ const UserManagementPage = () => {
           </button>
         </div>
       </div>
+
+      {/* --------- MODAL DETAIL --------- */}
+      {selectedUser && (
+        <UserDetailModal
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+        />
+      )}
     </div>
   );
 };
