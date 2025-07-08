@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './BookingModal.css';
 
 const BookingModal = ({ service, onClose }) => {
@@ -10,11 +11,6 @@ const BookingModal = ({ service, onClose }) => {
     phone: '',
     email: '',
     note: ''
-  });
-
-  const [paymentInfo, setPaymentInfo] = useState({
-    method: '',
-    account: ''
   });
 
   const availableDates = [
@@ -35,26 +31,51 @@ const BookingModal = ({ service, onClose }) => {
     setContactInfo(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePaymentChange = (e) => {
-    const { name, value } = e.target;
-    setPaymentInfo(prev => ({ ...prev, [name]: value }));
-  };
+  const handleConfirmBooking = async () => {
+    try {
+      // Parse date & time to ISO
+      const [_, dateString] = selectedDate.split(', ');
+      const [day, month] = dateString.split('/').map(Number);
+      const [hour, minute] = selectedTime.split(':').map(Number);
+      const pad = (n) => n.toString().padStart(2, '0');
+      const appointmentDate = `2025-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
 
-  const handleConfirmBooking = () => {
-    console.log('✅ Booking info:', {
-      service: service,
-      selectedDate,
-      selectedTime,
-      contactInfo
-    });
-    // Giả sử gọi API ở đây, sau đó chuyển sang thanh toán:
-    setStep(5);
-  };
+      const bookingPayload = {
+        serviceId: service.id,
+        appointmentDate,
+        name: contactInfo.name,
+        phone: contactInfo.phone,
+        email: contactInfo.email,
+        note: contactInfo.note
+      };
+      console.log("📦 Payload gửi:", bookingPayload);
 
-  const handleCompletePayment = () => {
-    console.log('✅ Payment info:', paymentInfo);
-    alert('Thanh toán thành công!');
-    onClose();
+   const response = await axios.post(
+  "http://localhost:8080/api/examinations/book",
+  bookingPayload,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  }
+);
+
+      console.log("✅ Đặt lịch thành công:", response.data);
+
+      // Sang bước thanh toán
+      setStep(5);
+
+      // Redirect sang VNPay nếu có paymentUrl
+      if (response.data && response.data.paymentUrl) {
+        setTimeout(() => {
+          window.location.href = response.data.paymentUrl;
+        }, 1500); // chờ 1.5s rồi chuyển
+      }
+    } catch (error) {
+      console.error("❌ Lỗi khi đặt lịch:", error);
+      alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
+    }
   };
 
   return (
@@ -113,49 +134,21 @@ const BookingModal = ({ service, onClose }) => {
             <h4>👤 Thông tin liên hệ</h4>
             <div className="bm-form-group">
               <label>Họ và tên *</label>
-              <input
-                type="text"
-                name="name"
-                value={contactInfo.name}
-                onChange={handleContactChange}
-                placeholder="Nhập họ và tên đầy đủ"
-              />
+              <input type="text" name="name" value={contactInfo.name} onChange={handleContactChange} />
             </div>
             <div className="bm-form-group">
               <label>Số điện thoại *</label>
-              <input
-                type="text"
-                name="phone"
-                value={contactInfo.phone}
-                onChange={handleContactChange}
-                placeholder="Nhập số điện thoại"
-              />
+              <input type="text" name="phone" value={contactInfo.phone} onChange={handleContactChange} />
             </div>
             <div className="bm-form-group">
-              <label>Email (tuỳ chọn)</label>
-              <input
-                type="email"
-                name="email"
-                value={contactInfo.email}
-                onChange={handleContactChange}
-                placeholder="Nhập email nếu cần"
-              />
+              <label>Email</label>
+              <input type="email" name="email" value={contactInfo.email} onChange={handleContactChange} />
             </div>
             <div className="bm-form-group">
-              <label>Ghi chú thêm</label>
-              <textarea
-                name="note"
-                value={contactInfo.note}
-                onChange={handleContactChange}
-                placeholder="Triệu chứng, câu hỏi hoặc yêu cầu đặc biệt..."
-              />
+              <label>Ghi chú</label>
+              <textarea name="note" value={contactInfo.note} onChange={handleContactChange} />
             </div>
-
-            <button
-              className="bm-next-btn"
-              onClick={() => setStep(4)}
-              disabled={!contactInfo.name || !contactInfo.phone}
-            >
+            <button className="bm-next-btn" onClick={() => setStep(4)} disabled={!contactInfo.name || !contactInfo.phone}>
               Tiếp tục
             </button>
           </>
@@ -163,66 +156,29 @@ const BookingModal = ({ service, onClose }) => {
 
         {step === 4 && (
           <>
-            <h4>✅ Xác nhận thông tin đặt lịch</h4>
+            <h4>✅ Xác nhận thông tin</h4>
             <div className="bm-confirm-box">
-              <div>
-                <strong>Dịch vụ:</strong> {service.title || service.name}<br />
-                <strong>Giá:</strong> {service.price.toLocaleString()}đ<br />
-                <strong>Thời gian:</strong> 15 phút
-              </div>
-              <div>
-                <strong>Lịch hẹn:</strong><br />
-                Ngày: {selectedDate}<br />
-                Giờ: {selectedTime}
-              </div>
-              <div>
-                <strong>Thông tin liên hệ:</strong><br />
-                {contactInfo.name} | {contactInfo.phone} | {contactInfo.email}<br />
-                {contactInfo.note}
-              </div>
+              <p><strong>Dịch vụ:</strong> {service.title || service.name}</p>
+              <p><strong>Giá:</strong> {service.price.toLocaleString()}đ</p>
+              <p><strong>Ngày:</strong> {selectedDate}</p>
+              <p><strong>Giờ:</strong> {selectedTime}</p>
+              <p><strong>Họ tên:</strong> {contactInfo.name}</p>
+              <p><strong>Điện thoại:</strong> {contactInfo.phone}</p>
+              <p><strong>Email:</strong> {contactInfo.email}</p>
+              <p><strong>Ghi chú:</strong> {contactInfo.note}</p>
             </div>
             <div className="bm-confirm-actions">
-              <button className="bm-cancel-btn" onClick={onClose}>Huỷ bỏ</button>
-              <button className="bm-confirm-btn" onClick={handleConfirmBooking}>Xác nhận đặt lịch</button>
+              <button className="bm-cancel-btn" onClick={onClose}>Huỷ</button>
+              <button className="bm-confirm-btn" onClick={handleConfirmBooking}>Xác nhận</button>
             </div>
           </>
         )}
 
         {step === 5 && (
           <>
-            <h4>💳 Thanh toán</h4>
-            <div className="bm-form-group">
-              <label>Phương thức thanh toán</label>
-              <select
-                name="method"
-                value={paymentInfo.method}
-                onChange={handlePaymentChange}
-              >
-                <option value="">-- Chọn phương thức --</option>
-                <option value="momo">Ví MoMo</option>
-                <option value="zalo">Ví ZaloPay</option>
-                <option value="credit">Thẻ tín dụng</option>
-              </select>
-            </div>
-
-            <div className="bm-form-group">
-              <label>Số thẻ / Tài khoản ví</label>
-              <input
-                type="text"
-                name="account"
-                value={paymentInfo.account}
-                onChange={handlePaymentChange}
-                placeholder="Nhập số thẻ hoặc tài khoản ví"
-              />
-            </div>
-
-            <button
-              className="bm-confirm-btn"
-              onClick={handleCompletePayment}
-              disabled={!paymentInfo.method || !paymentInfo.account}
-            >
-              Hoàn tất thanh toán
-            </button>
+            <h4>💳 Đang chuyển sang thanh toán</h4>
+            <p>Vui lòng chờ trong giây lát để thanh toán bằng mã QR VNPay...</p>
+            <button className="bm-close-btn" onClick={onClose}>Đóng</button>
           </>
         )}
 
