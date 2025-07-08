@@ -1,0 +1,100 @@
+.rfooter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rfooter-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rfooter-tabs button {
+  border: none;
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.rfooter-tabs button.active {
+  background: #fff;
+  border: 1px solid #d1d5db;
+}
+
+.rfooter-chart {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.rfooter-chart h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.rfooter-chart p {
+  margin: 0.5rem 0 1rem 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.rfooter-bottom {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.rfooter-pie,
+.rfooter-stats {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.rfooter-pie h3,
+.rfooter-stats h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.rfooter-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rfooter-stats li {
+  display: flex;
+  justify-content: space-between;
+  background: #f9fafb;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+}
+
+.rfooter-stats span {
+  font-size: 0.9rem;
+}
+
+.rfooter-stats .success {
+  color: #10b981;
+}
+
+.rfooter-stats .info {
+  color: #3b82f6;
+}
+
+.rfooter-stats .purple {
+  color: #8b5cf6;
+}
+
+.rfooter-stats .warning {
+  color: #f59e0b;
+}

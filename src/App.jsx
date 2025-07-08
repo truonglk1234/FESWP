@@ -48,6 +48,12 @@ import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
 import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 
+// Admin Layout & Pages
+import AdminLayout from './components/admin/AdminLayout';
+import Report from './components/admin/Reports/Report';
+
+
+
 const App = () => {
   return (
     <Router>
@@ -92,6 +98,12 @@ const App = () => {
             <Route path="blogs/:id" element={<StaffBlogDetail />} />
             <Route path="blogs/edit/:id" element={<StaffBlogEdit />} />
           </Route>
+
+          {/* --------- ADMIN --------- */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="reports" element={<Report />} />
+          </Route>
+
 
           {/* --------- MANAGER --------- */}
           <Route path="/manager" element={<ManagerLayout />}>
