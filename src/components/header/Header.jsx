@@ -164,11 +164,11 @@ const Header = () => {
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
 
-                    {/* ✅ Ẩn Lịch hẹn và Xét nghiệm nếu là Admin/Manager/Staff/Consultant */}
+                    {/* ✅ KHÁCH MỚI có quyền xem 2 lịch */}
                     {!['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
                       <>
-                        <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
-                        <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
+                        <Link to="/consult-schedule"><Calendar size={16} /> Lịch tư vấn</Link>
+                        <Link to="/tests"><TestTube2 size={16} /> Lịch xét nghiệm</Link>
                       </>
                     )}
 

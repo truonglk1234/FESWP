@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import axios from 'axios';
 import './BookingModal.css';
 
@@ -13,12 +13,32 @@ const BookingModal = ({ service, onClose }) => {
     note: ''
   });
 
-  const availableDates = [
-    'Th 2, 07/07', 'Th 3, 08/07', 'Th 4, 09/07', 'Th 5, 10/07',
-    'Th 6, 11/07', 'Th 7, 12/07', 'CN, 13/07',
-    'Th 2, 14/07', 'Th 3, 15/07', 'Th 4, 16/07', 'Th 5, 17/07',
-    'Th 6, 18/07', 'Th 7, 19/07', 'CN, 20/07'
-  ];
+  // ✅ Tính ngày tự động: 2 tuần, từ thứ 2 gần nhất
+  const availableDates = useMemo(() => {
+    const today = new Date();
+    const dates = [];
+
+    const day = today.getDay(); // CN:0 ... T7:6
+    const mondayOffset = day === 0 ? -6 : 1 - day;
+
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + mondayOffset);
+
+    for (let i = 0; i < 14; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+
+      const dayOfWeek = date.getDay();
+      const weekDayLabel = dayOfWeek === 0 ? 'CN' : `Th ${dayOfWeek + 1}`;
+
+      const dd = String(date.getDate()).padStart(2, '0');
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+
+      dates.push(`${weekDayLabel}, ${dd}/${mm}`);
+    }
+
+    return dates;
+  }, []);
 
   const availableTimes = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
@@ -180,6 +200,6 @@ const BookingModal = ({ service, onClose }) => {
       </div>
     </div>
   );
-};
+};  
 
 export default BookingModal;

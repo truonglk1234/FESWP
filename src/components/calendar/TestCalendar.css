@@ -1,0 +1,209 @@
+/* =============================
+   1) WRAPPER & TITLE
+============================= */
+.ts-schedule-wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.ts-schedule-title {
+  font-size: 40px;
+  margin-bottom: 32px;
+  text-align: center;
+  color: #1f2937;
+}
+
+
+/* =============================
+   2) CALENDAR CONTAINER + SHADOW
+============================= */
+.ts-calendar-wrapper .react-calendar {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 24px;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =============================
+   3) NAVIGATION (HEADER) - GREEN
+============================= */
+.ts-calendar-wrapper .react-calendar__navigation {
+  background: #00986f; /* Xanh lá emerald đậm */
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ts-calendar-wrapper .react-calendar__navigation__label {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ts-calendar-wrapper .react-calendar__navigation button {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  transition: background 0.2s;
+
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-calendar-wrapper .react-calendar__navigation button:hover,
+.ts-calendar-wrapper .react-calendar__navigation button:focus,
+.ts-calendar-wrapper .react-calendar__navigation button:active {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  outline: none;
+}
+
+
+/* =============================
+   4) WEEKDAYS LABEL (CN - T7)
+============================= */
+.ts-calendar-wrapper .react-calendar__month-view__weekdays {
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #374151;
+}
+
+.ts-calendar-wrapper .react-calendar__month-view__weekdays abbr {
+  text-decoration: none;
+  border: none;
+}
+
+
+/* =============================
+   5) TILES (MỖI Ô NGÀY)
+============================= */
+.ts-calendar-wrapper .react-calendar__tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  min-height: 100px;
+  padding: 12px 8px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-sizing: border-box;
+  color: #111827;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.ts-calendar-wrapper .react-calendar__tile:hover {
+  background: #f0f9ff;
+  cursor: pointer;
+}
+
+/* HIGHLIGHT: Ngày hôm nay */
+.ts-calendar-wrapper .react-calendar__tile--now {
+  background: #34d399 !important; /* Xanh lá đậm */
+  border-radius: 8px;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* HIGHLIGHT: Ngày được chọn */
+.ts-calendar-wrapper .react-calendar__tile--active {
+  background: #10b981 !important; /* Xanh lá khác */
+  border-radius: 8px;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+
+/* =============================
+   6) LABEL TRONG TILE (EVENT)
+============================= */
+.ts-calendar-wrapper .ts-calendar-event-label {
+  margin-top: 6px;
+  font-size: 12px;
+  background: #d1fae5;
+  color: #047857;
+  border-radius: 4px;
+  padding: 4px 8px;
+  line-height: 1.2;
+  max-width: 100%;
+  text-align: center;
+  word-break: break-word;
+  box-shadow: 0 0 0 1px #a7f3d0 inset;
+}
+
+
+/* =============================
+   7) BOOKINGS TABLE
+============================= */
+.ts-bookings-wrapper {
+  margin-top: 50px;
+}
+
+.ts-bookings-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.ts-bookings-empty {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.ts-bookings-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ts-bookings-table th,
+.ts-bookings-table td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 22px;
+  text-align: left;
+}
+
+.ts-bookings-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.ts-bookings-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.ts-bookings-table tr:hover {
+  background: #f1f5f9;
+  transition: background 0.2s;
+}
