@@ -3,18 +3,21 @@ import {
   Calendar, MessageSquare, BarChart3, LogOut
 } from 'lucide-react';
 import './AdminSidebar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminSidebar = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('user');
     navigate('/');
   };
+
+  const path = location.pathname;
 
   return (
     <aside className="as-sidebar">
@@ -32,13 +35,62 @@ export const AdminSidebar = () => {
 
       <div className="as-sidebar-middle">
         <ul>
-          <li><Link to="/admin" className="as-nav-link"><LayoutDashboard /> Tổng quan</Link></li>
-          <li><Link to="/admin/users" className="as-nav-link"><Users /> Quản lý người dùng</Link></li>
-          <li><Link to="/admin/consultants" className="as-nav-link"><UserCheck /> Quản lý tư vấn viên</Link></li>
-          <li><Link to="/admin/tests" className="as-nav-link"><TestTube2 /> Dịch vụ xét nghiệm</Link></li>
-          <li><Link to="/admin/appointments" className="as-nav-link"><Calendar /> Lịch hẹn tư vấn</Link></li>
-          <li><Link to="/admin/feedbacks" className="as-nav-link"><MessageSquare /> Đánh giá & Phản hồi</Link></li>
-          <li><Link to="/admin/reports" className="as-nav-link highlight"><BarChart3 /> Báo cáo & Thống kê</Link></li>
+          <li>
+            <Link
+              to="/admin"
+              className={`as-nav-link ${path === '/admin' ? 'active' : ''}`}
+            >
+              <LayoutDashboard /> Tổng quan
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/users"
+              className={`as-nav-link ${path.startsWith('/admin/users') ? 'active' : ''}`}
+            >
+              <Users /> Quản lý người dùng
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/consultants"
+              className={`as-nav-link ${path.startsWith('/admin/consultants') ? 'active' : ''}`}
+            >
+              <UserCheck /> Quản lý tư vấn viên
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/tests"
+              className={`as-nav-link ${path.startsWith('/admin/tests') ? 'active' : ''}`}
+            >
+              <TestTube2 /> Dịch vụ xét nghiệm
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/appointments"
+              className={`as-nav-link ${path.startsWith('/admin/appointments') ? 'active' : ''}`}
+            >
+              <Calendar /> Lịch hẹn tư vấn
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/feedbacks"
+              className={`as-nav-link ${path.startsWith('/admin/feedbacks') ? 'active' : ''}`}
+            >
+              <MessageSquare /> Đánh giá & Phản hồi
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/reports"
+              className={`as-nav-link ${path.startsWith('/admin/reports') ? 'active' : ''}`}
+            >
+              <BarChart3 /> Báo cáo & Thống kê
+            </Link>
+          </li>
         </ul>
       </div>
 
