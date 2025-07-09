@@ -15,7 +15,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notiOpen, setNotiOpen] = useState(false);
-  const [notiOpenedOnce, setNotiOpenedOnce] = useState(false); // ✅ NEW
+  const [notiOpenedOnce, setNotiOpenedOnce] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loadingNoti, setLoadingNoti] = useState(false);
   const dropdownRef = useRef();
@@ -36,7 +36,7 @@ const Header = () => {
 
   useEffect(() => {
     if (notiOpen && user) {
-      setNotiOpenedOnce(true); // ✅ đánh dấu đã nhấn chuông
+      setNotiOpenedOnce(true);
       const fetchNoti = async () => {
         setLoadingNoti(true);
         try {
@@ -111,7 +111,6 @@ const Header = () => {
             <Link to="/blogs">Tin tức</Link>
           </nav>
 
-
           <div className="header-auth-buttons">
             {user && (
               <div className="notification-wrapper" ref={notiRef}>
@@ -164,13 +163,21 @@ const Header = () => {
                 {dropdownOpen && (
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
-                    <Link to="/appointments"><Calendar size={16} /> Lịch hẹn</Link>
-                    <Link to="/tests"><TestTube2 size={16} /> Xét nghiệm</Link>
+
+                    {/* ✅ KHÁCH MỚI có quyền xem 2 lịch */}
+                    {!['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
+                      <>
+                        <Link to="/consult-schedule"><Calendar size={16} /> Lịch tư vấn</Link>
+                        <Link to="/tests"><TestTube2 size={16} /> Lịch xét nghiệm</Link>
+                      </>
+                    )}
+
                     {['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
                       <Link to={getManageLink()} className="manage-button" onClick={() => setDropdownOpen(false)}>
                         <LayoutDashboard size={16} /> Quản lý
                       </Link>
                     )}
+
                     <button onClick={handleLogout}><LogOut size={16} /> Đăng xuất</button>
                   </div>
                 )}

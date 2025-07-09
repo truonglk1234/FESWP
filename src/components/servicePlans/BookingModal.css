@@ -1,3 +1,6 @@
+/* ================================
+   1) Overlay phủ toàn màn hình
+================================ */
 .bm-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -8,6 +11,9 @@
   z-index: 9999;
 }
 
+/* ================================
+   2) Hộp modal chính
+================================ */
 .bm-modal-content {
   background: #fff;
   padding: 2rem;
@@ -17,10 +23,16 @@
   position: relative;
 }
 
+/* ================================
+   3) Khu vực nội dung từng section
+================================ */
 .bm-modal-section {
   margin-bottom: 1rem;
 }
 
+/* ================================
+   4) Lưới lựa chọn ngày/giờ
+================================ */
 .bm-options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -38,12 +50,12 @@
 }
 
 .bm-options-grid button:hover {
-  background: #e0f2f1;
-  border-color: #10b981;
+  background: #e0f2f1;     /* Hover nền xanh mint nhẹ */
+  border-color: #10b981;   /* Viền xanh lá */
 }
 
 .bm-options-grid button.bm-selected {
-  background: #10b981;
+  background: #10b981;     /* Nút chọn: xanh lá đậm */
   color: #fff;
   border: 1px solid #10b981;
 }
@@ -55,6 +67,9 @@
   cursor: not-allowed;
 }
 
+/* ================================
+   5) Form thông tin liên hệ
+================================ */
 .bm-form-group {
   margin-bottom: 1rem;
 }
@@ -67,6 +82,9 @@
   border-radius: 6px;
 }
 
+/* ================================
+   6) Nút tiếp theo
+================================ */
 .bm-next-btn {
   background: #10b981;
   color: #fff;
@@ -81,6 +99,9 @@
   cursor: not-allowed;
 }
 
+/* ================================
+   7) Xác nhận thông tin đặt
+================================ */
 .bm-confirm-box {
   margin: 1rem 0;
   padding: 1rem;
@@ -112,6 +133,9 @@
   color: #fff;
 }
 
+/* ================================
+   8) Nút đóng modal (góc trên)
+================================ */
 .bm-close-btn {
   position: absolute;
   top: 8px;
@@ -125,9 +149,12 @@
 }
 
 .bm-close-btn:hover {
-  color: #10b981;
+  color: #10b981; /* Hover xanh lá */
 }
 
+/* ================================
+   9) Select nếu có
+================================ */
 .bm-form-group select {
   width: 100%;
   padding: 8px;

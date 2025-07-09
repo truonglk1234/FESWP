@@ -52,41 +52,10 @@
   margin-right: 8px;
 }
 
-.badge.highlight {
-  background: #fef3c7;
-  color: #b45309;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
 .status-date {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.status {
-  font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-weight: 500;
-}
-
-.status-success {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.status-danger {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.status-pending {
-  background: #fef9c3;
-  color: #92400e;
 }
 
 .date {

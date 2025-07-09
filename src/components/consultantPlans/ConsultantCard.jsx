@@ -45,7 +45,7 @@ const ConsultantCard = ({ data }) => {
           {normalizeIcon(data.icon)}
         </div>
 
-        <div className="consultant-content">
+        <div className="consultant1-content">
           <div className="consultant-header">
             <h3>{data.title || data.name || 'Không có tiêu đề'}</h3>
           </div>

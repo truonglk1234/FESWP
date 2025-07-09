@@ -27,7 +27,6 @@ import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaf
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
-import ManagerFM from './components/manager/FeedbackManagement/ManagerFM';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
 // Consultant Layout & Pages
@@ -48,6 +47,15 @@ import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
 import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 
+// Admin Layout & Pages
+import AdminLayout from './components/admin/AdminLayout';
+import Report from './components/admin/Reports/Report';
+import ManagerFM from './components/admin/FeedbackManagement/ManagerFM';
+
+// ✅ IMPORT Lịch xét nghiệm & Lịch tư vấn
+import TestSchedulePage from './pages/TestSchedulePage';
+import ConsultSchedulePage from './pages/ConsultSchedulePage'; // NEW ✅
+
 const App = () => {
   return (
     <Router>
@@ -62,6 +70,12 @@ const App = () => {
           <Route path="/consultants" element={<ConsultantPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
+
+          {/* ✅ Lịch xét nghiệm */}
+          <Route path="/tests" element={<TestSchedulePage />} />
+
+          {/* ✅ Lịch tư vấn */}
+          <Route path="/consult-schedule" element={<ConsultSchedulePage />} />
 
           {/* --------- PROFILE --------- */}
           <Route path="/profile" element={<Profile />}>
@@ -93,6 +107,12 @@ const App = () => {
             <Route path="blogs/edit/:id" element={<StaffBlogEdit />} />
           </Route>
 
+          {/* --------- ADMIN --------- */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="reports" element={<Report />} />
+            <Route path="feedbacks" element={<ManagerFM />} />
+          </Route>
+
           {/* --------- MANAGER --------- */}
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
@@ -102,7 +122,6 @@ const App = () => {
             <Route path="services" element={<TestingServiceManage />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />
             <Route path="blogs" element={<ManagerBlogManage />} />
-            <Route path="feedbacks" element={<ManagerFM />} />
             <Route path="qna" element={<ManagerQA />} />
           </Route>
         </Routes>

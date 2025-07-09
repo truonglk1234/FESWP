@@ -1,0 +1,99 @@
+.rheader-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rheader-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rheader-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.rheader-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.rheader-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.rheader-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rheader-export {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #111827; /* ✅ FIX: Thêm màu chữ */
+}
+
+.rheader-create {
+  background: #2563eb;
+  color: #fff;
+}
+
+.rheader-cards {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.rheader-card {
+  flex: 1;
+  padding: 1.25rem;
+  border-radius: 10px;
+}
+
+.rheader-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.rheader-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.rheader-change {
+  font-size: 0.85rem;
+}
+
+.rheader-card.revenue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.rheader-card.users {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rheader-card.tests {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.rheader-card.consults {
+  background: #fef3c7;
+  color: #ea580c;
+}

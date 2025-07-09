@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import axios from 'axios';
-import './ConsultingBookingModal.css'; // ✅ Dùng CSS riêng cho modal tư vấn
+import './ConsultingBookingModal.css'; // ✅ CSS riêng cho modal tư vấn
 
 const ConsultingBookingModal = ({ service, onClose }) => {
   const [step, setStep] = useState(1);
@@ -13,12 +13,25 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     note: ''
   });
 
-  const availableDates = [
-    'Th 2, 07/07', 'Th 3, 08/07', 'Th 4, 09/07', 'Th 5, 10/07',
-    'Th 6, 11/07', 'Th 7, 12/07', 'CN, 13/07',
-    'Th 2, 14/07', 'Th 3, 15/07', 'Th 4, 16/07',
-    'Th 5, 17/07', 'Th 6, 18/07', 'Th 7, 19/07', 'CN, 20/07'
-  ];
+  // ✅ Tự tính ngày từ hôm nay, luôn 2 tuần, từ thứ 2 đến CN
+  const availableDates = useMemo(() => {
+    const dates = [];
+    const today = new Date();
+    // Bắt đầu từ thứ 2 gần nhất (hoặc hôm nay nếu là T2)
+    const dayOfWeek = today.getDay();
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    let monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      const dayLabel = ['CN', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7'][d.getDay()];
+      const formatted = `${dayLabel}, ${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
+      dates.push(formatted);
+    }
+    return dates;
+  }, []);
 
   const availableTimes = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',

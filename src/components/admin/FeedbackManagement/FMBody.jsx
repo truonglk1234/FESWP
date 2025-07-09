@@ -140,22 +140,14 @@ const FMBody = () => {
                   {'★'.repeat(fb.rating)}{'☆'.repeat(5 - fb.rating)}
                 </span>
                 <span className="rating">({fb.rating}/5)</span>
-                {fb.highlighted && <span className="badge highlight">Nổi bật</span>}
               </div>
               <div className="status-date">
-                <span className={`status ${
-                  fb.status === 'Đã xử lý' ? 'status-success' :
-                  fb.status === 'Báo cáo tiêu cực' ? 'status-danger' :
-                  fb.status === 'Chờ xử lý' ? 'status-pending' : ''
-                }`}>
-                  {fb.status}
-                </span>
                 <span className="date">📅 {fb.date}</span>
               </div>
             </div>
 
             <div className="feedback-info">
-              Dịch vụ: <strong>{fb.service}</strong> &nbsp; Tư vấn viên: <strong>{fb.consultant}</strong>
+              Dịch vụ: <strong>{fb.service}</strong>
             </div>
 
             <div className="feedback-content">
@@ -166,7 +158,6 @@ const FMBody = () => {
             <div className="feedback-actions">
               {fb.report && <button className="btn danger">🚩 Xử lý báo cáo</button>}
               <button className="btn">Trả lời khách hàng</button>
-              <button className="btn">Gắn nổi bật</button>
             </div>
           </div>
         ))}
