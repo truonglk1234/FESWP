@@ -1,12 +1,28 @@
 import React from 'react';
 import { Mail, Phone, User, BadgeCheck, Info } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import './ConsultantCard.css'; // Nếu có file CSS riêng
 
 const ConsultantCard = ({ doc, viewMode }) => {
+  const navigate = useNavigate();
+
+  const handleViewProfile = () => {
+    navigate(`/consultants/${doc.id}`);
+  };
+
+  const handleBooking = () => {
+    // Sau này bạn mở modal đặt lịch hoặc navigate cũng được
+    console.log(`Đặt lịch với tư vấn viên ID: ${doc.id}`);
+  };
+
   return (
     <div className={`consultant-card ${viewMode}`}>
       <div className="card-top">
         <img
-          src={doc.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}`}
+          src={
+            doc.avatarUrl ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}`
+          }
           alt={doc.fullName}
           className="avatar"
         />
@@ -15,16 +31,27 @@ const ConsultantCard = ({ doc, viewMode }) => {
 
       <div className="card-body">
         <h3 className="doctor-name">{doc.fullName}</h3>
-        <div className="info"><BadgeCheck size={14} /> {doc.specialty}</div>
-        <div className="info"><User size={14} /> {doc.experienceYears || 0} năm kinh nghiệm</div>
-        <div className="info"><Mail size={14} /> {doc.email}</div>
-        <div className="info"><Phone size={14} /> {doc.phone}</div>
-        <div className="description"><Info size={14} /> {doc.description || "Chưa có mô tả"}</div>
+        <div className="info">
+          <BadgeCheck size={14} /> {doc.specialty}
+        </div>
+        <div className="info">
+          <User size={14} /> {doc.experienceYears || 0} năm kinh nghiệm
+        </div>
+        <div className="info">
+          <Mail size={14} /> {doc.email}
+        </div>
+        <div className="info">
+          <Phone size={14} /> {doc.phone}
+        </div>
       </div>
 
       <div className="consultant-footer">
-        <button className="solid">Xem hồ sơ</button>
-        <button className="outline">Đặt lịch</button>
+        <button className="solid" onClick={handleViewProfile}>
+          Xem hồ sơ
+        </button>
+        <button className="outline" onClick={handleBooking}>
+          Đặt lịch
+        </button>
       </div>
     </div>
   );

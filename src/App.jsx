@@ -17,6 +17,7 @@ import AccountInfo from './components/profile/pages/AccountInfo';
 import NotificationSettings from './components/profile/pages/NotificationSettings';
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
+import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
 
 // Manager Layout & Pages
 import ManagerLayout from './components/manager/ManagerLayout';
@@ -36,6 +37,7 @@ import ConsultingSchedule from './components/ConsultantManagement/ConsultingSche
 import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
 import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
+import ConsultantProfile from './components/consultants/ConsultantProfile';
 
 // Staff Layout & Pages
 import StaffLayout from './components/staff/StaffLayout';
@@ -85,6 +87,7 @@ const App = () => {
             <Route path="notifications" element={<NotificationSettings />} />
             <Route path="health" element={<ReproductiveHealth />} />
             <Route path="history" element={<ServiceHistory />} />
+            <Route path="schedule-setup" element={<ScheduleSetupPage />} />
           </Route>
 
           {/* --------- CONSULTANT --------- */}
@@ -96,6 +99,7 @@ const App = () => {
             <Route path="reviews" element={<ConsultantEvaluate />} />
           </Route>
 
+          <Route path="/consultants/:id" element={<ConsultantProfile />} />
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
             <Route index element={<StaffHome />} />
