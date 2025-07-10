@@ -8,26 +8,35 @@ import {
   Brain,
   CheckCircle
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // ✅ Thêm
+import { useAuth } from '../../context/AuthContext'; // ✅ Thêm
 import ConsultingBookingModal from './ConsultingBookingModal';
 
-const iconMap = {
-  TestTube: <TestTube className="consultant-icon" />,
-  Microscope: <Microscope className="consultant-icon" />,
-  User: <User className="consultant-icon" />,
-  ShieldCheck: <ShieldCheck className="consultant-icon" />,
-  Calendar: <Calendar className="consultant-icon" />,
-  Brain: <Brain className="consultant-icon" />
-};
+// Danh sách icon y tế
+const iconList = [ShieldCheck, TestTube, Microscope, User, Calendar, Brain];
 
-const normalizeIcon = (icon) => {
-  if (!icon) return <ShieldCheck className="consultant-icon" />;
-  const key = icon.replace(/[-_]/g, '').toLowerCase();
-  const matchedKey = Object.keys(iconMap).find(k => k.toLowerCase() === key);
-  return iconMap[matchedKey] ?? <ShieldCheck className="consultant-icon" />;
+// Hàm: lấy hoặc tạo icon cố định theo id
+const getOrCreateIconKey = (id) => {
+  const cacheKey = `consultant-icon-${id}`;
+  let iconIndex = localStorage.getItem(cacheKey);
+
+  if (!iconIndex) {
+    const randomIndex = Math.floor(Math.random() * iconList.length);
+    iconIndex = randomIndex.toString();
+    localStorage.setItem(cacheKey, iconIndex);
+  }
+
+  return parseInt(iconIndex, 10);
 };
 
 const ConsultantCard = ({ data }) => {
   const [showBooking, setShowBooking] = useState(false);
+  const { user } = useAuth(); // ✅ Lấy user
+  const navigate = useNavigate(); // ✅ Hook điều hướng
+
+  // ✅ Lấy icon index cố định từ localStorage
+  const [iconIndex] = useState(() => getOrCreateIconKey(data.id));
+  const Icon = iconList[iconIndex] || ShieldCheck;
 
   const priceDisplay = data.price === 0
     ? 'Miễn phí'
@@ -38,11 +47,20 @@ const ConsultantCard = ({ data }) => {
       ? `${data.oldPrice.toLocaleString()}đ`
       : null;
 
+  // ✅ Xử lý nút đặt lịch
+  const handleBookingClick = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      setShowBooking(true);
+    }
+  };
+
   return (
     <>
       <div className="consultant-card">
         <div className="consultant-icon-wrapper">
-          {normalizeIcon(data.icon)}
+          <Icon className="consultant-icon" />
         </div>
 
         <div className="consultant1-content">
@@ -65,7 +83,6 @@ const ConsultantCard = ({ data }) => {
             </ul>
           )}
 
-          {/* ✅ Footer: giá + nút nằm cùng 1 hàng */}
           <div className="consultants-footer">
             <div className="consultant-price">
               {oldPriceDisplay && (
@@ -76,7 +93,7 @@ const ConsultantCard = ({ data }) => {
 
             <button
               className="consultant-book-btn"
-              onClick={() => setShowBooking(true)}
+              onClick={handleBookingClick}
             >
               <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
             </button>

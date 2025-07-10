@@ -8,8 +8,9 @@ import {
   Brain,
   CheckCircle
 } from 'lucide-react';
-// import { Link } from 'react-router-dom'; // Bỏ Link vì không dùng nữa
-import BookingModal from './BookingModal'; // Import component modal
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import BookingModal from './BookingModal';
 
 const iconMap = {
   TestTube: <TestTube className="service-icon" />,
@@ -20,15 +21,26 @@ const iconMap = {
   Brain: <Brain className="service-icon" />
 };
 
-const normalizeIcon = (icon) => {
-  if (!icon) return <ShieldCheck className="service-icon" />;
-  const key = icon.replace(/[-_]/g, '').toLowerCase();
-  const matchedKey = Object.keys(iconMap).find(k => k.toLowerCase() === key);
-  return iconMap[matchedKey] ?? <ShieldCheck className="service-icon" />;
+const iconKeys = ["TestTube", "Microscope", "User", "ShieldCheck", "Calendar", "Brain"];
+
+const getOrCreateIconKey = (id) => {
+  const cacheKey = `service-icon-${id}`;
+  let iconKey = localStorage.getItem(cacheKey);
+  if (!iconKey) {
+    const randomIndex = Math.floor(Math.random() * iconKeys.length);
+    iconKey = iconKeys[randomIndex];
+    localStorage.setItem(cacheKey, iconKey);
+  }
+  return iconKey;
 };
 
 const ServiceCard = ({ data }) => {
   const [showBooking, setShowBooking] = useState(false);
+  const { user } = useAuth(); // ✅ Lấy user từ context
+  const navigate = useNavigate(); // ✅ Hook điều hướng
+
+  const iconKey = getOrCreateIconKey(data.id || data.name || Math.random());
+  const iconElement = iconMap[iconKey] || <ShieldCheck className="service-icon" />;
 
   const priceDisplay = data.price === 0
     ? 'Miễn phí'
@@ -39,11 +51,19 @@ const ServiceCard = ({ data }) => {
       ? `${data.oldPrice.toLocaleString()}đ`
       : null;
 
+  const handleBookingClick = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      setShowBooking(true);
+    }
+  };
+
   return (
     <>
       <div className="service-card">
         <div className="service-icon-wrapper">
-          {normalizeIcon(data.icon)}
+          {iconElement}
         </div>
 
         <div className="service-content">
@@ -76,7 +96,7 @@ const ServiceCard = ({ data }) => {
 
             <button
               className="book-btn"
-              onClick={() => setShowBooking(true)}
+              onClick={handleBookingClick}
             >
               <Calendar size={16} style={{ marginRight: '6px' }} /> Đặt lịch
             </button>

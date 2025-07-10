@@ -1,7 +1,10 @@
 import './HeroSection.css';
 import { ShieldCheck, Stethoscope, HeartHandshake, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // ✅ Thêm hook điều hướng
 
 const HeroSection = () => {
+  const navigate = useNavigate(); // ✅ Hook điều hướng
+
   return (
     <section className="hero">
       <div className="hero-container">
@@ -28,8 +31,19 @@ const HeroSection = () => {
           </div>
 
           <div className="hero-buttons">
-            <button className="btn-primary"><Calendar size={16} /> Đặt lịch khám</button>
-            <button className="btn-outline"><Stethoscope size={20} /> Xem dịch vụ y tế</button>
+            <button
+              className="btn-primary"
+              onClick={() => navigate('/services/testing')}
+            >
+              <Calendar size={16} /> Đặt lịch xét nghiệm
+            </button>
+
+            <button
+              className="btn-outline"
+              onClick={() => navigate('/services/consulting')}
+            >
+              <Stethoscope size={20} /> Xem dịch vụ tư vấn
+            </button>
           </div>
         </div>
 

@@ -55,7 +55,7 @@
 }
 
 .why-card:hover {
-  transform: translateY(-6px); /* nâng nổi */
+  transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
   background: #ecfdf5;
 }
@@ -71,7 +71,6 @@
   font-size: 22px;
 }
 
-/* Màu từng icon */
 .green { background: #d1fae5; color: #047857; }
 .teal { background: #ccfbf1; color: #0f766e; }
 .blue { background: #dbeafe; color: #2563eb; }
@@ -91,54 +90,4 @@
   color: #4b5563;
 }
 
-/* CTA bên dưới */
-.why-cta {
-  background: #ecfdf5;
-  padding: 32px;
-  border-radius: 16px;
-  text-align: center;
-}
-
-.why-cta h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.why-cta p {
-  font-size: 14px;
-  color: #4b5563;
-  margin-bottom: 20px;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn-primary {
-  background: #00986f;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.btn-outline {
-  background: white;
-  border: 2px solid #00986f;
-  color: #00986f;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.btn-primary:hover,
-.btn-outline:hover {
-  opacity: 0.9;
-}
+/* ✅ Đã remove .why-cta & nút CTA */

@@ -1,48 +1,85 @@
-/* BlogDetailPublic.css */
-
 .blog-detail-wrapper {
-  padding: 30px;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #fff;
-  border-radius: 12px;
   max-width: 900px;
   margin: 40px auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.7;
 }
 
-.back-btn {
-  display: inline-block;
-  margin-bottom: 20px;
-  background-color: #10b981;
+.blog-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #17b887;
   color: #fff;
-  padding: 8px 16px;
+  border: none;
+  padding: 10px 20px;
   border-radius: 6px;
   font-size: 14px;
-  border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background 0.2s ease;
+  margin-bottom: 24px;
 }
 
-.back-btn:hover {
-  background-color: #059669;
+.blog-detail-btn:hover {
+  background: #11966f;
 }
 
-.blog-title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.blog-detail-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #062f2d;
+  margin: 0 0 12px 0;
+}
+
+.blog-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.blog-detail-meta p {
+  margin: 0;
+}
+
+.blog-detail-wrapper hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 24px 0;
+}
+
+.blog-detail-content {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+}
+
+.blog-detail-content p {
+  margin-bottom: 16px;
+}
+
+.blog-detail-content h2,
+.blog-detail-content h3 {
+  margin-top: 24px;
   color: #062f2d;
 }
 
-.blog-meta p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #555;
+.blog-detail-content ul {
+  list-style: disc inside;
+  margin: 12px 0 12px 20px;
 }
 
-.blog-content {
-  margin-top: 20px;
-  line-height: 1.7;
-  font-size: 15px;
-  color: #333;
+.blog-detail-content a {
+  color: #17b887;
+  text-decoration: underline;
+}
+
+.blog-detail-content a:hover {
+  color: #11966f;
 }

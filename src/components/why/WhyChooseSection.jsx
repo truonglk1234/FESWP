@@ -65,15 +65,6 @@ const WhyChooseSection = () => {
             </div>
           ))}
         </div>
-
-        <div className="why-cta">
-          <h3>Bắt đầu hành trình chăm sóc sức khỏe giới tính</h3>
-          <p>Đăng ký ngay để nhận tư vấn y tế miễn phí từ bác sĩ chuyên khoa giới tính</p>
-          <div className="cta-buttons">
-            <button className="btn-primary">Đăng ký tư vấn y tế miễn phí</button>
-            <button className="btn-outline">Tìm hiểu thêm về dịch vụ</button>
-          </div>
-        </div>
       </div>
     </section>
   );
