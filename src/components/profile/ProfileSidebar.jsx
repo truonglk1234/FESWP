@@ -1,5 +1,5 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Bell, Heart, RotateCcw } from 'lucide-react';
+import { User, Lock, Bell, Heart, RotateCcw, Calendar, Clock } from 'lucide-react';
 import './ProfileSidebar.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -15,6 +15,14 @@ const ProfileSidebar = () => {
       .join('')
       .toUpperCase();
   };
+
+  if (!user) {
+    navigate('/');
+    return null;
+  }
+
+  // ✅ Xác định role consultant
+  const isConsultant = user?.role?.toLowerCase() === 'consultant';
 
   return (
     <aside className="profile-sidebar">
@@ -42,35 +50,60 @@ const ProfileSidebar = () => {
         </div>
         <h3 className="profile-name">{user?.name || 'Người dùng'}</h3>
         <p className="profile-email">{user?.email || 'Chưa có email'}</p>
+        <p className="profile-role">Vai trò: {user?.role}</p>
       </div>
 
       <nav className="profile-menu">
         <ul>
           <li>
-            <NavLink to="info" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="info" className={({ isActive }) => (isActive ? 'active' : '')}>
               <User size={18} /> Thông tin cá nhân
             </NavLink>
           </li>
           <li>
-            <NavLink to="account" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="account" className={({ isActive }) => (isActive ? 'active' : '')}>
               <Lock size={18} /> Thông tin tài khoản
             </NavLink>
           </li>
           <li>
-            <NavLink to="notifications" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="notifications" className={({ isActive }) => (isActive ? 'active' : '')}>
               <Bell size={18} /> Thông báo
             </NavLink>
           </li>
           <li>
-            <NavLink to="health" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="health" className={({ isActive }) => (isActive ? 'active' : '')}>
               <Heart size={18} /> Sức khỏe sinh sản
             </NavLink>
           </li>
-          <li>
-            <NavLink to="history" className={({ isActive }) => isActive ? 'active' : ''}>
-              <RotateCcw size={18} /> Lịch sử dịch vụ
-            </NavLink>
-          </li>
+          {/* ✅ Nếu là Consultant thì hiện nhóm menu riêng */}
+          {isConsultant && (
+            <>
+              <li>
+                <NavLink
+                  to="schedule-setup"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <Calendar size={18} /> Sắp xếp lịch
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="consultant-appointments"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <Clock size={18} /> Lịch hẹn
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="history"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <RotateCcw size={18} /> Lịch sử tư vấn
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 

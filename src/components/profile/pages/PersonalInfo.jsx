@@ -14,7 +14,15 @@ const PersonalInfo = () => {
     phone: '',
     address: '',
     avatar: null,
-    avatarUrl: ''
+    avatarUrl: '',
+
+
+    specialty: '',
+    experienceYears: '',
+    education: '',
+    certifications: '',
+    consultationFee: '',
+    description: ''
   });
 
   const [loading, setLoading] = useState(true);
@@ -65,7 +73,15 @@ const PersonalInfo = () => {
           email: data.email || '',
           phone: data.phone || '',
           address: data.address || '',
-          avatarUrl: data.avatarUrl || ''
+          avatarUrl: data.avatarUrl || '',
+
+
+          specialty: data.specialty || '',
+          experienceYears: data.experienceYears || '',
+          education: data.education || '',
+          certifications: data.certifications || '',
+          consultationFee: data.consultationFee || '',
+          description: data.description || ''
         }));
       } catch (err) {
         console.error('❌ Lỗi khi lấy profile:', err.response?.data || err.message);
@@ -103,12 +119,22 @@ const PersonalInfo = () => {
     const submitData = new FormData();
     submitData.append('fullName', formData.fullName);
     submitData.append('gender', formData.gender);
-    submitData.append('dateOfBirthday', formData.dateOfBirth);
+    submitData.append('dateOfBirth', formData.dateOfBirth);
     submitData.append('email', formData.email);
     submitData.append('phone', formData.phone);
     submitData.append('address', formData.address);
     if (formData.avatar) {
       submitData.append('avatar', formData.avatar);
+    }
+
+
+    if (user?.role?.toLowerCase() === 'consultant') {
+      submitData.append('specialty', formData.specialty);
+      submitData.append('experienceYears', formData.experienceYears);
+      submitData.append('education', formData.education);
+      submitData.append('certifications', formData.certifications);
+      submitData.append('consultationFee', formData.consultationFee);
+      submitData.append('description', formData.description);
     }
 
     try {
@@ -122,8 +148,8 @@ const PersonalInfo = () => {
 
       const updatedUser = {
         ...user,
-        name: updatedData.fullName,
-        avatarUrl: updatedData.avatarUrl,
+        name: formData.fullName,
+        avatarUrl: formData.avatarUrl,
       };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -209,6 +235,70 @@ const PersonalInfo = () => {
             />
           </div>
         </div>
+
+
+        {user?.role?.toLowerCase() === 'consultant' && (
+          <>
+            <div className="form-row">
+              <div className="form-col">
+                <label>Chuyên ngành</label>
+                <input
+                  name="specialty"
+                  value={formData.specialty}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-col">
+                <label>Kinh nghiệm (năm)</label>
+                <input
+                  type="number"
+                  name="experienceYears"
+                  value={formData.experienceYears}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-col">
+                <label>Phí tư vấn</label>
+                <input
+                  type="number"
+                  name="consultationFee"
+                  value={formData.consultationFee}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-col">
+                <label>Mô tả</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-col">
+                <label>Học vấn</label>
+                <input
+                  name="education"
+                  value={formData.education}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-col">
+                <label>Chứng chỉ</label>
+                <input
+                  name="certifications"
+                  value={formData.certifications}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="form-row">
           <div className="form-col">
