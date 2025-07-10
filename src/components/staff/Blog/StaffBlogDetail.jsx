@@ -11,16 +11,19 @@ const StaffBlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
+        const token = JSON.parse(localStorage.getItem("user"))?.token;
         const res = await axios.get(`http://localhost:8080/api/auth/staff/blogs/${id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         setBlog(res.data);
       } catch (err) {
-        console.error("Không thể tải bài viết:", err);
-        alert("Bài viết không tồn tại hoặc đã bị xóa.");
-        navigate("/staff/blogs");
+        if (err.response?.status === 404) {
+          navigate("/staff/blogs", { state: { error: "Bài viết không tồn tại hoặc đã bị xóa." } });
+        } else {
+          alert("❌ Đã có lỗi xảy ra khi tải bài viết.");
+        }
       }
     };
 
@@ -43,9 +46,10 @@ const StaffBlogDetail = () => {
         </p>
       </div>
 
-      <div className="sb-detail-content-box">
-        <p>{blog.content}</p>
-      </div>
+      <div
+        className="sb-detail-content-box"
+        dangerouslySetInnerHTML={{ __html: blog.content }}
+      />
     </div>
   );
 };

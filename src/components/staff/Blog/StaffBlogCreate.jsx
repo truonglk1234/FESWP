@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./StaffBlogCreate.css";
 
-
 const StaffBlogCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -11,34 +10,57 @@ const StaffBlogCreate = () => {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
 
-  // Lấy danh sách chủ đề
-  useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/api/topics");
-        setTopics(res.data || []);
-      } catch (err) {
-        console.error("Không thể tải danh sách chủ đề:", err);
-      }
-    };
-    fetchTopics();
-  }, []);
+  // ✅ Hàm lấy token an toàn
+  const getToken = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      return user?.token || null;
+    } catch (e) {
+      return null;
+    }
+  };
 
-  // Xử lý submit tạo bài viết mới
+  // ✅ Lấy danh sách chủ đề
+ useEffect(() => {
+  axios
+    .get("http://localhost:8080/api/auth/staff/blogs/my", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      const sortedPosts = res.data.sort((a, b) => {
+        if (a.status === "Pending" && b.status !== "Pending") return -1;
+        if (a.status !== "Pending" && b.status === "Pending") return 1;
+        return 0;
+      });
+      setPosts(sortedPosts);
+    })
+    .catch((err) => console.error("Lỗi khi tải bài viết:", err));
+}, []);
+
+  // ✅ Xử lý submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = getToken();
+
+    if (!token) {
+      alert("⚠️ Bạn chưa đăng nhập!");
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
       await axios.post(
         "http://localhost:8080/api/auth/staff/blogs",
         {
           title,
           content,
-          topicId: topic, // gửi ID của chủ đề
+          topicId: parseInt(topic), // ensure it's number
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -46,7 +68,11 @@ const StaffBlogCreate = () => {
       navigate("/staff/blogs");
     } catch (error) {
       console.error("❌ Lỗi tạo bài viết:", error);
-      alert("Không thể tạo bài viết. Vui lòng thử lại.");
+      if (error?.response?.data?.message) {
+        alert(`❌ ${error.response.data.message}`);
+      } else {
+        alert("Không thể tạo bài viết. Vui lòng thử lại.");
+      }
     }
   };
 
@@ -113,4 +139,3 @@ const StaffBlogCreate = () => {
 };
 
 export default StaffBlogCreate;
-

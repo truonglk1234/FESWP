@@ -9,15 +9,37 @@ const SBFooter = ({ searchKeyword, statusFilter, topicFilter }) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
+  // ✅ Hàm lấy token từ localStorage
+  const getToken = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      return user?.token || null;
+    } catch (error) {
+      return null;
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/auth/staff/blogs/my", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => setPosts(res.data))
-      .catch((err) => console.error("Lỗi khi tải bài viết:", err));
+    const fetchData = async () => {
+      const token = getToken();
+      if (!token) {
+        console.error("Không tìm thấy token đăng nhập");
+        return;
+      }
+
+      try {
+        const res = await axios.get("http://localhost:8080/api/auth/staff/blogs/my", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPosts(res.data);
+      } catch (err) {
+        console.error("Lỗi khi tải bài viết:", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const filteredPosts = posts
@@ -43,11 +65,17 @@ const SBFooter = ({ searchKeyword, statusFilter, topicFilter }) => {
   };
 
   const handleDelete = async (post) => {
+    const token = getToken();
+    if (!token) {
+      alert("Không tìm thấy token đăng nhập");
+      return;
+    }
+
     if (window.confirm(`❌ Bạn có chắc muốn xóa "${post.title}"?`)) {
       try {
         await axios.delete(`http://localhost:8080/api/auth/staff/blogs/${post.id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         setPosts((prev) => prev.filter((p) => p.id !== post.id));
