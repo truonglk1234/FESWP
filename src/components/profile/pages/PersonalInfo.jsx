@@ -19,15 +19,42 @@ const PersonalInfo = () => {
 
   const [loading, setLoading] = useState(true);
 
+  // ✅ Tạo axios instance nội bộ với interceptor
+  const api = axios.create({
+    baseURL: 'http://localhost:8080/api',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // ✅ Interceptor gắn token và xử lý 401
+  api.interceptors.request.use(
+    (config) => {
+      const token = user?.token;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
+      return Promise.reject(error);
+    }
+  );
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/auth/profileuser', {
-          headers: {
-            Authorization: `Bearer ${user?.token}`
-          }
-        });
-
+        const res = await api.get('/auth/profileuser');
         const data = res.data;
 
         setFormData(prev => ({
@@ -49,7 +76,7 @@ const PersonalInfo = () => {
     };
 
     fetchProfile();
-  }, [user]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,12 +112,13 @@ const PersonalInfo = () => {
     }
 
     try {
-      await axios.put('http://localhost:8080/api/auth/profileuser', submitData, {
+      const res = await api.put('/auth/profileuser', submitData, {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
+
+      const updatedData = res.data;
 
       const updatedUser = {
         ...user,

@@ -32,15 +32,37 @@ const ReproductiveHealth = () => {
   const [isNew, setIsNew] = useState(true);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  // Load dữ liệu hiện tại + lịch sử khi mở trang
+  // ✅ Tạo axios instance gắn token và xử lý lỗi 401
+  const api = axios.create({
+    baseURL: API_BASE,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  api.interceptors.request.use((config) => {
+    const stored = localStorage.getItem('user');
+    const token = stored ? JSON.parse(stored).token : null;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+
+  api.interceptors.response.use(
+    res => res,
+    err => {
+      if (err.response?.status === 401) {
+        alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
+      return Promise.reject(err);
+    }
+  );
+
   const fetchData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token"); // Phải luôn trả về giá trị JWT
-      axios.post(url, data, {
-        headers: { Authorization: `Bearer ${token}` }
-
-      });
+      const res = await api.get(`/me`);
       const d = res.data;
       if (d && d.cycleStartDate) {
         setIsNew(false);
@@ -64,16 +86,15 @@ const ReproductiveHealth = () => {
       setCycleData({ lastPeriod: '', averageCycle: '', periodLength: 5 });
       setReminders({ ovulation: false, fertility: false, pill: false });
     }
+
     // Lịch sử
     try {
-      const token = localStorage.getItem("token");
-      const res2 = await axios.get(`${API_BASE}/history`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res2 = await api.get(`/history`);
       setHistory(res2.data || []);
     } catch (err) {
       setHistory([]);
     }
+
     setLoading(false);
   };
 
@@ -81,11 +102,9 @@ const ReproductiveHealth = () => {
     fetchData();
   }, []);
 
-  // Xử lý lưu/khai báo chu kỳ mới
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(`${API_BASE}/me`, {
+      await api.post(`/me`, {
         cycleStartDate: cycleData.lastPeriod,
         cycleLength: Number(cycleData.averageCycle),
         periodLength: Number(cycleData.periodLength) || 5,
@@ -94,27 +113,24 @@ const ReproductiveHealth = () => {
         remindPill: reminders.pill,
         pillTime: "20:00:00",
         note: ""
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
       setSaveSuccess(true);
-      fetchData(); // Tải lại dữ liệu mới
-      setTimeout(() => setSaveSuccess(false), 2000); // Ẩn thông báo sau 2s
+      fetchData();
+      setTimeout(() => setSaveSuccess(false), 2000);
     } catch (err) {
       alert("Có lỗi khi lưu. Kiểm tra lại dữ liệu!");
     }
   };
 
-  // Cập nhật form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCycleData(prev => ({ ...prev, [name]: value }));
   };
+
   const handleReminderToggle = (name) => {
     setReminders(prev => ({ ...prev, [name]: !prev[name] }));
   };
 
-  // Lấy lịch sử 3 tháng gần nhất, không trùng tháng
   const uniqueMonthHistory = [];
   const existed = new Set();
   for (let rec of history) {
@@ -134,9 +150,6 @@ const ReproductiveHealth = () => {
       </div>
 
       <div className="info-form">
-        <div className="secure-alert">
-          <span>🔒</span> Thông tin này được bảo mật và chỉ bạn mới có thể xem
-        </div>
         <div className="form-row">
           <div className="form-col">
             <label>Ngày bắt đầu chu kỳ gần nhất</label>

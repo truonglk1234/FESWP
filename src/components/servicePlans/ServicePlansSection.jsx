@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import {
-  TestTube,
-  Microscope,
-  User,
-  ShieldCheck,
-  Calendar,
-  Brain,
-  Stethoscope
-} from 'lucide-react';
+import { TestTube, ShieldCheck, Stethoscope } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ServicePlansSection.css';
 
 const iconMap = {
-  TestTube: <TestTube className="service-icon" />,
-  Microscope: <Microscope className="service-icon" />,
-  User: <User className="service-icon" />,
-  ShieldCheck: <ShieldCheck className="service-icon" />,
-  Calendar: <Calendar className="service-icon" />,
-  Brain: <Brain className="service-icon" />
+  TestTube: <TestTube className="service-icon" />
 };
 
 const ServicePlansSection = () => {
@@ -28,11 +15,11 @@ const ServicePlansSection = () => {
   useEffect(() => {
     axios.get('http://localhost:8080/api/public/prices/test')
       .then((res) => {
-        console.log('✅ Dịch vụ lấy từ API:', res.data);
         setServices(res.data || []);
       })
-      .catch((err) => {
-        console.error('❌ Lỗi tải dịch vụ:', err);
+      .catch(() => {
+        // không in lỗi ra console
+        setServices([]);
       });
   }, []);
 

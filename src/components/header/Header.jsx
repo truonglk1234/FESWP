@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from 'react';
 import axios from "axios";
 
 const API_NOTIFICATION = "http://localhost:8080/api/notifications/me";
+const API_MARK_READ = "http://localhost:8080/api/notifications"; // + /{id}/read
 
 const Header = () => {
   const { user, setUser } = useAuth();
@@ -21,6 +22,27 @@ const Header = () => {
   const dropdownRef = useRef();
   const notiRef = useRef();
 
+  // ✅ Axios instance with interceptor
+  const axiosInstance = axios.create();
+  axiosInstance.interceptors.request.use((config) => {
+    const token = user?.token || JSON.parse(localStorage.getItem('user'))?.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+  axiosInstance.interceptors.response.use(
+    res => res,
+    err => {
+      if (err.response?.status === 401) {
+        alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        localStorage.removeItem('user');
+        setUser(null);
+        navigate('/login');
+      }
+      return Promise.reject(err);
+    }
+  );
+
+  // Đóng dropdown khi click ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,16 +56,14 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Load thông báo khi mở popup
   useEffect(() => {
     if (notiOpen && user) {
       setNotiOpenedOnce(true);
       const fetchNoti = async () => {
         setLoadingNoti(true);
         try {
-          const token = localStorage.getItem("token");
-          const res = await axios.get(API_NOTIFICATION, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
+          const res = await axiosInstance.get(API_NOTIFICATION);
           setNotifications(res.data || []);
         } catch (err) {
           setNotifications([]);
@@ -57,8 +77,6 @@ const Header = () => {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setDropdownOpen(false);
     navigate('/');
   };
 
@@ -72,8 +90,20 @@ const Header = () => {
     }
   };
 
-  const handleNotificationClick = (noti) => {
+  const markNotificationAsRead = async (id) => {
+    try {
+      await axiosInstance.patch(`${API_MARK_READ}/${id}/read`);
+      setNotifications((prev) =>
+        prev.map(n => n.id === id ? { ...n, is_read: true } : n)
+      );
+    } catch (err) {
+      console.error("❌ Mark as read failed:", err);
+    }
+  };
+
+  const handleNotificationClick = async (noti) => {
     setNotiOpen(false);
+    if (!noti.is_read) await markNotificationAsRead(noti.id);
     if (noti.link) navigate(noti.link);
   };
 
@@ -164,7 +194,6 @@ const Header = () => {
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
 
-                    {/* ✅ KHÁCH MỚI có quyền xem 2 lịch */}
                     {!['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
                       <>
                         <Link to="/consult-schedule"><Calendar size={16} /> Lịch tư vấn</Link>

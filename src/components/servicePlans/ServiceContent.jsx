@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ServiceCard from './ServiceCard';
 import Pagination from './Pagination';
 import './ServiceContent.css';
@@ -11,13 +11,12 @@ const ServiceContent = () => {
   const perPage = 6;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/prices/test') // hoặc đổi endpoint nếu cần
+    axios.get('http://localhost:8080/api/public/prices/test') 
       .then((res) => {
-        console.log('📦 Dữ liệu dịch vụ:', res.data);
         setServices(res.data || []);
       })
-      .catch((err) => {
-        console.error("❌ Lỗi khi tải danh sách dịch vụ:", err);
+      .catch(() => {
+        setServices([]); 
       });
   }, []);
 
