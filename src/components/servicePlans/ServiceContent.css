@@ -87,30 +87,38 @@
   margin-bottom: 12px;
 }
 
+.features li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
 .service-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.service-footer .price {
+.service-price {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.service-price{
-  font-size: 22px;
-  font-weight: 700;
-  color: #009f63;
-}
 .old-price {
   text-decoration: line-through;
   color: #888;
   font-size: 14px;
 }
 
-/* ✅ Đổi từ button sang .book-btn (Link) */
+.current-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #009f63;
+}
+
 .book-btn {
   background: #1dbf73;
   border: none;
@@ -119,7 +127,7 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  text-decoration: none; /* vì là Link */
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
 }

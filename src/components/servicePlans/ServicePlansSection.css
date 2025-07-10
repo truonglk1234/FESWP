@@ -1,3 +1,4 @@
+/* === WRAPPER === */
 .plans-section {
   background: #f9fdfc;
   padding: 60px 24px;
@@ -33,6 +34,7 @@
   font-size: 15px;
 }
 
+/* === GRID === */
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -40,6 +42,7 @@
   justify-content: center;
 }
 
+/* === CARD === */
 .plan-card {
   background: #fff;
   border: 1px solid #e1f3eb;
@@ -58,11 +61,11 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
+/* === ICON WRAPPER === */
 .plan-icon {
-  background: #d1fae5;
-  color: #047857;
-  width: 48px;
-  height: 48px;
+  background: #e6f7f2;
+  width: 60px;
+  height: 60px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -71,6 +74,13 @@
   align-self: center;
 }
 
+.plan-icon svg {
+  color: #17b887;
+  width: 60%;
+  height: 60%;
+}
+
+/* === CARD CONTENT === */
 .plan-card h3 {
   font-size: 17px;
   font-weight: 600;
@@ -91,12 +101,21 @@
   margin-top: 8px;
 }
 
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 14px;
+  margin-top: 4px;
+  display: block;
+}
+
 .plan-duration {
   font-size: 13px;
   color: #64748b;
   margin-bottom: 8px;
 }
 
+/* === FEATURES LIST === */
 .plan-features {
   list-style: none;
   padding: 0;
@@ -106,27 +125,14 @@
 }
 
 .plan-features li {
-  position: relative;
-  padding-left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 8px;
   color: #0f172a;
 }
 
-.plan-features li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: #10b981;
-  font-weight: bold;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #888;
-  font-size: 14px;
-  margin-top: 4px;
-}
-
+/* === BUTTONS === */
 .plan-card .btn-primary {
   background-color: #1dbf73;
   color: white;
@@ -142,7 +148,7 @@
   gap: 6px;
 }
 
-.btn-primary:hover {
+.plan-card .btn-primary:hover {
   opacity: 0.9;
 }
 

@@ -1,5 +1,5 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Bell, Heart, RotateCcw, Calendar, Clock } from 'lucide-react';
+import { User, Lock, Heart, RotateCcw, Calendar, Clock } from 'lucide-react';
 import './ProfileSidebar.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -21,7 +21,6 @@ const ProfileSidebar = () => {
     return null;
   }
 
-  // ✅ Xác định role consultant
   const isConsultant = user?.role?.toLowerCase() === 'consultant';
 
   return (
@@ -66,16 +65,11 @@ const ProfileSidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="notifications" className={({ isActive }) => (isActive ? 'active' : '')}>
-              <Bell size={18} /> Thông báo
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="health" className={({ isActive }) => (isActive ? 'active' : '')}>
               <Heart size={18} /> Sức khỏe sinh sản
             </NavLink>
           </li>
-          {/* ✅ Nếu là Consultant thì hiện nhóm menu riêng */}
+
           {isConsultant && (
             <>
               <li>

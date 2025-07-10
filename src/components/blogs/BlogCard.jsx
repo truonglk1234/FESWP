@@ -1,12 +1,27 @@
-import { CalendarDays, Clock, User2 } from 'lucide-react';
-import './BlogCard.css';
-import { Link } from "react-router-dom";
+import {
+  ShieldCheck,
+  TestTube,
+  Microscope,
+  User,
+  Calendar,
+  Brain,
+  CalendarDays,
+  Clock,
+  User2,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import './BlogContent.css';
 
-const BlogCard = ({
-  blog,
-  role = "public",
-  viewMode = "grid",
-}) => {
+// Danh sách icon
+const iconList = [ShieldCheck, TestTube, Microscope, User, Calendar, Brain];
+
+// Hàm random icon mỗi lần render
+const getRandomIcon = () => {
+  const index = Math.floor(Math.random() * iconList.length);
+  return iconList[index];
+};
+
+const BlogCard = ({ blog, role = "public", viewMode = "grid" }) => {
   const {
     id,
     title,
@@ -22,36 +37,44 @@ const BlogCard = ({
     status,
   } = blog;
 
+  const Icon = getRandomIcon();
+
   const contentNode = (
-    <div className="blog-content">
-      {/* Thông tin trên cùng */}
-      <div className="blog-meta">
-        <span className="badge">{category || topic?.name}</span>
+    <div className="blog-card-content">
+      <div className="blog-card-header">
+        <div className="blog-card-header-top">
+          <div className="blog-card-icon-wrapper">
+            <Icon className="blog-card-icon" strokeWidth={2.2} />
+          </div>
+          <span className="blog-card-badge">{category || topic?.name}</span>
+        </div>
 
         {readingTime && (
-          <span className="meta-item">
-            <Clock size={14} /> {readingTime}
-          </span>
-        )}
-
-        {status && role !== "public" && (
-          <span className={`badge ${status.toLowerCase()}`}>{status}</span>
+          <div className="blog-card-meta">
+            <span className="blog-card-meta-item">
+              <Clock size={14} /> {readingTime}
+            </span>
+            {status && role !== "public" && (
+              <span className={`blog-card-badge ${status.toLowerCase()}`}>{status}</span>
+            )}
+          </div>
         )}
       </div>
 
-      {/* Tiêu đề & mô tả */}
-      <h3 className="title">{title}</h3>
-      <p className="excerpt">
-        {description || (content ? content.slice(0, 100) + "..." : "Không có nội dung")}
-      </p>
+      <h3 className="blog-card-title">{title}</h3>
 
-      {/* Tác giả & ngày */}
-      <div className="blog-footer">
-        <span className="meta-item">
-          <User2 size={14} /> {author || createdBy?.fullName}
+      {(description || content) && (
+        <p className="blog-card-excerpt">
+          {description || `${content.slice(0, 100)}...`}
+        </p>
+      )}
+
+      <div className="blog-card-footer">
+        <span className="blog-card-meta-item">
+          <User2 size={18} /> {author || createdBy?.fullName}
         </span>
-        <span className="meta-item">
-          <CalendarDays size={14} /> {date || new Date(createdAt).toLocaleDateString()}
+        <span className="blog-card-meta-item">
+          <CalendarDays size={18} /> {date || new Date(createdAt).toLocaleDateString()}
         </span>
       </div>
     </div>
@@ -60,7 +83,7 @@ const BlogCard = ({
   return (
     <div className={`blog-card ${viewMode} ${role}`}>
       {role === "public" ? (
-        <Link to={`/blogs/${id}`} className="blog-link-wrapper">
+        <Link to={`/blogs/${id}`} className="blog-card-link-wrapper">
           {contentNode}
         </Link>
       ) : (
