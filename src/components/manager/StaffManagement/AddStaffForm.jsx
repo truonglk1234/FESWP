@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import './AddStaffForm.css'; // bạn tự style giống Register.css
-import {
-  User, Mail, Phone, Lock, Eye, EyeOff
-} from 'lucide-react';
+import './AddStaffForm.css';
+import { User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 
 const AddStaffForm = ({ onClose, onAdded }) => {
@@ -14,6 +12,7 @@ const AddStaffForm = ({ onClose, onAdded }) => {
     phone: '',
     gender: '',
     dateOfBirthday: '',
+    address: '',
     password: '',
     confirmPassword: '',
   });
@@ -45,23 +44,27 @@ const AddStaffForm = ({ onClose, onAdded }) => {
     }
 
     const payload = {
-      ...formData,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      fullName: formData.name,
       gender: formData.gender === 'true',
-      role: 'STAFF' // GÁN CỨNG ROLE STAFF
+      dateOfBirthday: formData.dateOfBirthday,
+      address: formData.address
     };
 
     try {
       setLoading(true);
       const token = JSON.parse(localStorage.getItem('user'))?.token;
-      await axios.post('http://localhost:8080/api/auth/manager/create-staff', payload, {
+      await axios.post('http://localhost:8080/api/auth/manager/staff', payload, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
       alert('✅ Tạo nhân viên thành công!');
-      onAdded();   // callback để cha reload danh sách
-      onClose();   // đóng form
+      onAdded();
+      onClose();
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || '❌ Lỗi khi tạo nhân viên');
@@ -136,6 +139,16 @@ const AddStaffForm = ({ onClose, onAdded }) => {
                 required
               />
             </div>
+          </div>
+
+          <div className="addstaff-input-icon">
+            <input
+              type="text"
+              name="address"
+              placeholder="Địa chỉ"
+              value={formData.address}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="addstaff-input-icon">

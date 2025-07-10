@@ -83,7 +83,7 @@ const ManagerStaffManage = () => {
               </div>
               <div>
                 <span className={`stm-status ${staff.active === false ? 'inactive' : 'active'}`}>
-                  {staff.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
+                  {staff.active === false ? 'Chưa xác thực' : 'Đã xác thực'}
                 </span>
               </div>
               <div className="stm-action-buttons">
