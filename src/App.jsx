@@ -52,12 +52,16 @@ import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 import AdminLayout from './components/admin/AdminLayout';
 import Report from './components/admin/Reports/Report';
 import ManagerFM from './components/admin/FeedbackManagement/ManagerFM';
+import Overview from './components/admin/Overview/Overview';
+import UM from './components/admin/UserManagement/UM';
+import CM from './components/admin/ConsultantManagement/CM';
 
 // ✅ IMPORT Lịch xét nghiệm & Lịch tư vấn
 import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage'; // NEW ✅
-import Overview from './components/admin/Overview/Overview';
-import UM from './components/admin/UserManagement/UM';
+
+
+
 
 const App = () => {
   return (
@@ -115,7 +119,7 @@ const App = () => {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Overview />} />
             <Route path="users" element={<UM />} />
-
+            <Route path="consultants" element={<CM />} />
             <Route path="reports" element={<Report />} />
             <Route path="feedbacks" element={<ManagerFM />} />
           </Route>
