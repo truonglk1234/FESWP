@@ -1,53 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "./TestCalendar.css";
-
+import './TestCalendar.css';
+import axios from 'axios';
 
 const TestScheduleContent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [calendarEvents, setCalendarEvents] = useState([]);
+  const [testBookings, setTestBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // ✅ Dữ liệu DEMO tháng 7/2025 (ngày gần)
-  const calendarEvents = [
-    { id: 1, date: '2025-07-09', title: 'Xét nghiệm STI' },
-    { id: 2, date: '2025-07-11', title: 'Xét nghiệm HIV' },
-    { id: 3, date: '2025-07-20', title: 'Xét nghiệm máu' },
-    { id: 4, date: '2025-07-21', title: 'Xét nghiệm nội tiết' },
-    { id: 5, date: '2025-07-23', title: 'Xét nghiệm tổng quát' }
-  ];
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8080/api/examinations/my-bookings', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-  const testBookings = [
-    {
-      date: '2025-07-09',
-      package: 'Xét nghiệm STI',
-      status: 'Chờ thanh toán',
-      result: ''
-    },
-    {
-      date: '2025-07-11',
-      package: 'Xét nghiệm HIV',
-      status: 'Đang xét nghiệm',
-      result: ''
-    },
-    {
-      date: '2025-07-20',
-      package: 'Xét nghiệm máu',
-      status: 'Hoàn tất',
-      result: 'Âm tính'
-    },
-    {
-      date: '2025-07-21',
-      package: 'Xét nghiệm nội tiết',
-      status: 'Đã hủy',
-      result: '-'
-    },
-    {
-      date: '2025-07-23',
-      package: 'Xét nghiệm tổng quát',
-      status: 'Đang xét nghiệm',
-      result: ''
+        const data = response.data || [];
+
+        // 🟢 Dùng "Có lịch xét nghiệm" thay vì tên người dùng
+        const events = data.map(item => ({
+          id: item.id,
+          date: item.appointmentDate.split('T')[0],
+          title: 'Có lịch xét nghiệm'
+        }));
+
+        const bookings = data.map(item => ({
+          date: item.appointmentDate.split('T')[0],
+          package: item.serviceName || 'Gói xét nghiệm',
+          status: item.status,
+          result: item.result || '-'
+        }));
+
+        setCalendarEvents(events);
+        setTestBookings(bookings);
+        setLoading(false);
+      } catch (error) {
+        console.error('Lỗi khi tải lịch xét nghiệm:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+      case 'chờ thanh toán': return 'status-pending';
+      case 'đang xét nghiệm': return 'status-processing';
+      case 'hoàn tất': return 'status-complete';
+      case 'đã hủy': return 'status-cancelled';
+      default: return '';
     }
-  ];
+  };
 
   return (
     <section className="ts-schedule-wrapper">
@@ -58,7 +68,7 @@ const TestScheduleContent = () => {
           locale="vi-VN"
           onChange={setSelectedDate}
           value={selectedDate}
-          showNeighboringMonth={false}  // ✅ Ẩn ngày dư
+          showNeighboringMonth={false}
           formatShortWeekday={(locale, date) =>
             ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()]
           }
@@ -80,10 +90,12 @@ const TestScheduleContent = () => {
 
       <div className="ts-bookings-wrapper">
         <h2 className="ts-bookings-title">Danh sách lịch xét nghiệm đã đặt</h2>
-        {testBookings.length === 0 && (
+
+        {loading ? (
+          <p>Đang tải dữ liệu...</p>
+        ) : testBookings.length === 0 ? (
           <p className="ts-bookings-empty">Bạn chưa có lịch xét nghiệm nào.</p>
-        )}
-        {testBookings.length > 0 && (
+        ) : (
           <table className="ts-bookings-table">
             <thead>
               <tr>
@@ -98,8 +110,12 @@ const TestScheduleContent = () => {
                 <tr key={idx}>
                   <td>{tb.date}</td>
                   <td>{tb.package}</td>
-                  <td>{tb.status}</td>
-                  <td>{tb.result || '-'}</td>
+                  <td>
+                    <span className={`status-label ${getStatusClass(tb.status)}`}>
+                      {tb.status}
+                    </span>
+                  </td>
+                  <td>{tb.result}</td>
                 </tr>
               ))}
             </tbody>
