@@ -22,7 +22,7 @@ const Login = () => {
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [rememberMe, setRememberMe] = useState(false); // ✅ MỚI: State cho checkbox
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:8080/api/auth/login', {
         email,
         password,
-        rememberMe // ✅ MỚI: gửi lên backend
+        rememberMe
       }, { withCredentials: true });
 
       const token = response.data.token;
@@ -48,11 +48,13 @@ const Login = () => {
 
       setUser(user);
 
-      // ✅ MỚI: Lưu token vào localStorage hoặc sessionStorage
+      const userToSave = JSON.stringify(user);
       if (rememberMe) {
-        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', userToSave);
       } else {
-        sessionStorage.setItem('token', token);
+         sessionStorage.setItem('user', JSON.stringify(user)); 
+        sessionStorage.setItem('user', userToSave);
       }
 
       navigate('/');
@@ -142,8 +144,8 @@ const Login = () => {
                 <label className="login-checkbox">
                   <input
                     type="checkbox"
-                    checked={rememberMe} // ✅ MỚI
-                    onChange={(e) => setRememberMe(e.target.checked)} // ✅ MỚI
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
                   />
                   <span>Ghi nhớ đăng nhập</span>
                 </label>

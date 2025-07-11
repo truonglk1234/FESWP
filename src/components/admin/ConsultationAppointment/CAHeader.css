@@ -1,0 +1,147 @@
+.ca-header {
+  font-family: 'Inter', sans-serif;
+}
+
+.ca-header-top {
+  margin-bottom: 1.5rem;
+}
+
+.ca-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.ca-subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.ca-stats-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ca-stat-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.ca-stat-title {
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 0 0 4px 0;
+}
+
+.ca-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.ca-stat-value.pending {
+  color: #b45309;
+}
+
+.ca-stat-value.blue {
+  color: #2563eb;
+}
+
+.ca-stat-value.green {
+  color: #16a34a;
+}
+
+.ca-stat-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.ca-stat-desc.plus {
+  color: #2563eb;
+}
+
+.ca-actions-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.ca-action-card {
+  flex: 1;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ca-action-card.blue {
+  background: #e0edff;
+}
+
+.ca-action-card.green {
+  background: #ecfdf5;
+}
+
+.ca-action-card.orange {
+  background: #fff7ed;
+}
+
+.ca-action-icon {
+  color: #2563eb;
+}
+
+.ca-action-card.green .ca-action-icon {
+  color: #16a34a;
+}
+
+.ca-action-card.orange .ca-action-icon {
+  color: #ea580c;
+}
+
+.ca-action-content h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ca-action-content p {
+  margin: 4px 0 0 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.ca-action-btn {
+  margin-top: auto;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ca-action-btn.blue {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+}
+
+.ca-action-btn.orange {
+  border: 1px solid #ea580c;
+  color: #ea580c;
+}
+
+.ca-action-btn:hover {
+  opacity: 0.95;
+}

@@ -5,31 +5,30 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) return null;
+    const token = localStorage.getItem('token');
+    if (!token) return null;
 
     try {
-      const parsed = JSON.parse(storedUser);
-      if (!parsed.token) return null;
-
-      const decoded = jwtDecode(parsed.token);
+      const decoded = jwtDecode(token);
       return {
-        ...parsed,
-        role: decoded.Role || decoded.role || parsed.role,
-        name: decodeURIComponent(escape(decoded.Name || decoded.name || parsed.name || parsed.email)),
-        authorities: decoded.authorities || parsed.authorities || []
+        token: token,
+        role: decoded.role || decoded.Role,
+       name: decoded.name || decoded.Name || decoded.email,
+        email: decoded.email,
+        authorities: decoded.authorities || []
       };
     } catch (err) {
-      console.error("Lỗi giải mã JWT:", err);
+      console.error("❌ Token không hợp lệ hoặc hết hạn:", err);
+      localStorage.removeItem('token');
       return null;
     }
   });
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', user.token);
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
   }, [user]);
 

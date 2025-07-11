@@ -65,6 +65,12 @@
   flex-grow: 1;
 }
 
+.as-nav-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
 .as-sidebar-middle ul {
   list-style: none;
   padding: 0;
@@ -95,10 +101,10 @@
   color: #111827;
 }
 
-.as-nav-link.highlight {
-  background: #2563eb;
-  color: #fff;
+.as-nav-link.active {
+  background: #f3f4f6;
   font-weight: 600;
+  color: #111827;
 }
 
 .as-sidebar-footer {
@@ -111,6 +117,10 @@
 
 .as-sidebar-footer .as-nav-link {
   padding: 0.5rem 0.75rem;
+}
+
+.as-sidebar-footer .as-nav-link:hover {
+  background-color: #f9fafb;
 }
 
 .as-logout-btn {

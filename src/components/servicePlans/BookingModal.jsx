@@ -3,37 +3,33 @@ import axios from 'axios';
 import './BookingModal.css';
 
 const BookingModal = ({ service, onClose }) => {
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [contactInfo, setContactInfo] = useState({
-    name: '',
+    name: currentUser.name || '',
     phone: '',
-    email: '',
+    email: currentUser.email || '',
     note: ''
   });
 
-  // ✅ Tính ngày tự động: 2 tuần, từ thứ 2 gần nhất
   const availableDates = useMemo(() => {
     const today = new Date();
     const dates = [];
-
-    const day = today.getDay(); // CN:0 ... T7:6
+    const day = today.getDay();
     const mondayOffset = day === 0 ? -6 : 1 - day;
-
     const monday = new Date(today);
     monday.setDate(today.getDate() + mondayOffset);
 
     for (let i = 0; i < 14; i++) {
       const date = new Date(monday);
       date.setDate(monday.getDate() + i);
-
       const dayOfWeek = date.getDay();
       const weekDayLabel = dayOfWeek === 0 ? 'CN' : `Th ${dayOfWeek + 1}`;
-
       const dd = String(date.getDate()).padStart(2, '0');
       const mm = String(date.getMonth() + 1).padStart(2, '0');
-
       dates.push(`${weekDayLabel}, ${dd}/${mm}`);
     }
 
@@ -68,25 +64,37 @@ const BookingModal = ({ service, onClose }) => {
         note: contactInfo.note
       };
 
-      const response = await axios.post(
+      console.log("🎯 Payload gửi BE:", bookingPayload);
+
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const bookingRes = await axios.post(
         "http://localhost:8080/api/examinations/book",
         bookingPayload,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
-      console.log("✅ Đặt lịch thành công:", response.data);
+      const booking = bookingRes.data;
       setStep(5);
 
-      if (response.data && response.data.paymentUrl) {
-        setTimeout(() => {
-          window.location.href = response.data.paymentUrl;
-        }, 1500);
-      }
+      const paymentRes = await axios.post(
+        `http://localhost:8080/api/v1/payment/create-payment?bookingId=${booking.id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const paymentUrl = paymentRes.data;
+      setTimeout(() => {
+        window.location.href = paymentUrl;
+      }, 1000);
     } catch (error) {
       console.error("❌ Lỗi khi đặt lịch:", error);
       alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
@@ -97,7 +105,6 @@ const BookingModal = ({ service, onClose }) => {
     <div className="bm-modal-overlay">
       <div className="bm-modal-content">
         <button className="bm-close-btn" onClick={onClose}>✖</button>
-
         <h2>Đặt lịch dịch vụ y tế</h2>
 
         <div className="bm-modal-section">
@@ -111,8 +118,7 @@ const BookingModal = ({ service, onClose }) => {
             <h4>📅 Chọn ngày khám</h4>
             <div className="bm-options-grid">
               {availableDates.map((date, index) => (
-                <button
-                  key={index}
+                <button key={index}
                   className={selectedDate === date ? 'bm-selected' : ''}
                   onClick={() => {
                     setSelectedDate(date);
@@ -131,8 +137,7 @@ const BookingModal = ({ service, onClose }) => {
             <h4>⏰ Chọn giờ khám</h4>
             <div className="bm-options-grid">
               {availableTimes.map((time, index) => (
-                <button
-                  key={index}
+                <button key={index}
                   className={selectedTime === time ? 'bm-selected' : ''}
                   onClick={() => {
                     setSelectedTime(time);
@@ -165,7 +170,9 @@ const BookingModal = ({ service, onClose }) => {
               <label>Ghi chú</label>
               <textarea name="note" value={contactInfo.note} onChange={handleContactChange} />
             </div>
-            <button className="bm-next-btn" onClick={() => setStep(4)} disabled={!contactInfo.name || !contactInfo.phone}>
+            <button className="bm-next-btn"
+              onClick={() => setStep(4)}
+              disabled={!contactInfo.name || !contactInfo.phone}>
               Tiếp tục
             </button>
           </>
@@ -193,13 +200,13 @@ const BookingModal = ({ service, onClose }) => {
 
         {step === 5 && (
           <>
-            <h4>💳 Đang chuyển sang thanh toán</h4>
-            <p>Vui lòng chờ trong giây lát để thanh toán bằng QR VNPay...</p>
+            <h4>💳 Đang chuyển sang VNPay</h4>
+            <p>Vui lòng chờ giây lát để thanh toán...</p>
           </>
         )}
       </div>
     </div>
   );
-};  
+};
 
 export default BookingModal;
