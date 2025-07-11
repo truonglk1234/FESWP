@@ -1,18 +1,19 @@
-import React from 'react';
-import { Mail, Phone, User, BadgeCheck, Info } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, User, BadgeCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import './ConsultantCard.css'; // Nếu có file CSS riêng
+import BookingModal from './BookingModal';
+import './ConsultantCard.css';
 
 const ConsultantCard = ({ doc, viewMode }) => {
   const navigate = useNavigate();
+  const [showBooking, setShowBooking] = useState(false);
 
   const handleViewProfile = () => {
     navigate(`/consultants/${doc.id}`);
   };
 
   const handleBooking = () => {
-    // Sau này bạn mở modal đặt lịch hoặc navigate cũng được
-    console.log(`Đặt lịch với tư vấn viên ID: ${doc.id}`);
+    setShowBooking(true);
   };
 
   return (
@@ -53,6 +54,13 @@ const ConsultantCard = ({ doc, viewMode }) => {
           Đặt lịch
         </button>
       </div>
+
+      {showBooking && (
+        <BookingModal
+          consultant={doc}
+          onClose={() => setShowBooking(false)}
+        />
+      )}
     </div>
   );
 };
