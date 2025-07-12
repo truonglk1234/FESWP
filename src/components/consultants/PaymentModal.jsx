@@ -11,14 +11,11 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [paymentTimer, setPaymentTimer] = useState(null);
-  const [timeRemaining, setTimeRemaining] = useState(30 * 60); // 30 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState(30 * 60);
 
   useEffect(() => {
-    // Cleanup timer on unmount
     return () => {
-      if (paymentTimer) {
-        clearInterval(paymentTimer);
-      }
+      if (paymentTimer) clearInterval(paymentTimer);
     };
   }, [paymentTimer]);
 
@@ -33,45 +30,19 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
         return prev - 1;
       });
     }, 1000);
-
     setPaymentTimer(timer);
   };
 
-  const formatTime = (dateTime) => {
-    if (!dateTime) return '';
-    return new Date(dateTime).toLocaleTimeString('vi-VN', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    }).format(price);
-  };
-
-  const formatTimeRemaining = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
+  const formatTime = (dateTime) => new Date(dateTime).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+  const formatPrice = (price) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+  const formatTimeRemaining = (seconds) => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 
   const handlePaymentSubmit = async () => {
-    if (!selectedPaymentMethod) {
-      setError('Vui lòng chọn phương thức thanh toán');
-      return;
-    }
-
+    if (!selectedPaymentMethod) return setError('Vui lòng chọn phương thức thanh toán');
     try {
       setLoading(true);
       setError('');
-
-      // Start timer for MoMo payment
-      if (selectedPaymentMethod === 'MOMO') {
-        startPaymentTimer();
-      }
+      if (selectedPaymentMethod === 'MOMO') startPaymentTimer();
 
       const bookingData = {
         consultantId: consultant.userId,
@@ -81,7 +52,7 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
         paymentMethod: selectedPaymentMethod
       };
 
-      const response = await axios.post(
+      const res = await axios.post(
         `http://localhost:8080/api/appointments/book/${user.id}`,
         bookingData,
         { withCredentials: true }
@@ -89,25 +60,14 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
 
       if (selectedPaymentMethod === 'CASH') {
         setSuccess(true);
-        // Auto close after 3 seconds for cash payments
-        setTimeout(() => {
-          redirectToBookingHistory();
-        }, 3000);
-      } else if (selectedPaymentMethod === 'MOMO') {
-        // For MoMo, show success but keep timer running
+        setTimeout(() => redirectToBookingHistory(), 3000);
+      } else {
         setSuccess(true);
-        // In real implementation, redirect to MoMo app here
-        // For now, simulate payment completion after some time
-        setTimeout(() => {
-          handleMoMoPaymentComplete();
-        }, 5000); // Simulate 5 second payment
+        setTimeout(() => handleMoMoPaymentComplete(), 5000);
       }
-
     } catch (err) {
       console.error('Error booking appointment:', err);
       setError(err.response?.data || 'Không thể đặt lịch. Vui lòng thử lại.');
-
-      // Clear timer on error
       if (paymentTimer) {
         clearInterval(paymentTimer);
         setPaymentTimer(null);
@@ -118,41 +78,29 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
   };
 
   const handleMoMoPaymentComplete = () => {
-    // Clear timer
-    if (paymentTimer) {
-      clearInterval(paymentTimer);
-      setPaymentTimer(null);
-    }
-
-    // Redirect to booking history
-    setTimeout(() => {
-      redirectToBookingHistory();
-    }, 2000);
+    if (paymentTimer) clearInterval(paymentTimer);
+    setPaymentTimer(null);
+    setTimeout(() => redirectToBookingHistory(), 2000);
   };
 
   const redirectToBookingHistory = () => {
-    // Redirect to user appointments page
     window.location.href = '/profile/appointments';
   };
 
   if (success) {
     return (
-      <div className="payment-success">
-        <div className="success-icon">
-          <CheckCircle size={64} />
-        </div>
-        <h3>
-          {selectedPaymentMethod === 'CASH' ? 'Đặt lịch thành công!' : 'Đang chờ thanh toán MoMo'}
-        </h3>
+      <div className="pm-success">
+        <div className="pm-success-icon"><CheckCircle size={64} /></div>
+        <h3>{selectedPaymentMethod === 'CASH' ? 'Đặt lịch thành công!' : 'Đang chờ thanh toán MoMo'}</h3>
 
         {selectedPaymentMethod === 'MOMO' && timeRemaining > 0 && (
-          <div className="payment-timer">
+          <div className="pm-timer">
             <Timer size={20} />
             <span>Thời gian còn lại: {formatTimeRemaining(timeRemaining)}</span>
           </div>
         )}
 
-        <div className="success-details">
+        <div className="pm-success-details">
           <p><strong>Tư vấn viên:</strong> {consultant.fullName}</p>
           <p><strong>Ngày:</strong> {new Date(appointmentDetails.date).toLocaleDateString('vi-VN')}</p>
           <p><strong>Giờ:</strong> {formatTime(appointmentDetails.slot.startTime)} - {formatTime(appointmentDetails.endTime)}</p>
@@ -161,155 +109,71 @@ const PaymentModal = ({ consultant, appointmentDetails, onClose, onBack }) => {
           <p><strong>Tổng tiền:</strong> {formatPrice(appointmentDetails.fee)}</p>
         </div>
 
-        <p className="success-note">
+        <p className="pm-note">
           {selectedPaymentMethod === 'MOMO'
             ? timeRemaining > 0
               ? 'Vui lòng hoàn tất thanh toán qua ứng dụng MoMo để xác nhận lịch hẹn.'
               : 'Thời gian thanh toán đã hết. Lịch hẹn sẽ bị hủy.'
-            : 'Bạn sẽ thanh toán bằng tiền mặt khi đến buổi tư vấn. Lịch hẹn đã được xác nhận.'
-          }
+            : 'Bạn sẽ thanh toán bằng tiền mặt khi đến buổi tư vấn. Lịch hẹn đã được xác nhận.'}
         </p>
 
-        {selectedPaymentMethod === 'MOMO' && timeRemaining > 0 && (
-          <div className="momo-payment-actions">
-            <button className="momo-pay-btn" onClick={handleMoMoPaymentComplete}>
-              <Smartphone size={16} />
-              Mở ứng dụng MoMo
-            </button>
-            <button className="cancel-payment-btn" onClick={onClose}>
-              Hủy thanh toán
-            </button>
+        {selectedPaymentMethod === 'MOMO' && timeRemaining > 0 ? (
+          <div className="pm-actions-momo">
+            <button className="pm-btn-momo" onClick={handleMoMoPaymentComplete}><Smartphone size={16} /> Mở ứng dụng MoMo</button>
+            <button className="pm-btn-cancel" onClick={onClose}>Hủy thanh toán</button>
           </div>
-        )}
-
-        {(selectedPaymentMethod === 'CASH' || timeRemaining <= 0) && (
-          <button className="close-success-btn" onClick={redirectToBookingHistory}>
-            {selectedPaymentMethod === 'CASH' ? 'Xem lịch hẹn' : 'Đóng'}
-          </button>
+        ) : (
+          <button className="pm-btn-close" onClick={redirectToBookingHistory}>{selectedPaymentMethod === 'CASH' ? 'Xem lịch hẹn' : 'Đóng'}</button>
         )}
       </div>
     );
   }
 
   return (
-    <div className="payment-step">
+    <div className="pm-container">
       <h4>Chọn phương thức thanh toán</h4>
 
-      <div className="payment-summary">
+      <div className="pm-summary">
         <h5>Thông tin đặt lịch</h5>
-        <div className="summary-grid">
-          <div className="summary-item">
-            <span>Tư vấn viên:</span>
-            <strong>{consultant.fullName}</strong>
-          </div>
-          <div className="summary-item">
-            <span>Ngày:</span>
-            <strong>{new Date(appointmentDetails.date).toLocaleDateString('vi-VN')}</strong>
-          </div>
-          <div className="summary-item">
-            <span>Giờ:</span>
-            <strong>{formatTime(appointmentDetails.slot.startTime)} - {formatTime(appointmentDetails.endTime)}</strong>
-          </div>
-          <div className="summary-item">
-            <span>Thời gian:</span>
-            <strong>{appointmentDetails.duration} phút</strong>
-          </div>
-          <div className="summary-item total">
-            <span>Tổng tiền:</span>
-            <strong className="total-amount">{formatPrice(appointmentDetails.fee)}</strong>
-          </div>
+        <div className="pm-summary-grid">
+          <div className="pm-item"><span>Tư vấn viên:</span><strong>{consultant.fullName}</strong></div>
+          <div className="pm-item"><span>Ngày:</span><strong>{new Date(appointmentDetails.date).toLocaleDateString('vi-VN')}</strong></div>
+          <div className="pm-item"><span>Giờ:</span><strong>{formatTime(appointmentDetails.slot.startTime)} - {formatTime(appointmentDetails.endTime)}</strong></div>
+          <div className="pm-item"><span>Thời gian:</span><strong>{appointmentDetails.duration} phút</strong></div>
+          <div className="pm-item total"><span>Tổng tiền:</span><strong className="pm-amount">{formatPrice(appointmentDetails.fee)}</strong></div>
         </div>
       </div>
 
-      <div className="payment-methods">
-        <div
-          className={`payment-option ${selectedPaymentMethod === 'MOMO' ? 'selected' : ''}`}
-          onClick={() => setSelectedPaymentMethod('MOMO')}
-        >
-          <div className="payment-icon momo">
-            <Smartphone size={24} />
-          </div>
-          <div className="payment-info">
+      <div className="pm-methods">
+        <div className={`pm-option ${selectedPaymentMethod === 'MOMO' ? 'selected' : ''}`} onClick={() => setSelectedPaymentMethod('MOMO')}>
+          <div className="pm-icon momo"><Smartphone size={24} /></div>
+          <div className="pm-info">
             <h5>Ví MoMo</h5>
             <p>Thanh toán nhanh chóng và bảo mật qua ứng dụng MoMo</p>
-            <div className="payment-timer-info">
-              <Timer size={14} />
-              <span>Thời gian thanh toán: 30 phút</span>
-            </div>
+            <div className="pm-timer-info"><Timer size={14} /><span>Thời gian thanh toán: 30 phút</span></div>
           </div>
-          <div className="payment-radio">
-            <input
-              type="radio"
-              name="payment"
-              value="MOMO"
-              checked={selectedPaymentMethod === 'MOMO'}
-              onChange={() => setSelectedPaymentMethod('MOMO')}
-            />
-          </div>
+          <div className="pm-radio"><input type="radio" name="payment" value="MOMO" checked={selectedPaymentMethod === 'MOMO'} onChange={() => setSelectedPaymentMethod('MOMO')} /></div>
         </div>
 
-        <div
-          className={`payment-option ${selectedPaymentMethod === 'CASH' ? 'selected' : ''}`}
-          onClick={() => setSelectedPaymentMethod('CASH')}
-        >
-          <div className="payment-icon cash">
-            <CreditCard size={24} />
-          </div>
-          <div className="payment-info">
+        <div className={`pm-option ${selectedPaymentMethod === 'CASH' ? 'selected' : ''}`} onClick={() => setSelectedPaymentMethod('CASH')}>
+          <div className="pm-icon cash"><CreditCard size={24} /></div>
+          <div className="pm-info">
             <h5>Tiền mặt</h5>
             <p>Thanh toán bằng tiền mặt khi đến buổi tư vấn</p>
-            <div className="payment-instant-info">
-              <CheckCircle size={14} />
-              <span>Xác nhận ngay lập tức</span>
-            </div>
+            <div className="pm-instant-info"><CheckCircle size={14} /><span>Xác nhận ngay lập tức</span></div>
           </div>
-          <div className="payment-radio">
-            <input
-              type="radio"
-              name="payment"
-              value="CASH"
-              checked={selectedPaymentMethod === 'CASH'}
-              onChange={() => setSelectedPaymentMethod('CASH')}
-            />
-          </div>
+          <div className="pm-radio"><input type="radio" name="payment" value="CASH" checked={selectedPaymentMethod === 'CASH'} onChange={() => setSelectedPaymentMethod('CASH')} /></div>
         </div>
       </div>
 
-      {selectedPaymentMethod === 'MOMO' && (
-        <div className="payment-note momo-note">
-          <AlertTriangle size={16} />
-          <p><strong>Lưu ý:</strong> Sau khi xác nhận, bạn có 30 phút để hoàn tất thanh toán qua MoMo. Nếu không thanh toán trong thời gian này, lịch hẹn sẽ bị hủy tự động.</p>
-        </div>
-      )}
+      {selectedPaymentMethod === 'MOMO' && <div className="pm-note pm-note-momo"><AlertTriangle size={16} /><p><strong>Lưu ý:</strong> Sau khi xác nhận, bạn có 30 phút để hoàn tất thanh toán qua MoMo.</p></div>}
+      {selectedPaymentMethod === 'CASH' && <div className="pm-note pm-note-cash"><CheckCircle size={16} /><p>Lịch hẹn sẽ được xác nhận ngay lập tức. Vui lòng mang theo tiền mặt đúng số tiền khi đến buổi tư vấn.</p></div>}
 
-      {selectedPaymentMethod === 'CASH' && (
-        <div className="payment-note cash-note">
-          <CheckCircle size={16} />
-          <p>Lịch hẹn sẽ được xác nhận ngay lập tức. Vui lòng mang theo tiền mặt đúng số tiền khi đến buổi tư vấn.</p>
-        </div>
-      )}
+      {error && <div className="pm-error">{error}</div>}
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
-
-      <div className="payment-actions">
-        <button
-          className="back-btn"
-          onClick={onBack}
-          disabled={loading}
-        >
-          Quay lại
-        </button>
-        <button
-          className="pay-btn"
-          onClick={handlePaymentSubmit}
-          disabled={loading || !selectedPaymentMethod}
-        >
-          {loading ? 'Đang xử lý...' : 'Xác nhận đặt lịch'}
-        </button>
+      <div className="pm-actions">
+        <button className="pm-btn-back" onClick={onBack} disabled={loading}>Quay lại</button>
+        <button className="pm-btn-pay" onClick={handlePaymentSubmit} disabled={loading || !selectedPaymentMethod}>{loading ? 'Đang xử lý...' : 'Xác nhận đặt lịch'}</button>
       </div>
     </div>
   );

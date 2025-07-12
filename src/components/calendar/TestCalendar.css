@@ -36,11 +36,10 @@
    3) NAVIGATION (HEADER) - GREEN
 ============================= */
 .ts-calendar-wrapper .react-calendar__navigation {
-  background: #00986f; /* Xanh lá emerald đậm */
+  background: #00986f;
   border-radius: 12px;
   padding: 20px 24px;
   margin-bottom: 20px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,7 +60,6 @@
   background: transparent;
   border: none;
   transition: background 0.2s;
-
   width: 48px;
   height: 48px;
   display: flex;
@@ -103,7 +101,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
   min-height: 100px;
   padding: 12px 8px;
   font-size: 18px;
@@ -121,17 +118,15 @@
   cursor: pointer;
 }
 
-/* HIGHLIGHT: Ngày hôm nay */
 .ts-calendar-wrapper .react-calendar__tile--now {
-  background: #34d399 !important; /* Xanh lá đậm */
+  background: #34d399 !important;
   border-radius: 8px;
   color: #ffffff !important;
   font-weight: 600;
 }
 
-/* HIGHLIGHT: Ngày được chọn */
 .ts-calendar-wrapper .react-calendar__tile--active {
-  background: #10b981 !important; /* Xanh lá khác */
+  background: #10b981 !important;
   border-radius: 8px;
   color: #ffffff !important;
   font-weight: 600;
@@ -207,17 +202,11 @@
   background: #f1f5f9;
   transition: background 0.2s;
 }
-.ts-calendar-event-label {
-  background-color: #e0f7fa;
-  color: #00796b;
-  font-size: 12px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  margin-top: 2px;
-  text-align: center;
-}
 
-/* Trạng thái */
+
+/* =============================
+   8) TRẠNG THÁI VÀ ACTION BUTTONS
+============================= */
 .status-label {
   padding: 4px 8px;
   border-radius: 12px;
@@ -246,42 +235,48 @@
   background-color: #f8d7da;
   color: #721c24;
 }
-.ts-calendar-event-label {
-  background-color: #e0f7fa;
-  color: #00796b;
-  font-size: 12px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  margin-top: 2px;
-  text-align: center;
+
+.ts-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
 }
 
-/* Trạng thái */
-.status-label {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 13px;
+.view-btn,
+.cancel-btn,
+.review-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
   font-weight: 500;
-  display: inline-block;
-  text-transform: capitalize;
 }
 
-.status-pending {
-  background-color: #fff3cd;
-  color: #856404;
+/* XEM */
+.view-btn {
+  background-color: #e0f2fe;
+  color: #1d4ed8;
+}
+.view-btn:hover {
+  background-color: #bae6fd;
 }
 
-.status-processing {
-  background-color: #d1ecf1;
-  color: #0c5460;
+/* HUỶ */
+.cancel-btn {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+.cancel-btn:hover {
+  background-color: #fecaca;
 }
 
-.status-complete {
-  background-color: #d4edda;
-  color: #155724;
+/* ĐÁNH GIÁ */
+.review-btn {
+  background-color: #2563eb;
+  color: white;
 }
-
-.status-cancelled {
-  background-color: #f8d7da;
-  color: #721c24;
+.review-btn:hover {
+  background-color: #1e40af;
 }

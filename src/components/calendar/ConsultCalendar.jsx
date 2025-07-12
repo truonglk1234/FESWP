@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './ConsultCalendar.css'; // 👉 CSS riêng với prefix cs-
+import './ConsultCalendar.css';
+import ViewConsultBookingModal from './ViewConsultBookingModal';
 
 const ConsultCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [viewingBooking, setViewingBooking] = useState(null);
 
   const calendarEvents = [
     { id: 1, date: '2025-07-10', title: 'Tư vấn sức khỏe' },
@@ -16,36 +18,61 @@ const ConsultCalendar = () => {
 
   const consultBookings = [
     {
+      id: 1,
       date: '2025-07-10',
       package: 'Tư vấn sức khỏe',
       status: 'Đã xác nhận',
-      consultant: 'Dr. Hạnh'
+      consultant: 'Dr. Hạnh',
+      time: '09:00',
+      note: 'Trao đổi về dinh dưỡng'
     },
     {
+      id: 2,
       date: '2025-07-12',
       package: 'Tư vấn tâm lý',
       status: 'Chờ xác nhận',
-      consultant: 'Dr. Minh'
+      consultant: 'Dr. Minh',
+      time: '10:30',
+      note: 'Stress công việc'
     },
     {
+      id: 3,
       date: '2025-07-15',
       package: 'Tư vấn dinh dưỡng',
       status: 'Đã xác nhận',
-      consultant: 'Dr. Hoa'
+      consultant: 'Dr. Hoa',
+      time: '13:00',
+      note: 'Ăn kiêng khoa học'
     },
     {
+      id: 4,
       date: '2025-07-20',
       package: 'Tư vấn tiền hôn nhân',
       status: 'Đang xử lý',
-      consultant: 'Dr. Thành'
+      consultant: 'Dr. Thành',
+      time: '15:30',
+      note: 'Chuẩn bị kết hôn'
     },
     {
+      id: 5,
       date: '2025-07-25',
       package: 'Tư vấn tổng quát',
       status: 'Hoàn tất',
-      consultant: 'Dr. Lan'
+      consultant: 'Dr. Lan',
+      time: '17:00',
+      note: ''
     }
   ];
+
+  const getStatusClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'chờ xác nhận': return 'status-pending';
+      case 'đã xác nhận': return 'status-confirmed';
+      case 'đang xử lý': return 'status-processing';
+      case 'hoàn tất': return 'status-complete';
+      default: return '';
+    }
+  };
 
   return (
     <section className="cs-schedule-wrapper">
@@ -89,6 +116,7 @@ const ConsultCalendar = () => {
                 <th>Gói tư vấn</th>
                 <th>Trạng thái</th>
                 <th>Tư vấn viên</th>
+                <th>Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -96,14 +124,27 @@ const ConsultCalendar = () => {
                 <tr key={idx}>
                   <td>{cb.date}</td>
                   <td>{cb.package}</td>
-                  <td>{cb.status}</td>
+                  <td><span className={`status-label ${getStatusClass(cb.status)}`}>{cb.status}</span></td>
                   <td>{cb.consultant}</td>
+                  <td>
+                    <div className="cs-actions">
+                      <button className="cs-view-btn" onClick={() => setViewingBooking(cb)}>Xem</button>
+                      {cb.status?.toLowerCase() === 'chờ xác nhận' && (
+                        <button className="cs-cancel-btn" onClick={() => alert(`Huỷ lịch tư vấn: ${cb.id}`)}>Huỷ</button>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
       </div>
+
+      <ViewConsultBookingModal
+        booking={viewingBooking}
+        onClose={() => setViewingBooking(null)}
+      />
     </section>
   );
 };

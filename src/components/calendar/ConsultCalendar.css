@@ -207,3 +207,44 @@
   background: #f1f5f9;
   transition: background 0.2s;
 }
+/* =============================
+   8) ACTION BUTTONS (VIEW & CANCEL)
+============================= */
+
+.cs-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-view-btn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cs-view-btn:hover {
+  background-color: #059669;
+}
+
+.cs-cancel-btn {
+  background-color: #f87171;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cs-cancel-btn:hover {
+  background-color: #ef4444;
+}

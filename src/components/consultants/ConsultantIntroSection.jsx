@@ -2,12 +2,12 @@ import './ConsultantIntroSection.css';
 
 const ConsultantIntroSection = () => {
   return (
-    <section className="consultant-intro">
-      <div className="badge">👩‍⚕️ Đội ngũ tư vấn viên chuyên nghiệp</div>
-      <h1>
-        Tìm <strong className="highlight">tư vấn viên phù hợp</strong> cho bạn
+    <section className="cis-intro">
+      <div className="cis-badge">👩‍⚕️ Đội ngũ tư vấn viên chuyên nghiệp</div>
+      <h1 className="cis-title">
+        Tìm <strong className="cis-highlight">tư vấn viên phù hợp</strong> cho bạn
       </h1>
-      <p className="description">
+      <p className="cis-description">
         Kết nối với hơn 120 tư vấn viên sức khỏe giới tính và sinh sản, được đào tạo chuyên sâu<br />
         và luôn sẵn sàng hỗ trợ bạn 24/7
       </p>
@@ -16,3 +16,4 @@ const ConsultantIntroSection = () => {
 };
 
 export default ConsultantIntroSection;
+import React from 'react';

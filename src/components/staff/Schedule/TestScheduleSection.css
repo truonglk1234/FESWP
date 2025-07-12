@@ -1,4 +1,36 @@
-/* TSFooter.css */
+/* ========== HEADER ========== */
+.ts-header {
+  padding: 1.5rem;
+  background: #f9fafb;
+}
+
+.ts-header-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ts-header-icon {
+  color: #2563eb;
+  width: 40px;
+  height: 40px;
+}
+
+.ts-header-title h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.ts-header-title p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* ========== FOOTER ========== */
 .ts-footer {
   padding: 1.5rem;
   background: #f9fafb;
@@ -29,7 +61,7 @@
   background: #ffffff;
   border-radius: 0.75rem;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   gap: 1rem;
 }
 

@@ -1,56 +1,59 @@
 import React, { useState } from 'react';
 import { Mail, Phone, User, BadgeCheck } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import BookingModal from './BookingModal';
-import './ConsultantCard.css';
+import PaymentModal from './PaymentModal';
+import ConsultantProfileModal from './ConsultantProfileModal';
 
-const ConsultantCard = ({ doc, viewMode }) => {
-  const navigate = useNavigate();
+const ConsultantCard = ({ doc }) => {
   const [showBooking, setShowBooking] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [appointmentDetails, setAppointmentDetails] = useState(null); // ✅ Thêm state mới
 
-  const handleViewProfile = () => {
-    navigate(`/consultants/${doc.id}`);
-  };
-
-  const handleBooking = () => {
+  const handleOpenBooking = () => {
     setShowBooking(true);
   };
 
+  const handleCloseBooking = () => {
+    setShowBooking(false);
+  };
+
+  const handleBookingConfirmed = (details) => {
+    setAppointmentDetails(details);           // ✅ Lưu thông tin đặt lịch
+    setShowBooking(false);
+    setShowPayment(true);
+  };
+
+  const handleClosePayment = () => {
+    setShowPayment(false);
+  };
+
   return (
-    <div className={`consultant-card ${viewMode}`}>
-      <div className="card-top">
+    <div className="csc-card">
+      <div className="csc-card-top">
         <img
-          src={
-            doc.avatarUrl ||
-            `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}`
-          }
+          src={doc.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}&background=0D8ABC&color=fff`}
           alt={doc.fullName}
-          className="avatar"
+          className="csc-avatar"
         />
-        <div className="badge-gender">{doc.gender ? 'Nam' : 'Nữ'}</div>
+        <span className={`csc-badge-gender ${doc.gender ? 'male' : 'female'}`}>
+          {doc.gender ? 'Nam' : 'Nữ'}
+        </span>
       </div>
 
-      <div className="card-body">
-        <h3 className="doctor-name">{doc.fullName}</h3>
-        <div className="info">
-          <BadgeCheck size={14} /> {doc.specialty}
-        </div>
-        <div className="info">
-          <User size={14} /> {doc.experienceYears || 0} năm kinh nghiệm
-        </div>
-        <div className="info">
-          <Mail size={14} /> {doc.email}
-        </div>
-        <div className="info">
-          <Phone size={14} /> {doc.phone}
-        </div>
+      <div className="csc-card-body">
+        <h3 className="csc-name">{doc.fullName}</h3>
+        <div className="csc-info"><BadgeCheck size={14} /> {doc.specialty}</div>
+        <div className="csc-info"><User size={14} /> {doc.experienceYears || 0} năm kinh nghiệm</div>
+        <div className="csc-info"><Mail size={14} /> {doc.email}</div>
+        <div className="csc-info"><Phone size={14} /> {doc.phone}</div>
       </div>
 
-      <div className="consultant-footer">
-        <button className="solid" onClick={handleViewProfile}>
+      <div className="csc-card-footer">
+        <button className="csc-btn csc-btn-primary" onClick={() => setShowProfile(true)}>
           Xem hồ sơ
         </button>
-        <button className="outline" onClick={handleBooking}>
+        <button className="csc-btn csc-btn-outline" onClick={handleOpenBooking}>
           Đặt lịch
         </button>
       </div>
@@ -58,7 +61,27 @@ const ConsultantCard = ({ doc, viewMode }) => {
       {showBooking && (
         <BookingModal
           consultant={doc}
-          onClose={() => setShowBooking(false)}
+          onClose={handleCloseBooking}
+          onConfirmPayment={handleBookingConfirmed} // ✅ Nhận appointmentDetails từ BookingModal
+        />
+      )}
+
+      {showPayment && appointmentDetails && (
+        <PaymentModal
+          consultant={doc}
+          appointmentDetails={appointmentDetails} // ✅ Truyền thông tin đặt lịch
+          onClose={handleClosePayment}
+          onBack={() => {
+            setShowPayment(false);
+            setShowBooking(true);
+          }}
+        />
+      )}
+
+      {showProfile && (
+        <ConsultantProfileModal
+          consultantId={doc.id}
+          onClose={() => setShowProfile(false)}
         />
       )}
     </div>

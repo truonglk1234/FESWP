@@ -1,0 +1,98 @@
+.cp-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cp-modal {
+  background: #fff;
+  padding: 30px;
+  max-width: 900px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.cp-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+}
+
+.cp-close:hover {
+  color: #111;
+}
+
+.cp-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cp-header h2 {
+  margin: 0;
+  color: #17b887;
+  font-size: 24px;
+}
+
+.cp-header p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.cp-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.cp-item {
+  flex: 1 1 45%;
+}
+
+.cp-item.cp-full {
+  flex: 1 1 100%;
+}
+
+.cp-item label {
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cp-item p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.cp-avatar img {
+  margin-top: 10px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #17b887;
+}
