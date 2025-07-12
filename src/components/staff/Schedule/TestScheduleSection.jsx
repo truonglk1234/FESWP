@@ -1,112 +1,156 @@
-import React from 'react';
-import './TestScheduleSection.css';
-import { CalendarCheck, Clock } from 'lucide-react';
+import React, { useState } from "react";
+import "./TestScheduleSection.css";
 
-const appointments = [
+const sampleAppointments = [
   {
     id: 1,
-    name: 'Nguyễn Văn A',
-    test: 'Xét nghiệm HIV',
-    note: 'Đã lấy mẫu thành công',
-    time: '09:00',
-    date: '2024-06-18',
-    status: 'Hoàn tất'
+    appointmentDate: "2025-07-12",
+    status: "Đã tiếp nhận",
+    userName: "Nguyễn Văn A",
+    serviceName: "Xét nghiệm HIV",
+    result: "",
   },
   {
     id: 2,
-    name: 'Trần Thị B',
-    test: 'Xét nghiệm Giang mai',
-    note: 'Đang xử lý mẫu',
-    time: '10:30',
-    date: '2024-06-18',
-    status: 'Đang xử lý'
+    appointmentDate: "2025-07-13",
+    status: "Đang xử lý",
+    userName: "Trần Thị B",
+    serviceName: "Xét nghiệm Giang mai",
+    result: "",
   },
   {
     id: 3,
-    name: 'Lê Minh C',
-    test: 'Xét nghiệm Lậu',
-    note: 'Chờ khách đến',
-    time: '11:00',
-    date: '2024-06-18',
-    status: 'Chờ xử lý'
+    appointmentDate: "2025-07-14",
+    status: "Đang xét nghiệm",
+    userName: "Lê Văn C",
+    serviceName: "Xét nghiệm Chlamydia",
+    result: "",
   },
   {
     id: 4,
-    name: 'Phạm Thị D',
-    test: 'Xét nghiệm Herpes',
-    note: 'Lịch hẹn chiều',
-    time: '14:00',
-    date: '2024-06-18',
-    status: 'Chờ xử lý'
+    appointmentDate: "2025-07-15",
+    status: "Đã hoàn tất",
+    userName: "Phạm Thị D",
+    serviceName: "Xét nghiệm HPV",
+    result: "",
   },
   {
     id: 5,
-    name: 'Hoàng Văn E',
-    test: 'Xét nghiệm HIV + Giang mai',
-    note: 'Combo xét nghiệm',
-    time: '15:30',
-    date: '2024-06-18',
-    status: 'Đang xử lý'
-  }
+    appointmentDate: "2025-07-16",
+    status: "Đã trả kết quả",
+    userName: "Hoàng Văn E",
+    serviceName: "Xét nghiệm Lậu",
+    result: "Âm tính",
+  },
 ];
 
+// ➕ thêm 10 dữ liệu giả
+for (let i = 6; i <= 15; i++) {
+  sampleAppointments.push({
+    id: i,
+    appointmentDate: `2025-07-${16 + i}`,
+    status: ["Đã tiếp nhận", "Đang xử lý", "Đang xét nghiệm", "Đã hoàn tất", "Đã trả kết quả"][i % 5],
+    userName: `Người dùng ${i}`,
+    serviceName: `Xét nghiệm mẫu ${i}`,
+    result: i % 5 === 4 ? "Dương tính" : "",
+  });
+}
+
 const TestScheduleSection = () => {
+  const [appointments, setAppointments] = useState(sampleAppointments);
+  const [editingId, setEditingId] = useState(null);
+  const [resultInput, setResultInput] = useState("");
+  const [page, setPage] = useState(1);
+  const perPage = 5;
+
+  const pageCount = Math.ceil(appointments.length / perPage);
+  const paginated = appointments.slice((page - 1) * perPage, page * perPage);
+
+  const handleSaveResult = (id) => {
+    const updated = appointments.map((a) =>
+      a.id === id ? { ...a, result: resultInput, status: "Đã trả kết quả" } : a
+    );
+    setAppointments(updated);
+    setEditingId(null);
+    setResultInput("");
+  };
+
   return (
-    <div className="ts-section">
-      {/* HEADER */}
-      <div className="ts-header">
-        <div className="ts-header-title">
-          <CalendarCheck className="ts-header-icon" />
-          <div>
-            <h1>Lịch làm việc & xét nghiệm</h1>
-            <p>Quản lý và cập nhật trạng thái lịch hẹn</p>
-          </div>
-        </div>
-      </div>
+    <div className="ts-container">
+      <h2 className="ts-title">Lịch hẹn xét nghiệm</h2>
+      <div className="ts-table-wrapper">
+        <table className="ts-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ngày hẹn</th>
+              <th>Trạng thái</th>
+              <th>Người dùng</th>
+              <th>Dịch vụ</th>
+              <th>Kết quả</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginated.map((a) => (
+              <tr key={a.id}>
+                <td>ID: {a.id}</td>
+                <td>{new Date(a.appointmentDate).toLocaleDateString()}</td>
+                <td>
+                  <span className={`ts-badge status-${a.status.toLowerCase().replace(/\s/g, '-')}`}>
+                    {a.status}
+                  </span>
+                </td>
+                <td>{a.userName}</td>
+                <td><span className="ts-topic">{a.serviceName}</span></td>
+                <td>
+                  {editingId === a.id ? (
+                    <textarea
+                      rows={2}
+                      value={resultInput}
+                      onChange={(e) => setResultInput(e.target.value)}
+                      placeholder="Nhập kết quả..."
+                    />
+                  ) : (
+                    a.result || "Chưa có"
+                  )}
+                </td>
+                <td>
+                  {editingId === a.id ? (
+                    <div className="ts-action-group">
+                      <button className="ts-btn green" onClick={() => handleSaveResult(a.id)}>Lưu</button>
+                      <button className="ts-btn red" onClick={() => setEditingId(null)}>Huỷ</button>
+                    </div>
+                  ) : (
+                    <button
+                      className="ts-btn blue"
+                      onClick={() => {
+                        setEditingId(a.id);
+                        setResultInput(a.result || "");
+                      }}
+                    >
+                      Trả kết quả
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {/* FOOTER */}
-      <div className="ts-footer">
-        <h2>Danh sách lịch hẹn ({appointments.length})</h2>
-        <p>
-          Tổng số lịch hẹn hôm nay: {appointments.length} | Đã hoàn tất: 1 | Còn lại: {appointments.length - 1}
-        </p>
-
-        <div className="appointment-list">
-          {appointments.map((item) => (
-            <div className="appointment-card" key={item.id}>
-              <div className="info-left">
-                <div className="avatar">👤</div>
-                <div>
-                  <h4>{item.name}</h4>
-                  <span>ID: {item.id}</span>
-                </div>
-              </div>
-
-              <div className="info-middle">
-                <h4>{item.test}</h4>
-                <p>{item.note}</p>
-              </div>
-
-              <div className="info-right">
-                <div className="time-group">
-                  <Clock size={16} />
-                  <span>{item.time}</span>
-                </div>
-                <span className="date">{item.date}</span>
-              </div>
-
-              <div className="status-group">
-                <span className={`status ${item.status.replace(/\s/g, '-').toLowerCase()}`}>
-                  {item.status}
-                </span>
-                {item.status !== 'Hoàn tất' && (
-                  <button className="action-btn">
-                    {item.status === 'Chờ xử lý' ? 'Bắt đầu xử lý' : 'Hoàn tất'}
-                  </button>
-                )}
-              </div>
-            </div>
+        {/* === Pagination === */}
+        <div className="ts-pagination">
+          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>‹ Trước</button>
+          {Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i + 1}
+              className={page === i + 1 ? "active" : ""}
+              onClick={() => setPage(i + 1)}
+            >
+              {i + 1}
+            </button>
           ))}
+          <button onClick={() => setPage(p => Math.min(pageCount, p + 1))} disabled={page === pageCount}>Sau ›</button>
         </div>
       </div>
     </div>

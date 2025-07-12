@@ -54,9 +54,6 @@ import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 import AdminLayout from './components/admin/AdminLayout';
 import Overview from './components/admin/Overview/Overview';
 import UM from './components/admin/UserManagement/UM';
-import CM from './components/admin/ConsultantManagement/CM';
-import TS from './components/admin/TestingServices/TS';
-import CA from './components/admin/ConsultationAppointment/CA';
 import Report from './components/admin/Reports/Report';
 import ManagerFM from './components/admin/FeedbackManagement/ManagerFM';
 
@@ -114,9 +111,6 @@ const App = () => {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Overview />} />
             <Route path="users" element={<UM />} />
-            <Route path="consultants" element={<CM />} />
-            <Route path="tests" element={<TS />} />
-            <Route path="appointments" element={<CA />} />
             <Route path="reports" element={<Report />} />
             <Route path="feedbacks" element={<ManagerFM />} />
           </Route>

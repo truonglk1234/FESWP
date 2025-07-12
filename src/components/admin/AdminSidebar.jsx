@@ -35,9 +35,7 @@ export const AdminSidebar = () => {
         <ul>
           <li><Link to="/admin" className="as-nav-link"><BarChart3 /> Dashboard</Link></li>
           <li><Link to="/admin/users" className="as-nav-link"><Users /> Quản lý manager</Link></li>
-          <li><Link to="/admin/consultants" className="as-nav-link"><UserCheck /> Quản lý tư vấn viên</Link></li>
-          <li><Link to="/admin/tests" className="as-nav-link"><TestTube2 /> Dịch vụ xét nghiệm</Link></li>
-          <li><Link to="/admin/appointments" className="as-nav-link"><Calendar /> Lịch hẹn tư vấn</Link></li>
+          
           <li><Link to="/admin/feedbacks" className="as-nav-link"><MessageSquare /> Đánh giá & Phản hồi</Link></li>
           <li><Link to="/admin/reports" className="as-nav-link"><BarChart3 /> Báo cáo & Thống kê</Link></li>
         </ul>
