@@ -1,10 +1,10 @@
-.service-intro {
+.sis-intro {
   text-align: center;
   padding: 60px 20px;
   background: linear-gradient(to bottom, #f0fdf4, #ffffff);
 }
 
-.badge {
+.sis-badge {
   display: inline-block;
   background-color: #defce7;
   color: #087f5b;
@@ -15,18 +15,18 @@
   margin-bottom: 20px;
 }
 
-.service-intro h1 {
+.sis-title {
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 16px;
   color: #0d0d0d;
 }
 
-.highlight {
+.sis-highlight {
   color: #12b886;
 }
 
-.description {
+.sis-description {
   font-size: 18px;
   color: #6b7280;
   margin-bottom: 40px;

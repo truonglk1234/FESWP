@@ -1,10 +1,10 @@
-.blog-intro {
+.bis-intro {
   text-align: center;
   padding: 60px 20px;
   background: linear-gradient(to bottom, #f0fdf4, #ffffff);
 }
 
-.badge {
+.bis-badge {
   display: inline-block;
   background-color: #defce7;
   color: #087f5b;
@@ -15,18 +15,18 @@
   margin-bottom: 20px;
 }
 
-.blog-intro h1 {
+.bis-title {
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 16px;
   color: #0d0d0d;
 }
 
-.highlight {
+.bis-highlight {
   color: #12b886;
 }
 
-.description {
+.bis-description {
   font-size: 18px;
   color: #6b7280;
   margin-bottom: 40px;

@@ -3,7 +3,7 @@ import {
   BookOpen, LogOut, UserPlus
 } from 'lucide-react';
 import './StaffSidebar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 export const StaffSidebar = () => {
@@ -20,23 +20,62 @@ export const StaffSidebar = () => {
     <aside className="ss-sidebar">
       <div className="ss-sidebar-top">
         <div className="ss-sidebar-header">
-          <Link to="/" className="ss-logo-link">
-            <div className="ss-logo-square"><UserPlus className="ss-icon-white" /></div>
+          <NavLink to="/" className="ss-logo-link">
+            <div className="ss-logo-square">
+              <UserPlus className="ss-icon-white" />
+            </div>
             <div className="ss-logo-text-group">
               <h1 className="ss-sidebar-title">STI Health</h1>
               <p className="ss-sidebar-subtitle">Nhân viên y tế</p>
             </div>
-          </Link>
+          </NavLink>
         </div>
       </div>
 
       <div className="ss-sidebar-middle">
         <p className="ss-nav-label">Chức năng</p>
         <ul>
-          <li><Link to="/staff" className="ss-nav-link"><Home /> Trang chủ</Link></li>
-          <li><Link to="/staff/schedule" className="ss-nav-link"><Calendar /> Lịch xét nghiệm</Link></li>
-          <li><Link to="/staff/results" className="ss-nav-link"><FileText /> Kết quả xét nghiệm</Link></li>
-          <li><Link to="/staff/blogs" className="ss-nav-link"><BookOpen /> Blog Y Tế</Link></li>
+          <li>
+            <NavLink
+              to="/staff"
+              end
+              className={({ isActive }) =>
+                `ss-nav-link${isActive ? ' active' : ''}`
+              }
+            >
+              <Home /> Trang chủ
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/staff/schedule"
+              className={({ isActive }) =>
+                `ss-nav-link${isActive ? ' active' : ''}`
+              }
+            >
+              <Calendar /> Lịch xét nghiệm
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/staff/results"
+              className={({ isActive }) =>
+                `ss-nav-link${isActive ? ' active' : ''}`
+              }
+            >
+              <FileText /> Kết quả xét nghiệm
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/staff/blogs"
+              className={({ isActive }) =>
+                `ss-nav-link${isActive ? ' active' : ''}`
+              }
+            >
+              <BookOpen /> Blog Y Tế
+            </NavLink>
+          </li>
         </ul>
       </div>
 

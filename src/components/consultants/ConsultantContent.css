@@ -1,40 +1,41 @@
 /* === WRAPPER === */
 .csc-section {
-  max-width: 1450px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 16px;
+  padding: 40px 20px;
 }
 
 .csc-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 28px;
   justify-content: center;
-  padding-bottom: 32px;
 }
 
 .csc-card {
-  background: #fff;
-  border: 1px solid #d1f2e2;
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e0f2f1;
+  border-radius: 16px;
   padding: 24px;
+  width: calc(33.333% - 28px);
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  width: calc(33.333% - 24px);
-  min-width: 280px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  position: relative;
 }
 
 .csc-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 .csc-card-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 16px;
 }
 
 .csc-avatar {
@@ -42,82 +43,84 @@
   height: 72px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #17b887;
 }
 
 .csc-badge-gender {
-  background: #d1fae5;
-  color: #047857;
-  padding: 4px 10px;
-  border-radius: 12px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.csc-badge-gender.male {
+  background: #e0f2f1;
+  color: #027373;
+}
+
+.csc-badge-gender.female {
+  background: #fce7f3;
+  color: #be185d;
 }
 
 .csc-card-body {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 10px;
 }
 
 .csc-name {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #062f2d;
 }
 
 .csc-info {
   font-size: 14px;
-  color: #555;
+  color: #475569;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.csc-description {
-  font-size: 14px;
-  color: #4b5563;
-  line-height: 1.5;
-  margin-top: 8px;
-  display: flex;
-  align-items: flex-start;
   gap: 6px;
 }
 
 .csc-card-footer {
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
-.csc-card-footer button {
+.csc-btn {
   flex: 1;
   padding: 10px;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
+  text-align: center;
 }
 
-.csc-btn-solid {
-  background: #17b887;
+.csc-btn-primary {
+  background-color: #17b887;
   color: #fff;
   border: none;
 }
 
-.csc-btn-solid:hover {
-  background: #11966f;
+.csc-btn-primary:hover {
+  background-color: #11966f;
 }
 
 .csc-btn-outline {
-  background: #fff;
+  background-color: transparent;
   border: 2px solid #17b887;
   color: #17b887;
 }
 
 .csc-btn-outline:hover {
-  background: #ecfdf5;
+  background-color: #ecfdf5;
   border-color: #11966f;
   color: #11966f;
 }
@@ -125,28 +128,39 @@
 .csc-pagination {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 36px;
 }
 
 .csc-pagination button {
-  background: transparent;
-  border: 1px solid #ddd;
-  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
   font-weight: 500;
-  color: #333;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 .csc-pagination button:hover {
-  background: #f0fdfa;
+  background-color: #f0fdfa;
 }
 
 .csc-pagination button.active {
-  background: #17b887;
+  background-color: #17b887;
   color: #fff;
   border-color: #17b887;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .csc-card {
+    width: calc(50% - 28px);
+  }
+}
+
+@media (max-width: 600px) {
+  .csc-card {
+    width: 100%;
+  }
 }

@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+
+// --------- PUBLIC PAGES ---------
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -6,11 +9,11 @@ import ServiceTestingPage from './pages/ServiceTestingPage';
 import ConsultantServicePage from './pages/ConsultantServicePage';
 import ConsultantPage from './pages/ConsultantPage';
 import BlogPage from './pages/BlogPage';
-import { AuthProvider } from './context/AuthContext';
-
 import BlogDetailPublic from './components/blogs/BlogDetailPublic';
+import TestSchedulePage from './pages/TestSchedulePage';
+import ConsultSchedulePage from './pages/ConsultSchedulePage';
 
-// Profile layout & pages
+// --------- PROFILE ---------
 import Profile from './components/profile/Profile';
 import PersonalInfo from './components/profile/pages/PersonalInfo';
 import AccountInfo from './components/profile/pages/AccountInfo';
@@ -18,7 +21,7 @@ import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ServiceHistory from './components/profile/pages/ServiceHistory';
 import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
 
-// Manager Layout & Pages
+// --------- MANAGER ---------
 import ManagerLayout from './components/manager/ManagerLayout';
 import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
 import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
@@ -29,46 +32,40 @@ import ConsultingServiceManage from './components/manager/ServiceManagement/Cons
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
 import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
-// Consultant Layout & Pages
+// --------- CONSULTANT ---------
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
 import ConsultantDashboard from './components/ConsultantManagement/Dashboard/ConsultantDashboard';
 import ConsultingSchedule from './components/ConsultantManagement/ConsultingSchedule/ConsultingSchedule';
 import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
 import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
-import ConsultantProfile from './components/consultants/ConsultantProfile';
 
-// Staff Layout & Pages
+// --------- STAFF ---------
 import StaffLayout from './components/staff/StaffLayout';
 import StaffHome from './components/staff/Home/StaffHome';
-import TestSchedule from './components/staff/Schedule/TestSchedule';
+import TestScheduleSection from './components/staff/Schedule/TestScheduleSection';
 import TestResults from './components/staff/Result/TestResults';
 import MedicalBlog from './components/staff/Blog/MedicalBlog';
 import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
 import StaffBlogEdit from './components/staff/Blog/StaffBlogEdit';
 
-// Admin Layout & Pages
+// --------- ADMIN ---------
 import AdminLayout from './components/admin/AdminLayout';
-import Report from './components/admin/Reports/Report';
-import ManagerFM from './components/admin/FeedbackManagement/ManagerFM';
 import Overview from './components/admin/Overview/Overview';
 import UM from './components/admin/UserManagement/UM';
 import CM from './components/admin/ConsultantManagement/CM';
 import TS from './components/admin/TestingServices/TS';
 import CA from './components/admin/ConsultationAppointment/CA';
-
-// ✅ IMPORT Lịch xét nghiệm & Lịch tư vấn
-import TestSchedulePage from './pages/TestSchedulePage';
-import ConsultSchedulePage from './pages/ConsultSchedulePage'; // NEW ✅
-
-
+import Report from './components/admin/Reports/Report';
+import ManagerFM from './components/admin/FeedbackManagement/ManagerFM';
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         <Routes>
+
           {/* --------- PUBLIC --------- */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -78,11 +75,7 @@ const App = () => {
           <Route path="/consultants" element={<ConsultantPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
-
-          {/* ✅ Lịch xét nghiệm */}
           <Route path="/tests" element={<TestSchedulePage />} />
-
-          {/* ✅ Lịch tư vấn */}
           <Route path="/consult-schedule" element={<ConsultSchedulePage />} />
 
           {/* --------- PROFILE --------- */}
@@ -104,11 +97,12 @@ const App = () => {
             <Route path="reviews" element={<ConsultantEvaluate />} />
           </Route>
 
-          <Route path="/consultants/:id" element={<ConsultantProfile />} />
+          {/* ❌ Đã xóa route: /consultants/:id */}
+
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
             <Route index element={<StaffHome />} />
-            <Route path="schedule" element={<TestSchedule />} />
+            <Route path="schedule" element={<TestScheduleSection />} />
             <Route path="results" element={<TestResults />} />
             <Route path="blogs" element={<MedicalBlog />} />
             <Route path="blogs/create" element={<StaffBlogCreate />} />
@@ -138,6 +132,7 @@ const App = () => {
             <Route path="blogs" element={<ManagerBlogManage />} />
             <Route path="qna" element={<ManagerQA />} />
           </Route>
+
         </Routes>
       </AuthProvider>
     </Router>
