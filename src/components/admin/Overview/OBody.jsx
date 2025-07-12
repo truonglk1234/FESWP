@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './OBody.css';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { TrendingUp } from 'lucide-react';
-
-const data = [
-  { name: 'T1', tests: 500, consults: 320 },
-  { name: 'T2', tests: 530, consults: 380 },
-  { name: 'T3', tests: 580, consults: 410 },
-  { name: 'T4', tests: 610, consults: 390 },
-  { name: 'T5', tests: 650, consults: 450 },
-  { name: 'T6', tests: 700, consults: 500 },
-];
+import axios from 'axios';
 
 const OBody = () => {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/admin/statistics/monthly')
+      .then(res => {
+        const responseData = res.data;
+
+        if (Array.isArray(responseData)) {
+          const transformed = responseData.map(item => ({
+            name: item.month,       // "Tháng 7/2025"
+            tests: item.count,      // Số lượng xét nghiệm
+            consults: 0             // Hiện tại chưa có dữ liệu tư vấn
+          }));
+          setChartData(transformed);
+        } else {
+          console.error("❌ Không phải mảng hợp lệ:", responseData);
+        }
+      })
+      .catch(err => {
+        console.error("❌ Lỗi khi gọi API:", err);
+      });
+  }, []);
+
   return (
     <div className="obody-card">
       <div className="obody-header">
@@ -26,10 +41,10 @@ const OBody = () => {
       </div>
       <div className="obody-chart">
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data}>
+          <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Line type="monotone" dataKey="tests" stroke="#10b981" strokeWidth={2} dot={{ r: 4 }} />
             <Line type="monotone" dataKey="consults" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4 }} />

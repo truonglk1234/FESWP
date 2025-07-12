@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './TestCalendar.css';
+import "./TestCalendar.css";
 import axios from 'axios';
 
 const TestScheduleContent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [testBookings, setTestBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        setLoading(true);
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:8080/api/examinations/my-bookings', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         const data = response.data || [];
 
-        // 🟢 Dùng "Có lịch xét nghiệm" thay vì tên người dùng
         const events = data.map(item => ({
           id: item.id,
           date: item.appointmentDate.split('T')[0],
-          title: 'Có lịch xét nghiệm'
+          title: item.serviceName || 'Có lịch xét nghiệm'
         }));
 
         const bookings = data.map(item => ({
@@ -39,10 +34,8 @@ const TestScheduleContent = () => {
 
         setCalendarEvents(events);
         setTestBookings(bookings);
-        setLoading(false);
       } catch (error) {
-        console.error('Lỗi khi tải lịch xét nghiệm:', error);
-        setLoading(false);
+        console.error("Lỗi khi tải lịch xét nghiệm:", error);
       }
     };
 
@@ -50,7 +43,7 @@ const TestScheduleContent = () => {
   }, []);
 
   const getStatusClass = (status) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case 'chờ thanh toán': return 'status-pending';
       case 'đang xét nghiệm': return 'status-processing';
       case 'hoàn tất': return 'status-complete';
@@ -90,12 +83,10 @@ const TestScheduleContent = () => {
 
       <div className="ts-bookings-wrapper">
         <h2 className="ts-bookings-title">Danh sách lịch xét nghiệm đã đặt</h2>
-
-        {loading ? (
-          <p>Đang tải dữ liệu...</p>
-        ) : testBookings.length === 0 ? (
+        {testBookings.length === 0 && (
           <p className="ts-bookings-empty">Bạn chưa có lịch xét nghiệm nào.</p>
-        ) : (
+        )}
+        {testBookings.length > 0 && (
           <table className="ts-bookings-table">
             <thead>
               <tr>
@@ -108,13 +99,9 @@ const TestScheduleContent = () => {
             <tbody>
               {testBookings.map((tb, idx) => (
                 <tr key={idx}>
-                  <td>{tb.date}</td>
+                  <td>{new Date(tb.date).toLocaleDateString('vi-VN')}</td>
                   <td>{tb.package}</td>
-                  <td>
-                    <span className={`status-label ${getStatusClass(tb.status)}`}>
-                      {tb.status}
-                    </span>
-                  </td>
+                  <td><span className={`status-label ${getStatusClass(tb.status)}`}>{tb.status}</span></td>
                   <td>{tb.result}</td>
                 </tr>
               ))}

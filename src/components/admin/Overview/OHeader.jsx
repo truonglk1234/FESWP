@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './OHeader.css';
 import { User, UserCheck, TestTube2, Calendar } from 'lucide-react';
+import axios from 'axios';
 
 const OHeader = () => {
+  const [summary, setSummary] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/admin/dashboard-summary')
+      .then(res => {
+        setSummary(res.data);
+      })
+      .catch(err => {
+        console.error("❌ Lỗi lấy dữ liệu dashboard:", err);
+      });
+  }, []);
+
+  if (!summary) {
+    return <div>Đang tải dữ liệu...</div>;
+  }
+
   return (
     <div className="oheader-container">
       <h1 className="oheader-title">Hệ thống quản lý chăm sóc sức khỏe giới tính</h1>
@@ -16,8 +33,7 @@ const OHeader = () => {
             <h4 className="oheader-card-title">Tổng người dùng</h4>
             <User className="oheader-icon icon-blue" size={20} />
           </div>
-          <h2 className="oheader-card-number">2,847</h2>
-          <p className="oheader-card-change plus">+12.5% so với tháng trước</p>
+          <h2 className="oheader-card-number">{summary.totalUsers.toLocaleString()}</h2>
         </div>
 
         <div className="oheader-card">
@@ -25,8 +41,7 @@ const OHeader = () => {
             <h4 className="oheader-card-title">Tư vấn viên hoạt động</h4>
             <UserCheck className="oheader-icon icon-green" size={20} />
           </div>
-          <h2 className="oheader-card-number">24</h2>
-          <p className="oheader-card-change plus">+2 so với tháng trước</p>
+          <h2 className="oheader-card-number">{summary.consultants}</h2>
         </div>
 
         <div className="oheader-card">
@@ -34,8 +49,7 @@ const OHeader = () => {
             <h4 className="oheader-card-title">Xét nghiệm trong tháng</h4>
             <TestTube2 className="oheader-icon icon-purple" size={20} />
           </div>
-          <h2 className="oheader-card-number">456</h2>
-          <p className="oheader-card-change plus">+8.2% so với tháng trước</p>
+          <h2 className="oheader-card-number">{summary.examinationCountThisMonth}</h2>
         </div>
 
         <div className="oheader-card">
@@ -44,7 +58,6 @@ const OHeader = () => {
             <Calendar className="oheader-icon icon-orange" size={20} />
           </div>
           <h2 className="oheader-card-number">38</h2>
-          <p className="oheader-card-change pending">6 pending so với tháng trước</p>
         </div>
       </div>
     </div>
