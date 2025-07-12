@@ -24,21 +24,3 @@
   margin: 4px 0 0 0;
 }
 
-.um-add-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.um-add-btn:hover {
-  background: #1d4ed8;
-}
