@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ConsultingServiceManage.css";
-import ConsultingServiceDetailModal from "./ConsultingServiceDetailModal"; // ✅ Xem chi tiết
-import AddConsultingServiceModal from "./AddConsultingServiceModal";       // ✅ Thêm mới
+import ConsultingServiceDetailModal from "./ConsultingServiceDetailModal";
+import AddConsultingServiceModal from "./AddConsultingServiceModal";
 
 const ConsultingServiceManage = () => {
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
-  const [showAddModal, setShowAddModal] = useState(false); // ✅ NEW
+  const [showAddModal, setShowAddModal] = useState(false);
   const itemsPerPage = 3;
 
-  const storedUser = localStorage.getItem("user");
-  const token = storedUser ? JSON.parse(storedUser).token : null;
+  const getToken = () => {
+    const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
 
   const fetchServices = () => {
+    const token = getToken();
+    if (!token) return;
+
     axios
       .get("http://localhost:8080/api/prices", {
         params: { type: "advice" },
@@ -25,15 +34,8 @@ const ConsultingServiceManage = () => {
       .catch((err) => console.error("❌ Lỗi tải dịch vụ:", err));
   };
 
-  useEffect(() => {
-    if (!token) {
-      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
-      return;
-    }
-    fetchServices();
-  }, [token]);
-
-  useEffect(() => {
+  const fetchCategories = () => {
+    const token = getToken();
     if (!token) return;
 
     axios
@@ -42,7 +44,17 @@ const ConsultingServiceManage = () => {
       })
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("❌ Lỗi tải danh mục:", err));
-  }, [token]);
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      console.error("❌ Token không hợp lệ. Vui lòng đăng nhập lại.");
+      return;
+    }
+    fetchServices();
+    fetchCategories();
+  }, []);
 
   const getCategoryName = (id) => {
     const found = categories.find((cat) => cat.id === id);
@@ -76,7 +88,6 @@ const ConsultingServiceManage = () => {
 
   return (
     <div className="csm-container">
-      {/* HEADER */}
       <div className="csm-header">
         <h1 className="csm-title">Quản lý dịch vụ tư vấn</h1>
         <p className="csm-subtitle">
@@ -84,13 +95,12 @@ const ConsultingServiceManage = () => {
         </p>
         <button
           className="csm-add-btn"
-          onClick={() => setShowAddModal(true)} // ✅ Mở modal thêm
+          onClick={() => setShowAddModal(true)}
         >
           Thêm dịch vụ mới
         </button>
       </div>
 
-      {/* BODY */}
       <div className="csm-table-container">
         <h2>Danh sách dịch vụ tư vấn ({services.length})</h2>
         <table className="csm-table">
@@ -141,30 +151,30 @@ const ConsultingServiceManage = () => {
           </tbody>
         </table>
 
-        {/* Pagination */}
-        <div className="csm-pagination">
-          <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-            ‹ Trước
-          </button>
-          {[...Array(totalPages)].map((_, idx) => (
-            <button
-              key={idx}
-              className={page === idx + 1 ? "active" : ""}
-              onClick={() => setPage(idx + 1)}
-            >
-              {idx + 1}
+        {totalPages > 1 && (
+          <div className="csm-pagination">
+            <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+              ‹ Trước
             </button>
-          ))}
-          <button
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
-          >
-            Sau ›
-          </button>
-        </div>
+            {[...Array(totalPages)].map((_, idx) => (
+              <button
+                key={idx}
+                className={page === idx + 1 ? "active" : ""}
+                onClick={() => setPage(idx + 1)}
+              >
+                {idx + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+            >
+              Sau ›
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Modal Xem */}
       {selectedId && (
         <ConsultingServiceDetailModal
           id={selectedId}
@@ -173,7 +183,6 @@ const ConsultingServiceManage = () => {
         />
       )}
 
-      {/* ✅ Modal Thêm mới */}
       {showAddModal && (
         <AddConsultingServiceModal
           onClose={() => setShowAddModal(false)}

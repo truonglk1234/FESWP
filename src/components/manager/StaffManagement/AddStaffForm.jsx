@@ -19,6 +19,15 @@ const AddStaffForm = ({ onClose, onAdded }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const getToken = () => {
+    try {
+      const stored = localStorage.getItem('user') || sessionStorage.getItem('user');
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
+
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -55,7 +64,7 @@ const AddStaffForm = ({ onClose, onAdded }) => {
 
     try {
       setLoading(true);
-      const token = JSON.parse(localStorage.getItem('user'))?.token;
+      const token = getToken();
       await axios.post('http://localhost:8080/api/auth/manager/staff', payload, {
         headers: {
           Authorization: `Bearer ${token}`

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ManagerStaffManage.css';
 import axios from 'axios';
 import AddStaffForm from './AddStaffForm';
-import StaffDetailModal from './StaffDetailModal'; // ✅ NEW IMPORT
+import StaffDetailModal from './StaffDetailModal';
 
 const PAGE_SIZE = 3;
 
@@ -10,16 +10,26 @@ const ManagerStaffManage = () => {
   const [staffs, setStaffs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedStaff, setSelectedStaff] = useState(null); // ✅ NEW
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
-  // Lấy danh sách nhân viên
+  // Lấy token từ localStorage/sessionStorage
+  const getToken = () => {
+    try {
+      const stored = localStorage.getItem('user') || sessionStorage.getItem('user');
+      return stored ? JSON.parse(stored)?.token : null;
+    } catch (err) {
+      console.error("❌ Token không hợp lệ:", err);
+      return null;
+    }
+  };
+
+  // Gọi API lấy danh sách nhân viên
   const fetchStaffs = () => {
-    const token = JSON.parse(localStorage.getItem('user'))?.token;
+    const token = getToken();
     if (!token) return;
+
     axios.get('http://localhost:8080/api/auth/manager/staff', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
         setStaffs(res.data || []);
@@ -40,7 +50,7 @@ const ManagerStaffManage = () => {
   );
 
   const handleView = (staff) => {
-    setSelectedStaff(staff); // ✅ Mở modal
+    setSelectedStaff(staff);
   };
 
   return (
@@ -74,16 +84,16 @@ const ManagerStaffManage = () => {
                 <strong>{staff.name}</strong>
                 <span>ID: {staff.id}</span>
                 <span>
-                  Ngày tạo: {staff.createdAt ? new Date(staff.createdAt).toLocaleDateString() : ''}
+                  Ngày tạo: {staff.createdAt ? new Date(staff.createdAt).toLocaleDateString() : '-'}
                 </span>
               </div>
               <div>
                 <span>{staff.email}</span>
-                <span>{staff.phone}</span>
+                <span>{staff.phone || '-'}</span>
               </div>
               <div>
                 <span className={`stm-status ${staff.active === false ? 'inactive' : 'active'}`}>
-                  {staff.active === false ? 'Chưa xác thực' : 'Đã xác thực'}
+                  {staff.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
                 </span>
               </div>
               <div className="stm-action-buttons">

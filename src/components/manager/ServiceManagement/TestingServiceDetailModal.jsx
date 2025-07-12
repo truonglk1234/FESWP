@@ -12,7 +12,14 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
   const [loading, setLoading] = useState(true);
   const [statusLoading, setStatusLoading] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const getToken = () => {
+    const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
 
   // ESC để đóng modal
   useEffect(() => {
@@ -25,6 +32,7 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
 
   // Lấy chi tiết dịch vụ
   useEffect(() => {
+    const token = getToken();
     if (!id || !token) return;
 
     setLoading(true);
@@ -35,10 +43,11 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
       .then((res) => setService(res.data))
       .catch(() => setService(null))
       .finally(() => setLoading(false));
-  }, [id, token]);
+  }, [id]);
 
   // Lấy danh mục
   useEffect(() => {
+    const token = getToken();
     if (!token) return;
 
     axios
@@ -47,7 +56,7 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
       })
       .then((res) => setCategories(res.data))
       .catch(() => setCategories([]));
-  }, [token]);
+  }, []);
 
   const getCategoryName = (id) => {
     if (!id) return "-";
@@ -56,6 +65,12 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
   };
 
   const handleChangeStatus = async (newStatus) => {
+    const token = getToken();
+    if (!token) {
+      alert("Vui lòng đăng nhập lại.");
+      return;
+    }
+
     setStatusLoading(true);
     try {
       const res = await axios.put(
@@ -97,9 +112,7 @@ const TestingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
                 {service.categoryName || getCategoryName(service.categoryId)}
               </span>
             </p>
-            <p>
-              <strong>Giá:</strong> {formatCurrency(service.price)}
-            </p>
+            <p><strong>Giá:</strong> {formatCurrency(service.price)}</p>
 
             <div className="tsdm-status-row">
               <strong>Trạng thái:</strong>{" "}

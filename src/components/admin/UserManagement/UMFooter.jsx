@@ -5,10 +5,21 @@ import './UMFooter.css';
 const UMFooter = () => {
   const [managers, setManagers] = useState([]);
 
+  const getToken = () => {
+    try {
+      const stored = localStorage.getItem('user') || sessionStorage.getItem('user');
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
+
   useEffect(() => {
     const fetchManagers = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
+        if (!token) return;
+
         const res = await axios.get('http://localhost:8080/api/auth/admin/managers', {
           headers: {
             Authorization: `Bearer ${token}`
@@ -16,7 +27,7 @@ const UMFooter = () => {
         });
         setManagers(res.data);
       } catch (error) {
-        console.error('Lỗi khi gọi API /managers:', error);
+        console.error('❌ Lỗi khi gọi API /managers:', error);
       }
     };
 
@@ -44,7 +55,6 @@ const UMFooter = () => {
           <h3 className="um-footer-title">Danh sách người quản lý</h3>
           <p className="um-footer-subtitle">Tổng số {managers.length} người quản lý </p>
         </div>
-        {/* ĐÃ XÓA nút Thêm người dùng */}
       </div>
 
       <table className="um-user-table">

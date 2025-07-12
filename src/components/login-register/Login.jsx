@@ -1,3 +1,4 @@
+// Login.jsx
 import React, { useState } from 'react';
 import {
   Eye, EyeOff, Mail, Lock,
@@ -48,13 +49,10 @@ const Login = () => {
 
       setUser(user);
 
-      const userToSave = JSON.stringify(user);
       if (rememberMe) {
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('user', userToSave);
       } else {
-         sessionStorage.setItem('user', JSON.stringify(user)); 
-        sessionStorage.setItem('user', userToSave);
+        sessionStorage.setItem('user', JSON.stringify(user));
       }
 
       navigate('/');

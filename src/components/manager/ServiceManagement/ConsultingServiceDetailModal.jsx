@@ -12,9 +12,16 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
   const [loading, setLoading] = useState(true);
   const [statusLoading, setStatusLoading] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const getToken = () => {
+    const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
 
-  // ✅ ESC để đóng modal
+  // ESC để đóng modal
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") onClose();
@@ -23,8 +30,9 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  // ✅ Lấy chi tiết dịch vụ
+  // Lấy chi tiết dịch vụ
   useEffect(() => {
+    const token = getToken();
     if (!id || !token) return;
 
     setLoading(true);
@@ -36,10 +44,11 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
       .then((res) => setService(res.data))
       .catch(() => setService(null))
       .finally(() => setLoading(false));
-  }, [id, token]);
+  }, [id]);
 
-  // ✅ Lấy danh mục
+  // Lấy danh mục
   useEffect(() => {
+    const token = getToken();
     if (!token) return;
 
     axios
@@ -48,7 +57,7 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
       })
       .then((res) => setCategories(res.data))
       .catch(() => setCategories([]));
-  }, [token]);
+  }, []);
 
   const getCategoryName = (id) => {
     if (!id) return "-";
@@ -57,6 +66,9 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
   };
 
   const handleChangeStatus = async (newStatus) => {
+    const token = getToken();
+    if (!token || !service?.id) return;
+
     setStatusLoading(true);
     try {
       const res = await axios.put(
@@ -68,7 +80,7 @@ const ConsultingServiceDetailModal = ({ id, onClose, onStatusUpdate }) => {
         }
       );
       setService(res.data);
-      if (onStatusUpdate) onStatusUpdate(); // ✅ GỌI LẠI DANH SÁCH
+      if (onStatusUpdate) onStatusUpdate();
     } catch (err) {
       alert("Không thể cập nhật trạng thái!");
     }

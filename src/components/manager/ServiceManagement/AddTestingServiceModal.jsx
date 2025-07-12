@@ -14,7 +14,14 @@ const AddTestingServiceModal = ({ onClose, onAdded }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const getToken = () => {
+    const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
 
   // ESC để đóng
   useEffect(() => {
@@ -27,14 +34,16 @@ const AddTestingServiceModal = ({ onClose, onAdded }) => {
 
   // Lấy danh mục
   useEffect(() => {
+    const token = getToken();
     if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setCategories(res.data))
       .catch(() => setCategories([]));
-  }, [token]);
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -46,6 +55,12 @@ const AddTestingServiceModal = ({ onClose, onAdded }) => {
 
     if (!formData.name || !formData.price || !formData.categoryId) {
       setError("❌ Vui lòng điền đầy đủ các trường bắt buộc.");
+      return;
+    }
+
+    const token = getToken();
+    if (!token) {
+      setError("❌ Không tìm thấy token. Vui lòng đăng nhập lại.");
       return;
     }
 

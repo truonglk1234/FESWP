@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import BlogDetailModal from "./BlogDetailModal"; // ✅ IMPORT modal
+import BlogDetailModal from "./BlogDetailModal";
 import "./ManagerBlogManage.css";
 
 const PAGE_SIZE = 3;
@@ -8,9 +8,9 @@ const PAGE_SIZE = 3;
 const ManagerBlogManage = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
-  const [selectedId, setSelectedId] = useState(null); // ✅ State để mở modal
+  const [selectedId, setSelectedId] = useState(null);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const token = localStorage.getItem("token"); // ✅ Đã sửa: lấy token trực tiếp
 
   useEffect(() => {
     if (!token) return;
@@ -18,7 +18,7 @@ const ManagerBlogManage = () => {
     axios.get("http://localhost:8080/api/management/blogs/all", {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     })
     .then((res) => setPosts(res.data))
     .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
@@ -28,7 +28,7 @@ const ManagerBlogManage = () => {
   const visiblePosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const handleView = (post) => {
-    setSelectedId(post.id); // ✅ Mở modal thay vì navigate
+    setSelectedId(post.id);
   };
 
   const getStatusClass = (status) => {
@@ -55,7 +55,7 @@ const ManagerBlogManage = () => {
     axios.get("http://localhost:8080/api/management/blogs/all", {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     })
     .then((res) => setPosts(res.data))
     .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));

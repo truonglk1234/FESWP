@@ -14,17 +14,26 @@ const AddConsultingServiceModal = ({ onClose, onAdded }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.token;
+  const getToken = () => {
+    const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return stored ? JSON.parse(stored).token : null;
+    } catch {
+      return null;
+    }
+  };
 
   useEffect(() => {
+    const token = getToken();
     if (!token) return;
+
     axios
       .get("http://localhost:8080/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setCategories(res.data || []))
       .catch(() => setCategories([]));
-  }, [token]);
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -49,6 +58,12 @@ const AddConsultingServiceModal = ({ onClose, onAdded }) => {
 
     if (Number(formData.price) <= 0) {
       setError("❌ Giá phải lớn hơn 0");
+      return;
+    }
+
+    const token = getToken();
+    if (!token) {
+      setError("❌ Không tìm thấy token. Vui lòng đăng nhập lại.");
       return;
     }
 
@@ -78,10 +93,7 @@ const AddConsultingServiceModal = ({ onClose, onAdded }) => {
 
   return (
     <div className="acsm-overlay" onClick={onClose}>
-      <div
-        className="acsm-content"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="acsm-content" onClick={(e) => e.stopPropagation()}>
         <h2>Thêm dịch vụ tư vấn</h2>
         <form onSubmit={handleSubmit}>
           <label>Tên dịch vụ</label>

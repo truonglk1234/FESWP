@@ -5,30 +5,45 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
+    const stored =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
+    if (!stored) return null;
 
     try {
-      const decoded = jwtDecode(token);
+      const parsed = JSON.parse(stored);
+      const decoded = jwtDecode(parsed.token);
+
+      // Kiểm tra hạn token nếu có "exp"
+      if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+        console.warn("⏰ Token hết hạn!");
+        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
+        return null;
+      }
+
       return {
-        token: token,
-        role: decoded.role || decoded.Role,
-       name: decoded.name || decoded.Name || decoded.email,
-        email: decoded.email,
-        authorities: decoded.authorities || []
+        token: parsed.token,
+        name: decoded.name || decoded.Name || parsed.name || '',
+        email: decoded.email || parsed.email || '',
+        role: decoded.role || decoded.Role || parsed.role || '',
+        authorities: decoded.authorities || [],
       };
     } catch (err) {
-      console.error("❌ Token không hợp lệ hoặc hết hạn:", err);
-      localStorage.removeItem('token');
+      console.error("❌ Token không hợp lệ hoặc lỗi:", err);
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       return null;
     }
   });
 
+  // Lưu lại user khi thay đổi
   useEffect(() => {
     if (user) {
-      localStorage.setItem('token', user.token);
+      const storage = localStorage.getItem("user") ? localStorage : sessionStorage;
+      storage.setItem("user", JSON.stringify(user));
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
     }
   }, [user]);
 

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../../context/AuthContext";
 import "./BlogDetailModal.css";
 
 const BlogDetailModal = ({ id, onClose, onStatusUpdate }) => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const { user } = useAuth();
-  const token = user?.token || JSON.parse(localStorage.getItem("user"))?.token;
+  const token = localStorage.getItem("token"); // ✅ Dùng token trực tiếp
 
-  // Bấm ESC để đóng modal
+  // ESC để đóng modal
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") onClose();
@@ -60,13 +58,8 @@ const BlogDetailModal = ({ id, onClose, onStatusUpdate }) => {
 
   return (
     <div className="blog-modal-overlay" onClick={onClose}>
-      <div
-        className="blog-modal-content"
-        onClick={(e) => e.stopPropagation()} // Ngăn click ra ngoài
-      >
-        <button className="blog-close-btn" onClick={onClose}>
-          ✖
-        </button>
+      <div className="blog-modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="blog-close-btn" onClick={onClose}>✖</button>
 
         {loading ? (
           <div>⏳ Đang tải...</div>
@@ -77,21 +70,12 @@ const BlogDetailModal = ({ id, onClose, onStatusUpdate }) => {
             <h2 className="blog-modal-title">{post.title}</h2>
 
             <div className="blog-modal-meta">
-              <p>
-                <strong>Tác giả:</strong> {post.authorName}
-              </p>
-              <p>
-                <strong>Chủ đề:</strong> {post.topicName}
-              </p>
-              <p>
-                <strong>Trạng thái:</strong> {post.status}
-              </p>
-              <p>
-                <strong>Ngày đăng:</strong>{" "}
-                {post.createdAt
-                  ? new Date(post.createdAt).toLocaleDateString()
-                  : "Chưa lên lịch"}
-              </p>
+              <p><strong>Tác giả:</strong> {post.authorName}</p>
+              <p><strong>Chủ đề:</strong> {post.topicName}</p>
+              <p><strong>Trạng thái:</strong> {post.status}</p>
+              <p><strong>Ngày đăng:</strong> {post.createdAt
+                ? new Date(post.createdAt).toLocaleDateString()
+                : "Chưa lên lịch"}</p>
             </div>
 
             <hr />
@@ -101,16 +85,10 @@ const BlogDetailModal = ({ id, onClose, onStatusUpdate }) => {
             {(post.status?.toLowerCase().trim() === "chờ xác nhận" ||
               post.status?.toLowerCase().trim() === "pending") && (
               <div className="blog-modal-actions">
-                <button
-                  className="green"
-                  onClick={() => updateStatus("Đã xác nhận")}
-                >
+                <button className="green" onClick={() => updateStatus("Đã xác nhận")}>
                   Xác nhận
                 </button>
-                <button
-                  className="red"
-                  onClick={() => updateStatus("Đã từ chối")}
-                >
+                <button className="red" onClick={() => updateStatus("Đã từ chối")}>
                   Từ chối
                 </button>
               </div>
