@@ -1,7 +1,6 @@
 import './RHeader.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Download, FileText } from 'lucide-react';
 
 const RHeader = () => {
   const [summary, setSummary] = useState({
@@ -29,14 +28,7 @@ const RHeader = () => {
           <h1 className="rheader-title">Báo cáo & Thống kê</h1>
           <p className="rheader-subtitle">Phân tích hiệu suất và xu hướng hoạt động</p>
         </div>
-        <div className="rheader-actions">
-          <button className="rheader-btn rheader-export">
-            <Download size={16} /> Xuất báo cáo
-          </button>
-          <button className="rheader-btn rheader-create">
-            <FileText size={16} /> Tạo báo cáo tuỳ chỉnh
-          </button>
-        </div>
+        {/* ✅ Đã xóa rheader-actions */}
       </div>
 
       <div className="rheader-cards">
