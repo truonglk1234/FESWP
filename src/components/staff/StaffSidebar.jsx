@@ -1,6 +1,6 @@
 import {
-  Home, Calendar, FileText,
-  BookOpen, LogOut, UserPlus
+  Home, Calendar, BookOpen,
+  LogOut, UserPlus
 } from 'lucide-react';
 import './StaffSidebar.css';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -54,16 +54,6 @@ export const StaffSidebar = () => {
               }
             >
               <Calendar /> Lịch xét nghiệm
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/staff/results"
-              className={({ isActive }) =>
-                `ss-nav-link${isActive ? ' active' : ''}`
-              }
-            >
-              <FileText /> Kết quả xét nghiệm
             </NavLink>
           </li>
           <li>
