@@ -6,8 +6,15 @@ const BlogDetailModal = ({ id, onClose, onStatusUpdate }) => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("token"); // ✅ Dùng token trực tiếp
-
+ const getToken = () => {
+  const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
+  try {
+    return storedUser ? JSON.parse(storedUser).token : null;
+  } catch {
+    return null;
+  }
+};
+const token = getToken();
   // ESC để đóng modal
   useEffect(() => {
     const handleEsc = (e) => {

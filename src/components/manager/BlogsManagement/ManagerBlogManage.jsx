@@ -10,19 +10,40 @@ const ManagerBlogManage = () => {
   const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
 
-  const token = localStorage.getItem("token"); // ✅ Đã sửa: lấy token trực tiếp
+  // ✅ Hàm lấy token an toàn (y chang bên xét nghiệm)
+  const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const fetchBlogs = () => {
+    const token = getToken();
+    if (!token) {
+      console.warn("⚠️ Không tìm thấy token → Không gọi API");
+      return;
+    }
+
+    axios
+      .get("http://localhost:8080/api/management/blogs/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log("✅ Dữ liệu blog:", res.data);
+        setPosts(res.data);
+      })
+      .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
+  };
 
   useEffect(() => {
-    if (!token) return;
-
-    axios.get("http://localhost:8080/api/management/blogs/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => setPosts(res.data))
-    .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
-  }, [token]);
+    fetchBlogs();
+  }, []);
 
   const totalPages = Math.ceil(posts.length / PAGE_SIZE);
   const visiblePosts = posts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -52,13 +73,7 @@ const ManagerBlogManage = () => {
   };
 
   const reloadBlogs = () => {
-    axios.get("http://localhost:8080/api/management/blogs/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => setPosts(res.data))
-    .catch((err) => console.error("❌ Lỗi khi tải bài viết:", err));
+    fetchBlogs();
   };
 
   return (
@@ -95,12 +110,27 @@ const ManagerBlogManage = () => {
                   <div className="mbm-post-meta">ID: {post.id}</div>
                 </td>
                 <td>{post.authorName}</td>
-                <td><span className="mbm-badge mbm-gray">{post.topicName}</span></td>
-                <td><span className={getStatusClass(post.status)}>{post.status}</span></td>
-                <td>{new Date(post.createdAt).toLocaleDateString() || "Chưa lên lịch"}</td>
+                <td>
+                  <span className="mbm-badge mbm-gray">{post.topicName}</span>
+                </td>
+                <td>
+                  <span className={getStatusClass(post.status)}>
+                    {post.status}
+                  </span>
+                </td>
+                <td>
+                  {post.createdAt
+                    ? new Date(post.createdAt).toLocaleDateString()
+                    : "Chưa lên lịch"}
+                </td>
                 <td>
                   <div className="mbm-actions">
-                    <button className="mbm-view-btn" onClick={() => handleView(post)}>Xem</button>
+                    <button
+                      className="mbm-view-btn"
+                      onClick={() => handleView(post)}
+                    >
+                      Xem
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -110,16 +140,27 @@ const ManagerBlogManage = () => {
 
         {/* ---------- PAGINATION ---------- */}
         <div className="mbm-pagination">
-          <button onClick={() => setPage(page - 1)} disabled={page === 1}>‹ Trước</button>
+          <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+            ‹ Trước
+          </button>
           {[...Array(totalPages)].map((_, idx) => {
             const p = idx + 1;
             return (
-              <button key={p} className={page === p ? "active" : ""} onClick={() => setPage(p)}>
+              <button
+                key={p}
+                className={page === p ? "active" : ""}
+                onClick={() => setPage(p)}
+              >
                 {p}
               </button>
             );
           })}
-          <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>Sau ›</button>
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages}
+          >
+            Sau ›
+          </button>
         </div>
       </div>
 

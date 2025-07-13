@@ -4,6 +4,7 @@ import './BookingModal.css';
 
 const BookingModal = ({ service, onClose }) => {
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -49,6 +50,12 @@ const BookingModal = ({ service, onClose }) => {
 
   const handleConfirmBooking = async () => {
     try {
+      if (!token) {
+        alert("⚠️ Vui lòng đăng nhập để tiếp tục.");
+        window.location.href = "/login";
+        return;
+      }
+
       const [_, dateString] = selectedDate.split(', ');
       const [day, month] = dateString.split('/').map(Number);
       const [hour, minute] = selectedTime.split(':').map(Number);
@@ -64,9 +71,6 @@ const BookingModal = ({ service, onClose }) => {
         note: contactInfo.note
       };
 
-      console.log("🎯 Payload gửi BE:", bookingPayload);
-
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       const bookingRes = await axios.post(
         "http://localhost:8080/api/examinations/book",
         bookingPayload,
@@ -95,7 +99,18 @@ const BookingModal = ({ service, onClose }) => {
       setTimeout(() => {
         window.location.href = paymentUrl;
       }, 1000);
+
     } catch (error) {
+      if (error.response?.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        window.location.href = "/login";
+        return;
+      }
+
       console.error("❌ Lỗi khi đặt lịch:", error);
       alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
     }
@@ -119,12 +134,11 @@ const BookingModal = ({ service, onClose }) => {
             <div className="bm-options-grid">
               {availableDates.map((date, index) => (
                 <button key={index}
-                  className={selectedDate === date ? 'bm-selected' : ''}
-                  onClick={() => {
-                    setSelectedDate(date);
-                    setStep(2);
-                  }}
-                >
+                        className={selectedDate === date ? 'bm-selected' : ''}
+                        onClick={() => {
+                          setSelectedDate(date);
+                          setStep(2);
+                        }}>
                   {date}
                 </button>
               ))}
@@ -138,12 +152,11 @@ const BookingModal = ({ service, onClose }) => {
             <div className="bm-options-grid">
               {availableTimes.map((time, index) => (
                 <button key={index}
-                  className={selectedTime === time ? 'bm-selected' : ''}
-                  onClick={() => {
-                    setSelectedTime(time);
-                    setStep(3);
-                  }}
-                >
+                        className={selectedTime === time ? 'bm-selected' : ''}
+                        onClick={() => {
+                          setSelectedTime(time);
+                          setStep(3);
+                        }}>
                   {time}
                 </button>
               ))}
@@ -171,8 +184,8 @@ const BookingModal = ({ service, onClose }) => {
               <textarea name="note" value={contactInfo.note} onChange={handleContactChange} />
             </div>
             <button className="bm-next-btn"
-              onClick={() => setStep(4)}
-              disabled={!contactInfo.name || !contactInfo.phone}>
+                    onClick={() => setStep(4)}
+                    disabled={!contactInfo.name || !contactInfo.phone}>
               Tiếp tục
             </button>
           </>

@@ -1,4 +1,3 @@
-// Login.jsx
 import React, { useState } from 'react';
 import {
   Eye, EyeOff, Mail, Lock,
@@ -51,8 +50,10 @@ const Login = () => {
 
       if (rememberMe) {
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token); // ✅ Thêm dòng này
       } else {
         sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('token', token); // ✅ Thêm dòng này
       }
 
       navigate('/');
