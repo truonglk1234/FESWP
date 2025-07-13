@@ -1,0 +1,63 @@
+.tbt-wrapper {
+  max-width: 1200px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.tbt-title {
+  font-size: 32px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #1f2937;
+}
+
+.tbt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tbt-table th,
+.tbt-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tbt-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tbt-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.status-đã-tiếp-nhận { background-color: #fef3c7; color: #92400e; }
+.status-đang-xử-lý { background-color: #e0f2fe; color: #0369a1; }
+.status-đang-xét-nghiệm { background-color: #ede9fe; color: #5b21b6; }
+.status-đã-hoàn-tất { background-color: #d1fae5; color: #065f46; }
+.status-đã-trả-kết-quả { background-color: #fee2e2; color: #991b1b; }
+
+.tbt-btn {
+  padding: 6px 12px;
+  margin-right: 6px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.tbt-btn.yellow { background-color: #f59e0b; }
+.tbt-btn.blue { background-color: #3b82f6; }
+.tbt-btn.green { background-color: #10b981; }
+.tbt-btn.red { background-color: #ef4444; }

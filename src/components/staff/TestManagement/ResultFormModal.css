@@ -1,0 +1,65 @@
+/* 📁 staff/TestManagement/ResultFormModal.css */
+
+.rfm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.rfm-modal {
+  background: white;
+  padding: 24px;
+  width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.rfm-modal h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.rfm-modal textarea,
+.rfm-modal select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.rfm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.tbt-btn.green {
+  background-color: #22c55e;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tbt-btn.red {
+  background-color: #ef4444;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tbt-btn.green:disabled {
+  background-color: #a7f3d0;
+  cursor: not-allowed;
+}

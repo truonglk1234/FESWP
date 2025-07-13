@@ -4,9 +4,9 @@ import './StaffLayout.css';
 
 const StaffLayout = () => {
   return (
-    <div className="staff-layout">
+    <div className="sl-layout">
       <StaffSidebar />
-      <main className="staff-content">
+      <main className="sl-content">
         <Outlet /> 
       </main>
     </div>

@@ -48,12 +48,12 @@ export const StaffSidebar = () => {
           </li>
           <li>
             <NavLink
-              to="/staff/schedule"
+              to="/staff/test-bookings"
               className={({ isActive }) =>
                 `ss-nav-link${isActive ? ' active' : ''}`
               }
             >
-              <Calendar /> Lịch xét nghiệm
+              <Calendar /> Xét nghiệm 
             </NavLink>
           </li>
           <li>

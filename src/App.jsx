@@ -43,7 +43,7 @@ import ConsultantMessage from './components/ConsultantManagement/Message/Consult
 // --------- STAFF ---------
 import StaffLayout from './components/staff/StaffLayout';
 import StaffHome from './components/staff/Home/StaffHome';
-import TestScheduleSection from './components/staff/Schedule/TestScheduleSection';
+import TestBookingTable from './components/staff/TestManagement/TestBookingTable'; // ✅ Đã cập nhật
 import MedicalBlog from './components/staff/Blog/MedicalBlog';
 import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
@@ -93,12 +93,10 @@ const App = () => {
             <Route path="reviews" element={<ConsultantEvaluate />} />
           </Route>
 
-          {/* ❌ Đã xóa route: /consultants/:id */}
-
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
             <Route index element={<StaffHome />} />
-            <Route path="schedule" element={<TestScheduleSection />} />
+            <Route path="test-bookings" element={<TestBookingTable />} /> {/* ✅ MỚI */}
             <Route path="blogs" element={<MedicalBlog />} />
             <Route path="blogs/create" element={<StaffBlogCreate />} />
             <Route path="blogs/:id" element={<StaffBlogDetail />} />

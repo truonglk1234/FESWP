@@ -24,13 +24,18 @@ const TestScheduleContent = () => {
 
       const data = response.data || [];
 
-      const events = data.map(item => ({
+      // Bỏ qua các lịch chưa thanh toán
+      const filteredData = data.filter(item =>
+        item.status?.toLowerCase() !== 'chờ thanh toán'
+      );
+
+      const events = filteredData.map(item => ({
         id: item.id,
         date: item.appointmentDate.split('T')[0],
         title: item.serviceName || 'Có lịch xét nghiệm'
       }));
 
-      const bookings = data.map(item => ({
+      const bookings = filteredData.map(item => ({
         id: item.id,
         date: item.appointmentDate.split('T')[0],
         package: item.serviceName || 'Gói xét nghiệm',
@@ -47,10 +52,12 @@ const TestScheduleContent = () => {
 
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
-      case 'chờ thanh toán': return 'status-pending';
-      case 'đang xét nghiệm': return 'status-processing';
-      case 'hoàn tất': return 'status-complete';
-      case 'đã hủy': return 'status-cancelled';
+      case 'đã tiếp nhận': return 'status-received';
+      case 'đang xử lý': return 'status-processing';
+      case 'đang xét nghiệm': return 'status-testing';
+      case 'đã hoàn tất': return 'status-complete';
+      case 'đã trả kết quả': return 'status-resulted';
+      case 'đã huỷ': return 'status-cancelled';
       default: return '';
     }
   };
@@ -132,11 +139,11 @@ const TestScheduleContent = () => {
                     <div className="ts-actions">
                       <button className="view-btn" onClick={() => handleView(tb)}>Xem</button>
 
-                      {tb.status?.toLowerCase() === 'chờ thanh toán' && (
+                      {!['hoàn tất', 'đã hoàn tất', 'đã huỷ'].includes(tb.status?.toLowerCase()) && (
                         <button className="cancel-btn" onClick={() => handleCancel(tb)}>Huỷ</button>
                       )}
 
-                      {tb.status?.toLowerCase() === 'hoàn tất' && tb.result !== '-' && (
+                      {tb.status?.toLowerCase() === 'đã hoàn tất' && tb.result !== '-' && (
                         <button className="review-btn" onClick={() => alert('👉 Chuyển sang form đánh giá')}>Đánh giá</button>
                       )}
                     </div>

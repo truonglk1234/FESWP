@@ -205,7 +205,7 @@
 
 
 /* =============================
-   8) TRẠNG THÁI VÀ ACTION BUTTONS
+   8) TRẠNG THÁI LỊCH XÉT NGHIỆM
 ============================= */
 .status-label {
   padding: 4px 8px;
@@ -216,19 +216,25 @@
   text-transform: capitalize;
 }
 
-.status-pending {
-  background-color: #fff3cd;
-  color: #856404;
+.status-received {
+  background-color: #e0f2fe;
+  color: #1d4ed8;
 }
 
 .status-processing {
-  background-color: #d1ecf1;
-  color: #0c5460;
+  background-color: #e0f7fa;
+  color: #006064;
 }
 
-.status-complete {
-  background-color: #d4edda;
-  color: #155724;
+.status-testing {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.status-complete,
+.status-resulted {
+  background-color: #d1fae5;
+  color: #065f46;
 }
 
 .status-cancelled {
@@ -236,47 +242,63 @@
   color: #721c24;
 }
 
+
+/* =============================
+   9) ACTION BUTTONS (XEM - HUỶ - ĐÁNH GIÁ)
+============================= */
 .ts-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .view-btn,
 .cancel-btn,
 .review-btn {
-  padding: 6px 12px;
+  padding: 8px 14px;
   font-size: 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
-  font-weight: 500;
+  transition: all 0.25s ease;
+  font-weight: 600;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 /* XEM */
 .view-btn {
-  background-color: #e0f2fe;
-  color: #1d4ed8;
+  background-color: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
 }
 .view-btn:hover {
-  background-color: #bae6fd;
+  background-color: #e0f2fe;
+  border-color: #7dd3fc;
 }
 
 /* HUỶ */
 .cancel-btn {
-  background-color: #fee2e2;
+  background-color: #fff1f2;
   color: #b91c1c;
+  border: 1px solid #fecaca;
 }
 .cancel-btn:hover {
-  background-color: #fecaca;
+  background-color: #fee2e2;
+  border-color: #fca5a5;
 }
 
 /* ĐÁNH GIÁ */
 .review-btn {
-  background-color: #2563eb;
-  color: white;
+  background-color: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
 }
 .review-btn:hover {
-  background-color: #1e40af;
+  background-color: #e0e7ff;
+  border-color: #a5b4fc;
 }
