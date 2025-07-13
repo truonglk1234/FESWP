@@ -9,12 +9,13 @@ const SBFooter = ({ searchKeyword, statusFilter, topicFilter }) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
-  // ✅ Hàm lấy token từ localStorage
+  // ✅ Hàm lấy token từ localStorage hoặc sessionStorage
   const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      return user?.token || null;
-    } catch (error) {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch {
       return null;
     }
   };

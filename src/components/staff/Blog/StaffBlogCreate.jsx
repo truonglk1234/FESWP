@@ -10,36 +10,26 @@ const StaffBlogCreate = () => {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
 
-  // ✅ Hàm lấy token an toàn
+  // ✅ Chuẩn hóa hàm lấy token
   const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      return user?.token || null;
-    } catch (e) {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch {
       return null;
     }
   };
 
-  // ✅ Lấy danh sách chủ đề
- useEffect(() => {
-  axios
-    .get("http://localhost:8080/api/auth/staff/blogs/my", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      const sortedPosts = res.data.sort((a, b) => {
-        if (a.status === "Pending" && b.status !== "Pending") return -1;
-        if (a.status !== "Pending" && b.status === "Pending") return 1;
-        return 0;
-      });
-      setPosts(sortedPosts);
-    })
-    .catch((err) => console.error("Lỗi khi tải bài viết:", err));
-}, []);
+  // ✅ Gọi API danh sách chủ đề (không cần auth nếu là public)
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/topics") // sửa từ topic -> topics
+      .then((res) => setTopics(res.data))
+      .catch((err) => console.error("❌ Lỗi khi tải chủ đề:", err));
+  }, []);
 
-  // ✅ Xử lý submit
+  // ✅ Xử lý submit bài viết
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = getToken();
@@ -55,7 +45,7 @@ const StaffBlogCreate = () => {
         {
           title,
           content,
-          topicId: parseInt(topic), // ensure it's number
+          topicId: parseInt(topic),
         },
         {
           headers: {

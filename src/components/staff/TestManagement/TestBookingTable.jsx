@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./TestBookingTable.css";
 import ResultFormModal from "./ResultFormModal";
 import StatusChangeModal from "./StatusChangeModal";
@@ -9,58 +10,57 @@ const TestBookingTable = () => {
   const [showResultModal, setShowResultModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
 
-  useEffect(() => {
-    const mockData = [
-      {
-        id: 1,
-        appointmentDate: "2025-07-10",
-        status: "Đã tiếp nhận",
-        name: "Nguyễn Văn A",
-        serviceName: "Xét nghiệm máu"
-      },
-      {
-        id: 2,
-        appointmentDate: "2025-07-11",
-        status: "Đang xét nghiệm",
-        name: "Trần Thị B",
-        serviceName: "Xét nghiệm nước tiểu"
-      },
-      {
-        id: 3,
-        appointmentDate: "2025-07-12",
-        status: "Đã hoàn tất",
-        name: "Lê Văn C",
-        serviceName: "Xét nghiệm Covid-19"
-      },
-      {
-        id: 4,
-        appointmentDate: "2025-07-13",
-        status: "Đã trả kết quả",
-        name: "Phạm Thị D",
-        serviceName: "Xét nghiệm HIV"
-      }
-    ];
-    setBookings(mockData);
-  }, []);
-
-  const fetchNewBookings = () => {
-    const newBooking = {
-      id: bookings.length + 1,
-      appointmentDate: "2025-07-14",
-      status: "Đã tiếp nhận",
-      name: "Ngô Thị E",
-      serviceName: "Xét nghiệm viêm gan B"
-    };
-    setBookings((prev) => [newBooking, ...prev]);
+  // ✅ Lấy token từ localStorage hoặc sessionStorage
+  const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch {
+      return null;
+    }
   };
+
+  // ✅ Gọi API danh sách xét nghiệm của nhân viên
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const token = getToken();
+      if (!token) {
+        console.error("⚠️ Chưa đăng nhập");
+        return;
+      }
+
+      try {
+        const res = await axios.get("http://localhost:8080/api/examinations/staff/my-tasks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = res.data || [];
+
+        // Convert để dùng trong UI
+        const mapped = data.map((item) => ({
+          id: item.id,
+          appointmentDate: item.appointmentDate,
+          status: item.status,
+          name: item.name,
+          serviceName: item.serviceName,
+        }));
+
+        setBookings(mapped);
+      } catch (err) {
+        console.error("❌ Lỗi khi tải danh sách xét nghiệm:", err);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   return (
     <div className="tbt-wrapper">
       <div className="tbt-header">
-        <h2 className="tbt-title">Xét nghiệm</h2>
-        <button className="tbt-receive-button" onClick={fetchNewBookings}>
-          Nhận xét nghiệm mới
-        </button>
+        <h2 className="tbt-title">Danh sách người dùng xét nghiệm</h2>
       </div>
 
       <table className="tbt-table">

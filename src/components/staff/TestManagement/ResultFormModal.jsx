@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import "./ResultFormModal.css";
+import axios from "axios";
+
+// ✅ Hàm lấy token từ localStorage/sessionStorage
+const getToken = () => {
+  const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+  try {
+    return stored ? JSON.parse(stored).token : null;
+  } catch {
+    return null;
+  }
+};
 
 const ResultFormModal = ({ booking, onClose }) => {
   const [result, setResult] = useState("");
@@ -7,18 +18,41 @@ const ResultFormModal = ({ booking, onClose }) => {
   const [status, setStatus] = useState("Đã trả kết quả");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!result.trim()) {
+      alert("⚠️ Vui lòng nhập kết quả xét nghiệm.");
+      return;
+    }
+
+    const token = getToken();
+    if (!token) {
+      alert("⚠️ Token không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại.");
+      return;
+    }
+
     setLoading(true);
 
-    setTimeout(() => {
-      console.log("🔍 Kết quả:", result);
-      console.log("💡 Lời khuyên:", advice);
-      console.log("📌 Trạng thái mới:", status);
+    try {
+      await axios.put(
+        `http://localhost:8080/api/examinations/${booking.id}/result`,
+        {
+          result: result.trim(),
+          advice: advice.trim(),
+          status: status
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
 
-      alert("✨ (DEMO) Trả kết quả thành công!");
+      alert("✅ Trả kết quả thành công!");
       onClose();
+    } catch (error) {
+      console.error("❌ Lỗi khi trả kết quả:", error);
+      alert("❌ Không thể trả kết quả. Vui lòng thử lại.");
+    } finally {
       setLoading(false);
-    }, 1000); // mô phỏng delay API
+    }
   };
 
   return (

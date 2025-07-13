@@ -12,41 +12,66 @@ const StaffBlogEdit = () => {
   const [topic, setTopic] = useState("");
   const [topics, setTopics] = useState([]);
 
-  useEffect(() => {
-    // Lấy danh sách chủ đề
-    axios.get("http://localhost:8080/api/topics")
-      .then(res => setTopics(res.data || []))
-      .catch(err => console.error("Không thể tải chủ đề:", err));
+  // ✅ Lấy token từ localStorage hoặc sessionStorage
+  const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch {
+      return null;
+    }
+  };
 
-    // Lấy bài viết theo ID
-    axios.get(`http://localhost:8080/api/auth/staff/blogs/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then(res => {
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      alert("⚠️ Bạn chưa đăng nhập!");
+      navigate("/staff/blogs");
+      return;
+    }
+
+    // ✅ Lấy danh sách chủ đề
+    axios
+      .get("http://localhost:8080/api/topics")
+      .then((res) => setTopics(res.data || []))
+      .catch((err) => console.error("Không thể tải chủ đề:", err));
+
+    // ✅ Lấy thông tin bài viết theo ID
+    axios
+      .get(`http://localhost:8080/api/auth/staff/blogs/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
         const blog = res.data;
         setTitle(blog.title);
         setContent(blog.content);
         setTopic(blog.topicId || "");
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Không thể tải bài viết:", err);
-        alert("Bài viết không tồn tại!");
+        alert("❌ Bài viết không tồn tại hoặc đã bị xóa!");
         navigate("/staff/blogs");
       });
   }, [id, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = getToken();
+    if (!token) {
+      alert("⚠️ Bạn chưa đăng nhập!");
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:8080/api/auth/staff/blogs/${id}`,
         {
           title,
           content,
-          topicId: topic,
+          topicId: parseInt(topic),
         },
         {
           headers: {
@@ -65,7 +90,10 @@ const StaffBlogEdit = () => {
   return (
     <div className="sb-edit-container">
       <div className="sb-edit-header">
-        <button className="sb-edit-back-btn" onClick={() => navigate("/staff/blogs")}>
+        <button
+          className="sb-edit-back-btn"
+          onClick={() => navigate("/staff/blogs")}
+        >
           ← Quay lại
         </button>
         <h2>Chỉnh sửa bài viết</h2>
@@ -99,13 +127,21 @@ const StaffBlogEdit = () => {
         >
           <option value="">-- Chọn chủ đề --</option>
           {topics.map((t) => (
-            <option key={t.id} value={t.id}>{t.name}</option>
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
           ))}
         </select>
 
         <div className="sb-edit-buttons">
-          <button type="submit" className="sb-edit-submit-btn">Lưu thay đổi</button>
-          <button type="button" className="sb-edit-cancel-btn" onClick={() => navigate("/staff/blogs")}>
+          <button type="submit" className="sb-edit-submit-btn">
+            Lưu thay đổi
+          </button>
+          <button
+            type="button"
+            className="sb-edit-cancel-btn"
+            onClick={() => navigate("/staff/blogs")}
+          >
             Hủy
           </button>
         </div>

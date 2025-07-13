@@ -19,17 +19,22 @@ const AccountInfo = () => {
     confirmPassword: ''
   });
 
+  const handleInvalidToken = () => {
+    alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   useEffect(() => {
     const fetchAccountInfo = async () => {
+      if (!user?.token) return handleInvalidToken();
+
       try {
-        const res = await axios.get('http://localhost:8080/api/auth/profileuser', {
-          headers: {
-            Authorization: `Bearer ${user?.token}`
-          }
+        const res = await axios.get("http://localhost:8080/api/auth/profileuser", {
+          headers: { Authorization: `Bearer ${user.token}` }
         });
 
         const data = res.data;
-
         setAccountData({
           username: data.email || '',
           createdAt: data.createdAt || '',
@@ -37,8 +42,9 @@ const AccountInfo = () => {
           status: data.active === false ? 'Không hoạt động' : 'Hoạt động'
         });
       } catch (err) {
-        console.error('❌ Lỗi khi lấy thông tin tài khoản:', err.response?.data || err.message);
-        alert('Không thể tải thông tin tài khoản!');
+        if (err.response?.status === 401) return handleInvalidToken();
+        console.error("❌ Lỗi khi lấy thông tin tài khoản:", err);
+        alert("Không thể tải thông tin tài khoản!");
       }
     };
 
@@ -65,29 +71,25 @@ const AccountInfo = () => {
     e.preventDefault();
 
     if (passwords.newPassword !== passwords.confirmPassword) {
-      alert("❌ Mật khẩu xác nhận không khớp!");
-      return;
+      return alert("❌ Mật khẩu xác nhận không khớp!");
     }
 
-    try {
-      await axios.post(
-        'http://localhost:8080/api/auth/change-password',
-        {
-          currentPassword: passwords.currentPassword,
-          newPassword: passwords.newPassword
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.token}`
-          }
-        }
-      );
+    if (!user?.token) return handleInvalidToken();
 
-      alert('✅ Đổi mật khẩu thành công!');
+    try {
+      await axios.post("http://localhost:8080/api/auth/change-password", {
+        currentPassword: passwords.currentPassword,
+        newPassword: passwords.newPassword
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+
+      alert("✅ Đổi mật khẩu thành công!");
       setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      console.error('❌ Lỗi khi đổi mật khẩu:', err.response?.data || err.message);
-      alert('❌ Không thể đổi mật khẩu!');
+      if (err.response?.status === 401) return handleInvalidToken();
+      console.error("❌ Lỗi khi đổi mật khẩu:", err);
+      alert("❌ Không thể đổi mật khẩu!");
     }
   };
 

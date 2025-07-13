@@ -62,6 +62,7 @@ const TestScheduleContent = () => {
       setTestBookings(bookings);
     } catch (error) {
       console.error("❌ Lỗi khi tải lịch xét nghiệm:", error);
+      alert("Không thể tải lịch xét nghiệm.");
     }
   };
 
@@ -86,15 +87,30 @@ const TestScheduleContent = () => {
 
     try {
       const token = getToken();
+      if (!token) {
+        alert("⚠️ Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+        return;
+      }
+
       await axios.delete(`http://localhost:8080/api/examinations/${booking.id}/cancel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      alert("✅ Hủy lịch thành công!");
+      alert("✅ Huỷ lịch thành công!");
       fetchBookings();
     } catch (error) {
-      console.error("❌ Lỗi khi hủy lịch:", error);
-      alert("Không thể hủy lịch. Vui lòng thử lại.");
+      if (error.response?.status === 400) {
+        alert("❌ Không thể huỷ lịch này (quá thời gian hoặc đã xử lý).");
+      } else if (error.response?.status === 401) {
+        alert("⚠️ Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+      } else {
+        console.error("❌ Lỗi khi huỷ lịch:", error);
+        alert("❌ Không thể huỷ lịch. Vui lòng thử lại sau.");
+      }
     }
   };
 
@@ -147,7 +163,11 @@ const TestScheduleContent = () => {
                 <tr key={idx}>
                   <td>{new Date(tb.date).toLocaleDateString('vi-VN')}</td>
                   <td>{tb.package}</td>
-                  <td><span className={`status-label ${getStatusClass(tb.status)}`}>{tb.status}</span></td>
+                  <td>
+                    <span className={`status-label ${getStatusClass(tb.status)}`}>
+                      {tb.status}
+                    </span>
+                  </td>
                   <td>{tb.result}</td>
                   <td>
                     <div className="ts-actions">

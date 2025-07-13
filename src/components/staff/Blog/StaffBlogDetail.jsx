@@ -8,10 +8,26 @@ const StaffBlogDetail = () => {
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
 
+  // ✅ Lấy token an toàn từ localStorage hoặc sessionStorage
+  const getToken = () => {
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
+    try {
+      return storedUser ? JSON.parse(storedUser).token : null;
+    } catch {
+      return null;
+    }
+  };
+
   useEffect(() => {
     const fetchBlog = async () => {
+      const token = getToken();
+      if (!token) {
+        alert("⚠️ Bạn chưa đăng nhập.");
+        return;
+      }
+
       try {
-        const token = JSON.parse(localStorage.getItem("user"))?.token;
         const res = await axios.get(`http://localhost:8080/api/auth/staff/blogs/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -20,7 +36,9 @@ const StaffBlogDetail = () => {
         setBlog(res.data);
       } catch (err) {
         if (err.response?.status === 404) {
-          navigate("/staff/blogs", { state: { error: "Bài viết không tồn tại hoặc đã bị xóa." } });
+          navigate("/staff/blogs", {
+            state: { error: "Bài viết không tồn tại hoặc đã bị xóa." },
+          });
         } else {
           alert("❌ Đã có lỗi xảy ra khi tải bài viết.");
         }
@@ -30,7 +48,8 @@ const StaffBlogDetail = () => {
     fetchBlog();
   }, [id, navigate]);
 
-  if (!blog) return <div className="sb-detail-container">Đang tải bài viết...</div>;
+  if (!blog)
+    return <div className="sb-detail-container">Đang tải bài viết...</div>;
 
   return (
     <div className="sb-detail-container">
@@ -40,7 +59,8 @@ const StaffBlogDetail = () => {
         </button>
         <h2 className="sb-detail-title">{blog.title}</h2>
         <p className="sb-detail-meta">
-          Chủ đề: <strong>{blog.topicName}</strong> | Tác giả: <strong>{blog.authorName}</strong> | Ngày đăng:{" "}
+          Chủ đề: <strong>{blog.topicName}</strong> | Tác giả:{" "}
+          <strong>{blog.authorName}</strong> | Ngày đăng:{" "}
           <strong>{new Date(blog.createdAt).toLocaleDateString()}</strong> | Trạng thái:{" "}
           <strong>{blog.status}</strong>
         </p>

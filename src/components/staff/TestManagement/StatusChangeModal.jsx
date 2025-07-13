@@ -1,18 +1,36 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./StatusChangeModal.css";
 
 const StatusChangeModal = ({ booking, onClose, onStatusUpdated }) => {
   const [newStatus, setNewStatus] = useState(booking.status);
   const [loading, setLoading] = useState(false);
 
-  const handleStatusUpdate = () => {
+  const handleStatusUpdate = async () => {
     setLoading(true);
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-    setTimeout(() => {
-      alert("✅ (DEMO) Trạng thái đã được cập nhật!");
+    try {
+      await axios.put(
+        `http://localhost:8080/api/staff/bookings/${booking.id}/status`,
+        null, // không có body
+        {
+          params: { status: newStatus.trim() },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      alert("✅ Trạng thái đã được cập nhật!");
       onStatusUpdated(newStatus);
+      onClose();
+    } catch (error) {
+      console.error("❌ Lỗi khi cập nhật trạng thái:", error);
+      alert("⚠️ Lỗi khi cập nhật trạng thái!");
+    } finally {
       setLoading(false);
-    }, 1000); // mô phỏng delay 1 giây
+    }
   };
 
   return (

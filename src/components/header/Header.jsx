@@ -185,7 +185,11 @@ const Header = () => {
               <div className="header-user-dropdown" ref={dropdownRef}>
                 <div className="header-user-info" onClick={() => setDropdownOpen(!dropdownOpen)}>
                   <div className="header-avatar">
-                    {user.name?.split(' ').map(w => w[0]).join('').toUpperCase()}
+                    {user.avatarUrl ? (
+                      <img src={user.avatarUrl} alt="Avatar" className="avatar-img" />
+                    ) : (
+                      user.name?.split(' ').map(w => w[0]).join('').toUpperCase()
+                    )}
                   </div>
                   <span>{user.name}</span>
                   <ChevronDown size={16} />
