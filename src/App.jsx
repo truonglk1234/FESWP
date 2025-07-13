@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 // --------- PUBLIC PAGES ---------
@@ -42,8 +42,7 @@ import ConsultantMessage from './components/ConsultantManagement/Message/Consult
 
 // --------- STAFF ---------
 import StaffLayout from './components/staff/StaffLayout';
-import StaffHome from './components/staff/Home/StaffHome';
-import TestBookingTable from './components/staff/TestManagement/TestBookingTable'; // ✅ Đã cập nhật
+import TestBookingTable from './components/staff/TestManagement/TestBookingTable';
 import MedicalBlog from './components/staff/Blog/MedicalBlog';
 import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
@@ -95,8 +94,8 @@ const App = () => {
 
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
-            <Route index element={<StaffHome />} />
-            <Route path="test-bookings" element={<TestBookingTable />} /> {/* ✅ MỚI */}
+            <Route index element={<Navigate to="test-bookings" replace />} />
+            <Route path="test-bookings" element={<TestBookingTable />} />
             <Route path="blogs" element={<MedicalBlog />} />
             <Route path="blogs/create" element={<StaffBlogCreate />} />
             <Route path="blogs/:id" element={<StaffBlogDetail />} />

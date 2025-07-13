@@ -37,17 +37,6 @@ export const StaffSidebar = () => {
         <ul>
           <li>
             <NavLink
-              to="/staff"
-              end
-              className={({ isActive }) =>
-                `ss-nav-link${isActive ? ' active' : ''}`
-              }
-            >
-              <Home /> Trang chủ
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/staff/test-bookings"
               className={({ isActive }) =>
                 `ss-nav-link${isActive ? ' active' : ''}`
