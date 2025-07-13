@@ -23,14 +23,12 @@ import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
 
 // --------- MANAGER ---------
 import ManagerLayout from './components/manager/ManagerLayout';
-import ManagerDashboard from './components/manager/dashboard/ManagerDashboard';
 import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
 import ManagerCM from './components/manager/ConsultantManagement/ManagerCM';
 import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaffManage';
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
-import ManagerQA from './components/manager/Q&AManagement/ManagerQA';
 
 // --------- CONSULTANT ---------
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -112,14 +110,14 @@ const App = () => {
 
           {/* --------- MANAGER --------- */}
           <Route path="/manager" element={<ManagerLayout />}>
-            <Route index element={<ManagerDashboard />} />
+            <Route index element={<Navigate to="users" replace />} /> {/* ✅ Chuyển hướng thay vì Dashboard */}
             <Route path="users" element={<UserManagementPage />} />
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
             <Route path="services" element={<TestingServiceManage />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />
             <Route path="blogs" element={<ManagerBlogManage />} />
-            <Route path="qna" element={<ManagerQA />} />
+            {/* ❌ Đã xoá ManagerDashboard và ManagerQA */}
           </Route>
 
         </Routes>
