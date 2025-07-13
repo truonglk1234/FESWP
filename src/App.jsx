@@ -44,7 +44,6 @@ import ConsultantMessage from './components/ConsultantManagement/Message/Consult
 import StaffLayout from './components/staff/StaffLayout';
 import StaffHome from './components/staff/Home/StaffHome';
 import TestScheduleSection from './components/staff/Schedule/TestScheduleSection';
-import TestResults from './components/staff/Result/TestResults';
 import MedicalBlog from './components/staff/Blog/MedicalBlog';
 import StaffBlogCreate from './components/staff/Blog/StaffBlogCreate';
 import StaffBlogDetail from './components/staff/Blog/StaffBlogDetail';
@@ -100,7 +99,6 @@ const App = () => {
           <Route path="/staff" element={<StaffLayout />}>
             <Route index element={<StaffHome />} />
             <Route path="schedule" element={<TestScheduleSection />} />
-            <Route path="results" element={<TestResults />} />
             <Route path="blogs" element={<MedicalBlog />} />
             <Route path="blogs/create" element={<StaffBlogCreate />} />
             <Route path="blogs/:id" element={<StaffBlogDetail />} />
