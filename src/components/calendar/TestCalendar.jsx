@@ -5,6 +5,16 @@ import './TestCalendar.css';
 import axios from 'axios';
 import ViewTestBookingModal from './ViewTestBookingModal';
 
+// ✅ Hàm lấy token an toàn
+const getToken = () => {
+  const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
+  try {
+    return storedUser ? JSON.parse(storedUser).token : null;
+  } catch (e) {
+    return null;
+  }
+};
+
 const TestScheduleContent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -17,7 +27,12 @@ const TestScheduleContent = () => {
 
   const fetchBookings = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
+      if (!token) {
+        alert("⚠️ Bạn chưa đăng nhập. Vui lòng đăng nhập để xem lịch.");
+        return;
+      }
+
       const response = await axios.get('http://localhost:8080/api/examinations/my-bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -41,7 +56,7 @@ const TestScheduleContent = () => {
       setCalendarEvents(events);
       setTestBookings(bookings);
     } catch (error) {
-      console.error("Lỗi khi tải lịch xét nghiệm:", error);
+      console.error("❌ Lỗi khi tải lịch xét nghiệm:", error);
     }
   };
 
@@ -63,7 +78,7 @@ const TestScheduleContent = () => {
     if (!window.confirm("Bạn có chắc chắn muốn huỷ lịch xét nghiệm này không?")) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
       await axios.delete(`http://localhost:8080/api/examinations/${booking.id}/cancel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -107,10 +122,9 @@ const TestScheduleContent = () => {
 
       <div className="ts-bookings-wrapper">
         <h2 className="ts-bookings-title">Danh sách lịch xét nghiệm đã đặt</h2>
-        {testBookings.length === 0 && (
+        {testBookings.length === 0 ? (
           <p className="ts-bookings-empty">Bạn chưa có lịch xét nghiệm nào.</p>
-        )}
-        {testBookings.length > 0 && (
+        ) : (
           <table className="ts-bookings-table">
             <thead>
               <tr>
@@ -148,7 +162,7 @@ const TestScheduleContent = () => {
         )}
       </div>
 
-      {/* Modal chi tiết */}
+      {/* ✅ Modal xem chi tiết */}
       <ViewTestBookingModal
         booking={viewingBooking}
         onClose={() => setViewingBooking(null)}
