@@ -9,7 +9,6 @@ const TestBookingTable = () => {
   const [showResultModal, setShowResultModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
 
-  // ✅ Dữ liệu mẫu
   useEffect(() => {
     const mockData = [
       {
@@ -44,18 +43,26 @@ const TestBookingTable = () => {
     setBookings(mockData);
   }, []);
 
-  // ✅ Giả lập thay đổi trạng thái "Đã tiếp nhận" → "Đang xử lý"
-  const handleReceive = (bookingId) => {
-    setBookings((prev) =>
-      prev.map((b) =>
-        b.id === bookingId ? { ...b, status: "Đang xử lý" } : b
-      )
-    );
+  const fetchNewBookings = () => {
+    const newBooking = {
+      id: bookings.length + 1,
+      appointmentDate: "2025-07-14",
+      status: "Đã tiếp nhận",
+      name: "Ngô Thị E",
+      serviceName: "Xét nghiệm viêm gan B"
+    };
+    setBookings((prev) => [newBooking, ...prev]);
   };
 
   return (
     <div className="tbt-wrapper">
-      <h2 className="tbt-title">Xét nghiệm</h2>
+      <div className="tbt-header">
+        <h2 className="tbt-title">Xét nghiệm</h2>
+        <button className="tbt-receive-button" onClick={fetchNewBookings}>
+          Nhận xét nghiệm mới
+        </button>
+      </div>
+
       <table className="tbt-table">
         <thead>
           <tr>
@@ -80,11 +87,6 @@ const TestBookingTable = () => {
               <td>{b.name}</td>
               <td>{b.serviceName}</td>
               <td>
-                {b.status === "Đã tiếp nhận" && (
-                  <button className="tbt-btn yellow" onClick={() => handleReceive(b.id)}>
-                    Nhận xét nghiệm
-                  </button>
-                )}
                 <button
                   className="tbt-btn blue"
                   onClick={() => {
@@ -94,6 +96,7 @@ const TestBookingTable = () => {
                 >
                   Xem chi tiết
                 </button>
+
                 {["Đang xét nghiệm", "Đã hoàn tất"].includes(b.status) && (
                   <button
                     className="tbt-btn green"

@@ -10,7 +10,7 @@ const getToken = () => {
   const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
   try {
     return storedUser ? JSON.parse(storedUser).token : null;
-  } catch (e) {
+  } catch {
     return null;
   }
 };

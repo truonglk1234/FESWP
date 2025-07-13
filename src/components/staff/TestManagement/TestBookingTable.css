@@ -1,20 +1,53 @@
+/* =============================
+   1. WRAPPER & HEADER
+============================= */
 .tbt-wrapper {
   max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
   font-family: 'Segoe UI', sans-serif;
+}
+
+.tbt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .tbt-title {
   font-size: 32px;
-  margin-bottom: 24px;
-  text-align: center;
+  font-weight: bold;
   color: #1f2937;
 }
 
+/* =============================
+   2. NÚT NHẬN XÉT NGHIỆM MỚI (TRÊN GÓC PHẢI)
+============================= */
+.tbt-receive-button {
+  background-color: #1f2937;
+  color: white;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tbt-receive-button:hover {
+  background-color: #111827;
+}
+
+/* =============================
+   3. BẢNG XÉT NGHIỆM
+============================= */
 .tbt-table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -32,6 +65,9 @@
   color: #374151;
 }
 
+/* =============================
+   4. BADGE TRẠNG THÁI
+============================= */
 .tbt-badge {
   padding: 4px 10px;
   border-radius: 20px;
@@ -41,12 +77,34 @@
   text-transform: capitalize;
 }
 
-.status-đã-tiếp-nhận { background-color: #fef3c7; color: #92400e; }
-.status-đang-xử-lý { background-color: #e0f2fe; color: #0369a1; }
-.status-đang-xét-nghiệm { background-color: #ede9fe; color: #5b21b6; }
-.status-đã-hoàn-tất { background-color: #d1fae5; color: #065f46; }
-.status-đã-trả-kết-quả { background-color: #fee2e2; color: #991b1b; }
+.status-đã-tiếp-nhận {
+  background-color: #fef3c7;
+  color: #92400e;
+}
 
+.status-đang-xử-lý {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-đang-xét-nghiệm {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.status-đã-hoàn-tất {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-đã-trả-kết-quả {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* =============================
+   5. NÚT THAO TÁC
+============================= */
 .tbt-btn {
   padding: 6px 12px;
   margin-right: 6px;
@@ -55,9 +113,29 @@
   border-radius: 6px;
   cursor: pointer;
   color: white;
+  transition: background-color 0.2s ease;
 }
 
-.tbt-btn.yellow { background-color: #f59e0b; }
-.tbt-btn.blue { background-color: #3b82f6; }
-.tbt-btn.green { background-color: #10b981; }
-.tbt-btn.red { background-color: #ef4444; }
+.tbt-btn.blue {
+  background-color: #3b82f6;
+}
+
+.tbt-btn.blue:hover {
+  background-color: #2563eb;
+}
+
+.tbt-btn.green {
+  background-color: #10b981;
+}
+
+.tbt-btn.green:hover {
+  background-color: #059669;
+}
+
+.tbt-btn.red {
+  background-color: #ef4444;
+}
+
+.tbt-btn.red:hover {
+  background-color: #dc2626;
+}
