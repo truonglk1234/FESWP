@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import axios from 'axios';
-import './BookingModal.css';
+import './TestBookingModal.css';
 
-const BookingModal = ({ service, onClose }) => {
+const TestBookingModal = ({ service, onClose }) => {
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const [step, setStep] = useState(1);
+  const [monthOffset, setMonthOffset] = useState(0);
+  const [dayStartIndex, setDayStartIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [contactInfo, setContactInfo] = useState({
@@ -16,26 +18,27 @@ const BookingModal = ({ service, onClose }) => {
     note: ''
   });
 
-  const availableDates = useMemo(() => {
+  const allDatesInMonth = useMemo(() => {
     const today = new Date();
+    const baseYear = today.getFullYear();
+    const baseMonth = today.getMonth() + monthOffset;
+    const lastDay = new Date(baseYear, baseMonth + 1, 0);
+    const totalDays = lastDay.getDate();
     const dates = [];
-    const day = today.getDay();
-    const mondayOffset = day === 0 ? -6 : 1 - day;
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + mondayOffset);
-
-    for (let i = 0; i < 14; i++) {
-      const date = new Date(monday);
-      date.setDate(monday.getDate() + i);
+    for (let i = 1; i <= totalDays; i++) {
+      const date = new Date(baseYear, baseMonth, i);
       const dayOfWeek = date.getDay();
-      const weekDayLabel = dayOfWeek === 0 ? 'CN' : `Th ${dayOfWeek + 1}`;
-      const dd = String(date.getDate()).padStart(2, '0');
-      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const weekDayLabel = ['CN', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7'][dayOfWeek];
+      const dd = String(i).padStart(2, '0');
+      const mm = String(baseMonth + 1).padStart(2, '0');
       dates.push(`${weekDayLabel}, ${dd}/${mm}`);
     }
-
     return dates;
-  }, []);
+  }, [monthOffset]);
+
+  const paginatedDates = useMemo(() => {
+    return allDatesInMonth.slice(dayStartIndex, dayStartIndex + 15);
+  }, [allDatesInMonth, dayStartIndex]);
 
   const availableTimes = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
@@ -110,7 +113,6 @@ const BookingModal = ({ service, onClose }) => {
         window.location.href = "/login";
         return;
       }
-
       console.error("❌ Lỗi khi đặt lịch:", error);
       alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
     }
@@ -131,8 +133,28 @@ const BookingModal = ({ service, onClose }) => {
         {step === 1 && (
           <>
             <h4>📅 Chọn ngày khám</h4>
+
+            <div className="bm-month-navigation">
+              <button onClick={() => { setMonthOffset(prev => prev - 1); setDayStartIndex(0); }} disabled={monthOffset <= 0}>◀ Tháng trước</button>
+              <span>Tháng {new Date().getMonth() + 1 + monthOffset}</span>
+              <button onClick={() => { setMonthOffset(prev => prev + 1); setDayStartIndex(0); }}>Tháng sau ▶</button>
+            </div>
+
+            <div className="bm-date-pagination">
+              <button
+                onClick={() => setDayStartIndex((prev) => Math.max(0, prev - 14))}
+                disabled={dayStartIndex === 0}
+              >⬅ Ngày trước</button>
+              <button
+                onClick={() => setDayStartIndex((prev) =>
+                  prev + 14 >= allDatesInMonth.length ? prev : prev + 14
+                )}
+                disabled={dayStartIndex + 14 >= allDatesInMonth.length}
+              >Ngày sau ➡</button>
+            </div>
+
             <div className="bm-options-grid">
-              {availableDates.map((date, index) => (
+              {paginatedDates.map((date, index) => (
                 <button key={index}
                         className={selectedDate === date ? 'bm-selected' : ''}
                         onClick={() => {
@@ -222,4 +244,4 @@ const BookingModal = ({ service, onClose }) => {
   );
 };
 
-export default BookingModal;
+export default TestBookingModal;

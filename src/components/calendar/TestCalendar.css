@@ -1,25 +1,24 @@
 /* =============================
    1) WRAPPER & TITLE
 ============================= */
-.ts-schedule-wrapper {
+.tsc-wrapper {
   max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
 }
 
-.ts-schedule-title {
+.tsc-title {
   font-size: 40px;
   margin-bottom: 32px;
   text-align: center;
   color: #1f2937;
 }
 
-
 /* =============================
    2) CALENDAR CONTAINER + SHADOW
 ============================= */
-.ts-calendar-wrapper .react-calendar {
+.tsc-calendar .react-calendar {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
@@ -31,11 +30,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-
 /* =============================
    3) NAVIGATION (HEADER) - GREEN
 ============================= */
-.ts-calendar-wrapper .react-calendar__navigation {
+.tsc-calendar .react-calendar__navigation {
   background: #00986f;
   border-radius: 12px;
   padding: 20px 24px;
@@ -45,7 +43,7 @@
   justify-content: space-between;
 }
 
-.ts-calendar-wrapper .react-calendar__navigation__label {
+.tsc-calendar .react-calendar__navigation__label {
   flex: 1;
   text-align: center;
   font-size: 24px;
@@ -53,7 +51,7 @@
   color: #ffffff;
 }
 
-.ts-calendar-wrapper .react-calendar__navigation button {
+.tsc-calendar .react-calendar__navigation button {
   color: #ffffff;
   font-weight: 700;
   font-size: 24px;
@@ -67,19 +65,18 @@
   justify-content: center;
 }
 
-.ts-calendar-wrapper .react-calendar__navigation button:hover,
-.ts-calendar-wrapper .react-calendar__navigation button:focus,
-.ts-calendar-wrapper .react-calendar__navigation button:active {
+.tsc-calendar .react-calendar__navigation button:hover,
+.tsc-calendar .react-calendar__navigation button:focus,
+.tsc-calendar .react-calendar__navigation button:active {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   outline: none;
 }
 
-
 /* =============================
    4) WEEKDAYS LABEL (CN - T7)
 ============================= */
-.ts-calendar-wrapper .react-calendar__month-view__weekdays {
+.tsc-calendar .react-calendar__month-view__weekdays {
   text-align: center;
   font-weight: 600;
   text-transform: uppercase;
@@ -87,16 +84,15 @@
   color: #374151;
 }
 
-.ts-calendar-wrapper .react-calendar__month-view__weekdays abbr {
+.tsc-calendar .react-calendar__month-view__weekdays abbr {
   text-decoration: none;
   border: none;
 }
 
-
 /* =============================
    5) TILES (MỖI Ô NGÀY)
 ============================= */
-.ts-calendar-wrapper .react-calendar__tile {
+.tsc-calendar .react-calendar__tile {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -113,30 +109,29 @@
   background: #fff;
 }
 
-.ts-calendar-wrapper .react-calendar__tile:hover {
+.tsc-calendar .react-calendar__tile:hover {
   background: #f0f9ff;
   cursor: pointer;
 }
 
-.ts-calendar-wrapper .react-calendar__tile--now {
+.tsc-calendar .react-calendar__tile--now {
   background: #34d399 !important;
   border-radius: 8px;
   color: #ffffff !important;
   font-weight: 600;
 }
 
-.ts-calendar-wrapper .react-calendar__tile--active {
+.tsc-calendar .react-calendar__tile--active {
   background: #10b981 !important;
   border-radius: 8px;
   color: #ffffff !important;
   font-weight: 600;
 }
 
-
 /* =============================
    6) LABEL TRONG TILE (EVENT)
 ============================= */
-.ts-calendar-wrapper .ts-calendar-event-label {
+.tsc-calendar-label {
   margin-top: 6px;
   font-size: 12px;
   background: #d1fae5;
@@ -150,27 +145,26 @@
   box-shadow: 0 0 0 1px #a7f3d0 inset;
 }
 
-
 /* =============================
    7) BOOKINGS TABLE
 ============================= */
-.ts-bookings-wrapper {
+.tsc-bookings {
   margin-top: 50px;
 }
 
-.ts-bookings-title {
+.tsc-bookings-title {
   font-size: 22px;
   margin-bottom: 16px;
   font-weight: 600;
   color: #1f2937;
 }
 
-.ts-bookings-empty {
+.tsc-bookings-empty {
   font-size: 16px;
   color: #6b7280;
 }
 
-.ts-bookings-table {
+.tsc-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -180,34 +174,33 @@
   overflow: hidden;
 }
 
-.ts-bookings-table th,
-.ts-bookings-table td {
+.tsc-table th,
+.tsc-table td {
   border-bottom: 1px solid #e5e7eb;
   padding: 16px 22px;
   text-align: left;
 }
 
-.ts-bookings-table th {
+.tsc-table th {
   background: #f9fafb;
   font-weight: 600;
   color: #374151;
   border-bottom: 2px solid #e5e7eb;
 }
 
-.ts-bookings-table tr:nth-child(even) {
+.tsc-table tr:nth-child(even) {
   background: #f9fafb;
 }
 
-.ts-bookings-table tr:hover {
+.tsc-table tr:hover {
   background: #f1f5f9;
   transition: background 0.2s;
 }
 
-
 /* =============================
-   8) TRẠNG THÁI LỊCH XÉT NGHIỆM
+   8) TRẠNG THÁI
 ============================= */
-.status-label {
+.tsc-status-label {
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 13px;
@@ -216,46 +209,45 @@
   text-transform: capitalize;
 }
 
-.status-received {
+.tsc-status-received {
   background-color: #e0f2fe;
   color: #1d4ed8;
 }
 
-.status-processing {
+.tsc-status-processing {
   background-color: #e0f7fa;
   color: #006064;
 }
 
-.status-testing {
+.tsc-status-testing {
   background-color: #ede9fe;
   color: #5b21b6;
 }
 
-.status-complete,
-.status-resulted {
+.tsc-status-complete,
+.tsc-status-resulted {
   background-color: #d1fae5;
   color: #065f46;
 }
 
-.status-cancelled {
+.tsc-status-cancelled {
   background-color: #f8d7da;
   color: #721c24;
 }
 
-
 /* =============================
-   9) ACTION BUTTONS (XEM - HUỶ - ĐÁNH GIÁ)
+   9) ACTION BUTTONS
 ============================= */
-.ts-actions {
+.tsc-actions {
   display: flex;
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.view-btn,
-.cancel-btn,
-.review-btn {
+.tsc-view-btn,
+.tsc-cancel-btn,
+.tsc-review-btn {
   padding: 8px 14px;
   font-size: 14px;
   border: none;
@@ -270,35 +262,76 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
-/* XEM */
-.view-btn {
+.tsc-view-btn {
   background-color: #f0f9ff;
   color: #0369a1;
   border: 1px solid #bae6fd;
 }
-.view-btn:hover {
+.tsc-view-btn:hover {
   background-color: #e0f2fe;
   border-color: #7dd3fc;
 }
 
-/* HUỶ */
-.cancel-btn {
+.tsc-cancel-btn {
   background-color: #fff1f2;
   color: #b91c1c;
   border: 1px solid #fecaca;
 }
-.cancel-btn:hover {
+.tsc-cancel-btn:hover {
   background-color: #fee2e2;
   border-color: #fca5a5;
 }
 
-/* ĐÁNH GIÁ */
-.review-btn {
+.tsc-review-btn {
   background-color: #eef2ff;
   color: #4338ca;
   border: 1px solid #c7d2fe;
 }
-.review-btn:hover {
+.tsc-review-btn:hover {
   background-color: #e0e7ff;
   border-color: #a5b4fc;
+}
+
+/* =============================
+   10) ĐÁNH GIÁ & NHẬN XÉT
+============================= */
+.tsc-star {
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.tsc-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+  margin-top: 6px;
+}
+
+.tsc-submit-btn {
+  margin-top: 8px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.tsc-submit-btn:hover {
+  background-color: #059669;
+}
+
+.tsc-submit-btn:disabled {
+  background-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
 }

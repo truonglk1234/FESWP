@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import BookingModal from './BookingModal';
+import BookingModal from './TestBookingModal';
 
 const iconMap = {
   TestTube: <TestTube className="service-icon" />,

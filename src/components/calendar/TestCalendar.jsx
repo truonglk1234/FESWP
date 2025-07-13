@@ -5,7 +5,6 @@ import './TestCalendar.css';
 import axios from 'axios';
 import ViewTestBookingModal from './ViewTestBookingModal';
 
-// ✅ Hàm lấy token an toàn
 const getToken = () => {
   const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
   try {
@@ -20,6 +19,9 @@ const TestScheduleContent = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [testBookings, setTestBookings] = useState([]);
   const [viewingBooking, setViewingBooking] = useState(null);
+  const [ratings, setRatings] = useState({});
+  const [comments, setComments] = useState({});
+  const [submitted, setSubmitted] = useState({});
 
   useEffect(() => {
     fetchBookings();
@@ -29,96 +31,100 @@ const TestScheduleContent = () => {
     try {
       const token = getToken();
       if (!token) {
-        alert("⚠️ Bạn chưa đăng nhập. Vui lòng đăng nhập để xem lịch.");
+        alert("⚠️ Bạn chưa đăng nhập.");
         return;
       }
 
-      const response = await axios.get('http://localhost:8080/api/examinations/my-bookings', {
+      const res = await axios.get('http://localhost:8080/api/examinations/my-bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      const data = response.data || [];
-
-      // Bỏ qua các lịch chưa thanh toán
-      const filteredData = data.filter(item =>
+      const data = (res.data || []).filter(item =>
         item.status?.toLowerCase() !== 'chờ thanh toán'
       );
 
-      const events = filteredData.map(item => ({
+      const events = data.map(item => ({
         id: item.id,
         date: item.appointmentDate.split('T')[0],
-        title: item.serviceName || 'Có lịch xét nghiệm'
+        title: item.serviceName
       }));
 
-      const bookings = filteredData.map(item => ({
+      const bookings = data.map(item => ({
         id: item.id,
         date: item.appointmentDate.split('T')[0],
-        package: item.serviceName || 'Gói xét nghiệm',
-        status: item.status,
-        result: item.result || '-'
+        package: item.serviceName,
+        status: item.status
       }));
 
       setCalendarEvents(events);
       setTestBookings(bookings);
-    } catch (error) {
-      console.error("❌ Lỗi khi tải lịch xét nghiệm:", error);
-      alert("Không thể tải lịch xét nghiệm.");
+    } catch (err) {
+      console.error("❌ Lỗi:", err);
+      alert("Không thể tải lịch.");
     }
   };
 
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
-      case 'đã tiếp nhận': return 'status-received';
-      case 'đang xử lý': return 'status-processing';
-      case 'đang xét nghiệm': return 'status-testing';
-      case 'đã hoàn tất': return 'status-complete';
-      case 'đã trả kết quả': return 'status-resulted';
-      case 'đã huỷ': return 'status-cancelled';
+      case 'đã tiếp nhận': return 'tsc-status-received';
+      case 'đang xử lý': return 'tsc-status-processing';
+      case 'đang xét nghiệm': return 'tsc-status-testing';
+      case 'đã hoàn tất': return 'tsc-status-complete';
+      case 'đã trả kết quả': return 'tsc-status-resulted';
+      case 'đã huỷ': return 'tsc-status-cancelled';
       default: return '';
     }
   };
 
-  const handleView = (booking) => {
-    setViewingBooking(booking);
-  };
-
   const handleCancel = async (booking) => {
-    if (!window.confirm("Bạn có chắc chắn muốn huỷ lịch xét nghiệm này không?")) return;
+    if (!window.confirm("Bạn có chắc chắn muốn huỷ lịch này không?")) return;
 
     try {
       const token = getToken();
-      if (!token) {
-        alert("⚠️ Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-        localStorage.removeItem("user");
-        window.location.href = "/login";
-        return;
-      }
-
       await axios.delete(`http://localhost:8080/api/examinations/${booking.id}/cancel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
-      alert("✅ Huỷ lịch thành công!");
+      alert("✅ Đã huỷ lịch!");
       fetchBookings();
-    } catch (error) {
-      if (error.response?.status === 400) {
-        alert("❌ Không thể huỷ lịch này (quá thời gian hoặc đã xử lý).");
-      } else if (error.response?.status === 401) {
-        alert("⚠️ Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
-        localStorage.removeItem("user");
-        window.location.href = "/login";
+    } catch (err) {
+      console.error("❌ Lỗi khi huỷ lịch:", err);
+      alert("❌ Không thể huỷ.");
+    }
+  };
+
+  const handleSubmitReview = async (bookingId) => {
+    const rating = ratings[bookingId];
+    const comment = comments[bookingId];
+    if (!rating || !comment?.trim()) {
+      alert("⚠️ Vui lòng chọn sao và nhập nhận xét.");
+      return;
+    }
+
+    try {
+      const token = getToken();
+      await axios.post(`http://localhost:8080/api/feedbacks/${bookingId}`, {
+        rating,
+        comment
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      alert("✅ Gửi đánh giá thành công!");
+      setSubmitted(prev => ({ ...prev, [bookingId]: true }));
+    } catch (err) {
+      if (err.response?.status === 400) {
+        alert("⚠️ Bạn đã đánh giá lịch này rồi.");
       } else {
-        console.error("❌ Lỗi khi huỷ lịch:", error);
-        alert("❌ Không thể huỷ lịch. Vui lòng thử lại sau.");
+        alert("❌ Gửi đánh giá thất bại.");
       }
     }
   };
 
   return (
-    <section className="ts-schedule-wrapper">
-      <h1 className="ts-schedule-title">Lịch xét nghiệm</h1>
+    <section className="tsc-wrapper">
+      <h1 className="tsc-title">Lịch xét nghiệm</h1>
 
-      <div className="ts-calendar-wrapper">
+      <div className="tsc-calendar">
         <Calendar
           locale="vi-VN"
           onChange={setSelectedDate}
@@ -129,12 +135,12 @@ const TestScheduleContent = () => {
           }
           tileContent={({ date, view }) => {
             if (view === 'month') {
-              const dayStr = date.toISOString().split('T')[0];
+              const dayStr = date.toLocaleDateString('sv-SE');
               const events = calendarEvents.filter(ev => ev.date === dayStr);
               return (
                 <>
                   {events.map(ev => (
-                    <div key={ev.id} className="ts-calendar-event-label">{ev.title}</div>
+                    <div key={ev.id} className="tsc-calendar-label">{ev.title}</div>
                   ))}
                 </>
               );
@@ -143,44 +149,66 @@ const TestScheduleContent = () => {
         />
       </div>
 
-      <div className="ts-bookings-wrapper">
-        <h2 className="ts-bookings-title">Danh sách lịch xét nghiệm đã đặt</h2>
+      <div className="tsc-bookings">
+        <h2 className="tsc-bookings-title">Danh sách lịch đã đặt</h2>
         {testBookings.length === 0 ? (
-          <p className="ts-bookings-empty">Bạn chưa có lịch xét nghiệm nào.</p>
+          <p className="tsc-bookings-empty">Bạn chưa có lịch nào.</p>
         ) : (
-          <table className="ts-bookings-table">
+          <table className="tsc-table">
             <thead>
               <tr>
                 <th>Ngày</th>
-                <th>Gói xét nghiệm</th>
+                <th>Gói</th>
                 <th>Trạng thái</th>
-                <th>Kết quả</th>
+                <th>Đánh giá</th>
                 <th>Hành động</th>
+                <th>Nhận xét</th> {/* ✅ Moved to the end */}
               </tr>
             </thead>
             <tbody>
-              {testBookings.map((tb, idx) => (
-                <tr key={idx}>
+              {testBookings.map(tb => (
+                <tr key={tb.id}>
                   <td>{new Date(tb.date).toLocaleDateString('vi-VN')}</td>
                   <td>{tb.package}</td>
                   <td>
-                    <span className={`status-label ${getStatusClass(tb.status)}`}>
-                      {tb.status}
-                    </span>
+                    <span className={`tsc-status-label ${getStatusClass(tb.status)}`}>{tb.status}</span>
                   </td>
-                  <td>{tb.result}</td>
                   <td>
-                    <div className="ts-actions">
-                      <button className="view-btn" onClick={() => handleView(tb)}>Xem</button>
-
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <span
+                        key={star}
+                        className="tsc-star"
+                        style={{ color: (ratings[tb.id] || 0) >= star ? '#ffc107' : '#ccc' }}
+                        onClick={() => !submitted[tb.id] && setRatings(prev => ({ ...prev, [tb.id]: star }))}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </td>
+                  <td>
+                    <div className="tsc-actions">
+                      <button className="tsc-view-btn" onClick={() => setViewingBooking(tb)}>Xem</button>
                       {!['hoàn tất', 'đã hoàn tất', 'đã huỷ'].includes(tb.status?.toLowerCase()) && (
-                        <button className="cancel-btn" onClick={() => handleCancel(tb)}>Huỷ</button>
-                      )}
-
-                      {tb.status?.toLowerCase() === 'đã hoàn tất' && tb.result !== '-' && (
-                        <button className="review-btn" onClick={() => alert('👉 Chuyển sang form đánh giá')}>Đánh giá</button>
+                        <button className="tsc-cancel-btn" onClick={() => handleCancel(tb)}>Huỷ</button>
                       )}
                     </div>
+                  </td>
+                  <td>
+                    <textarea
+                      className="tsc-textarea"
+                      rows="2"
+                      placeholder="Nhận xét..."
+                      disabled={submitted[tb.id]}
+                      value={comments[tb.id] || ""}
+                      onChange={e => setComments(prev => ({ ...prev, [tb.id]: e.target.value }))}
+                    />
+                    <button
+                      className="tsc-submit-btn"
+                      disabled={submitted[tb.id]}
+                      onClick={() => handleSubmitReview(tb.id)}
+                    >
+                      Gửi đánh giá
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -189,7 +217,6 @@ const TestScheduleContent = () => {
         )}
       </div>
 
-      {/* ✅ Modal xem chi tiết */}
       <ViewTestBookingModal
         booking={viewingBooking}
         onClose={() => setViewingBooking(null)}

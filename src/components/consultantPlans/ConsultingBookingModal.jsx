@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import axios from 'axios';
-import './ConsultingBookingModal.css'; // ✅ CSS riêng cho modal tư vấn
+import './ConsultingBookingModal.css';
 
 const ConsultingBookingModal = ({ service, onClose }) => {
   const [step, setStep] = useState(1);
+  const [monthOffset, setMonthOffset] = useState(0);
+  const [dateOffset, setDateOffset] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [contactInfo, setContactInfo] = useState({
@@ -13,25 +15,27 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     note: ''
   });
 
-  // ✅ Tự tính ngày từ hôm nay, luôn 2 tuần, từ thứ 2 đến CN
   const availableDates = useMemo(() => {
     const dates = [];
     const today = new Date();
-    // Bắt đầu từ thứ 2 gần nhất (hoặc hôm nay nếu là T2)
-    const dayOfWeek = today.getDay();
-    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
-    let monday = new Date(today);
-    monday.setDate(today.getDate() + diffToMonday);
+    const year = today.getFullYear();
+    const month = today.getMonth() + monthOffset;
+    const lastDay = new Date(year, month + 1, 0);
+    const totalDays = lastDay.getDate();
 
-    for (let i = 0; i < 14; i++) {
-      const d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      const dayLabel = ['CN', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7'][d.getDay()];
-      const formatted = `${dayLabel}, ${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
-      dates.push(formatted);
+    for (let i = 1; i <= totalDays; i++) {
+      const date = new Date(year, month, i);
+      const dayOfWeek = date.getDay();
+      const dayLabel = ['CN', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7'][dayOfWeek];
+      const dd = String(i).padStart(2, '0');
+      const mm = String(month + 1).padStart(2, '0');
+      dates.push(`${dayLabel}, ${dd}/${mm}`);
     }
+
     return dates;
-  }, []);
+  }, [monthOffset]);
+
+  const paginatedDates = availableDates.slice(dateOffset, dateOffset + 15);
 
   const availableTimes = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
@@ -72,16 +76,13 @@ const ConsultingBookingModal = ({ service, onClose }) => {
         }
       );
 
-      console.log("✅ Đặt lịch tư vấn thành công:", response.data);
       setStep(5);
-
       if (response.data && response.data.paymentUrl) {
         setTimeout(() => {
           window.location.href = response.data.paymentUrl;
         }, 1500);
       }
     } catch (error) {
-      console.error("❌ Lỗi khi đặt lịch:", error);
       alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
     }
   };
@@ -90,7 +91,6 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     <div className="cbm-modal-overlay">
       <div className="cbm-modal-content">
         <button className="cbm-close-btn" onClick={onClose}>✖</button>
-
         <h2>Đặt lịch TƯ VẤN</h2>
 
         <div className="cbm-modal-section">
@@ -102,8 +102,20 @@ const ConsultingBookingModal = ({ service, onClose }) => {
         {step === 1 && (
           <>
             <h4>📅 Chọn ngày tư vấn</h4>
+
+            <div className="cbm-month-navigation">
+              <button onClick={() => setMonthOffset(prev => prev - 1)} disabled={monthOffset <= 0}>◀ Tháng trước</button>
+              <span>Tháng {new Date().getMonth() + 1 + monthOffset}</span>
+              <button onClick={() => setMonthOffset(prev => prev + 1)}>Tháng sau ▶</button>
+            </div>
+
+            <div className="cbm-date-pagination">
+              <button onClick={() => setDateOffset(o => Math.max(o - 14, 0))}>⬅ Ngày trước</button>
+              <button onClick={() => setDateOffset(o => o + 14)}>Ngày sau ➡</button>
+            </div>
+
             <div className="cbm-options-grid">
-              {availableDates.map((date, index) => (
+              {paginatedDates.map((date, index) => (
                 <button
                   key={index}
                   className={selectedDate === date ? 'cbm-selected' : ''}

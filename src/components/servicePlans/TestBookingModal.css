@@ -1,5 +1,5 @@
 /* 1) Overlay phủ toàn màn hình */
-.cbm-modal-overlay {
+.bm-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.4);
@@ -10,7 +10,7 @@
 }
 
 /* 2) Hộp modal chính */
-.cbm-modal-content {
+.bm-modal-content {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
@@ -25,19 +25,19 @@
 }
 
 /* 3) Khu vực nội dung từng section */
-.cbm-modal-section {
+.bm-modal-section {
   margin-bottom: 1rem;
 }
 
 /* 4) Lưới lựa chọn ngày/giờ */
-.cbm-options-grid {
+.bm-options-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   margin-bottom: 1rem;
 }
 
-.cbm-options-grid button {
+.bm-options-grid button {
   padding: 8px 10px;
   border: 1px solid #ccc;
   background: #f5f5f5;
@@ -49,18 +49,18 @@
   color: #333;
 }
 
-.cbm-options-grid button:hover {
+.bm-options-grid button:hover {
   background: #e0f2f1;
   border-color: #10b981;
 }
 
-.cbm-options-grid button.cbm-selected {
+.bm-options-grid button.bm-selected {
   background: #10b981;
   color: #fff;
   border: 1px solid #10b981;
 }
 
-.cbm-options-grid button:disabled {
+.bm-options-grid button:disabled {
   background: #f0f0f0;
   color: #999;
   border: 1px solid #ddd;
@@ -68,13 +68,13 @@
 }
 
 /* 5) Form thông tin liên hệ */
-.cbm-form-group {
+.bm-form-group {
   margin-bottom: 1rem;
 }
 
-.cbm-form-group input,
-.cbm-form-group textarea,
-.cbm-form-group select {
+.bm-form-group input,
+.bm-form-group textarea,
+.bm-form-group select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -83,15 +83,15 @@
   background: #fff;
 }
 
-.cbm-form-group input:focus,
-.cbm-form-group textarea:focus,
-.cbm-form-group select:focus {
+.bm-form-group input:focus,
+.bm-form-group textarea:focus,
+.bm-form-group select:focus {
   border-color: #10b981;
   outline: none;
 }
 
 /* 6) Nút tiếp theo */
-.cbm-next-btn {
+.bm-next-btn {
   background: #10b981;
   color: #fff;
   padding: 10px 20px;
@@ -101,13 +101,13 @@
   float: right;
 }
 
-.cbm-next-btn:disabled {
+.bm-next-btn:disabled {
   background: #bbb;
   cursor: not-allowed;
 }
 
 /* 7) Xác nhận thông tin đặt */
-.cbm-confirm-box {
+.bm-confirm-box {
   margin: 1rem 0;
   padding: 1rem;
   background: #f0fdf4;
@@ -116,15 +116,15 @@
   font-size: 14px;
 }
 
-.cbm-confirm-actions {
+.bm-confirm-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 1rem;
 }
 
-.cbm-cancel-btn,
-.cbm-confirm-btn {
+.bm-cancel-btn,
+.bm-confirm-btn {
   padding: 10px 20px;
   border-radius: 6px;
   border: none;
@@ -132,17 +132,17 @@
   font-size: 14px;
 }
 
-.cbm-cancel-btn {
+.bm-cancel-btn {
   background: #ddd;
 }
 
-.cbm-confirm-btn {
+.bm-confirm-btn {
   background: #10b981;
   color: #fff;
 }
 
 /* 8) Nút đóng modal (góc trên) */
-.cbm-close-btn {
+.bm-close-btn {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -154,12 +154,12 @@
   transition: color 0.2s ease;
 }
 
-.cbm-close-btn:hover {
+.bm-close-btn:hover {
   color: #10b981;
 }
 
 /* 9) Điều hướng tháng */
-.cbm-month-navigation {
+.bm-month-navigation {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -167,7 +167,7 @@
   margin-bottom: 12px;
 }
 
-.cbm-month-navigation button {
+.bm-month-navigation button {
   padding: 6px 12px;
   background: #def3ee;
   border: none;
@@ -178,25 +178,25 @@
   transition: background 0.2s ease;
 }
 
-.cbm-month-navigation button:hover {
+.bm-month-navigation button:hover {
   background: #a7f3d0;
 }
 
-.cbm-month-navigation span {
+.bm-month-navigation span {
   font-size: 16px;
   font-weight: bold;
   color: #1f2937;
 }
 
 /* 10) Điều hướng ngày */
-.cbm-date-pagination {
+.bm-date-pagination {
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-bottom: 8px;
 }
 
-.cbm-date-pagination button {
+.bm-date-pagination button {
   background: #e7f5f0;
   border: none;
   padding: 6px 12px;
@@ -208,6 +208,6 @@
   transition: background 0.2s ease;
 }
 
-.cbm-date-pagination button:hover {
+.bm-date-pagination button:hover {
   background: #b9fbc0;
 }
