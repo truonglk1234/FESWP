@@ -335,3 +335,15 @@
   color: #6b7280;
   cursor: not-allowed;
 }
+.tsc-result-btn {
+  margin-top: 6px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.tsc-result-btn:hover {
+  background-color: #388e3c;
+}

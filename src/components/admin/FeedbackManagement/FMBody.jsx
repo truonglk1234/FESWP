@@ -7,11 +7,10 @@ const FMBody = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  // 🔁 Gọi API khi component mount
   useEffect(() => {
     axios.get('http://localhost:8080/api/feedbacks')
       .then(res => setFeedbacks(res.data))
-      .catch(err => console.error('Lỗi khi tải feedbacks:', err));
+      .catch(err => console.error('❌ Lỗi khi tải feedbacks:', err));
   }, []);
 
   const totalPages = Math.ceil(feedbacks.length / itemsPerPage);
@@ -23,40 +22,32 @@ const FMBody = () => {
       <div className="fm-body">
         {pagedFeedbacks.map((fb) => (
           <div
-            key={fb.id}
-            className={`feedback-card ${
-              fb.status === 'Đã xử lý' ? 'success' :
-              fb.status === 'Báo cáo tiêu cực' ? 'danger' :
-              fb.status === 'Chờ xử lý' ? 'pending' : ''
-            }`}
+            key={fb.bookingId}
+            className="feedback-card"
           >
             <div className="feedback-header">
               <div>
                 <span className="user-icon">👤</span>
-                <span className="user-name">{fb.name}</span>
+                <span className="user-name">{fb.fullName}</span>
                 <span className="stars">
                   {'★'.repeat(fb.rating)}{'☆'.repeat(5 - fb.rating)}
                 </span>
                 <span className="rating">({fb.rating}/5)</span>
               </div>
               <div className="status-date">
-                <span className="date">📅 {fb.date}</span>
+                <span className="date">📅 {new Date(fb.createdAt).toLocaleDateString('vi-VN')}</span>
               </div>
             </div>
 
             <div className="feedback-info">
-              Dịch vụ: <strong>{fb.service}</strong>
+              Dịch vụ: <strong>{fb.serviceName}</strong>
             </div>
 
             <div className="feedback-content">
-              <span className="comment-icon">💬</span>
-              {fb.content}
+              <span className="comment-icon">💬</span> {fb.comment}
             </div>
 
-            <div className="feedback-actions">
-              {fb.report && <button className="btn danger">🚩 Xử lý báo cáo</button>}
-              <button className="btn">Trả lời khách hàng</button>
-            </div>
+        
           </div>
         ))}
       </div>
@@ -72,7 +63,7 @@ const FMBody = () => {
 
         {[...Array(totalPages)].map((_, i) => (
           <button
-            key={i + 1}
+            key={i}
             className={`page-number ${currentPage === i + 1 ? 'active' : ''}`}
             onClick={() => setCurrentPage(i + 1)}
           >

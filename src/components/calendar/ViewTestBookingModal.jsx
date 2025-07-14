@@ -13,7 +13,7 @@ const ViewTestBookingModal = ({ booking, onClose }) => {
           <p><strong>Ngày:</strong> {new Date(booking.date).toLocaleDateString('vi-VN')}</p>
           <p><strong>Gói:</strong> {booking.package}</p>
           <p><strong>Trạng thái:</strong> {booking.status}</p>
-          <p><strong>Kết quả:</strong> {booking.result}</p>
+       
         </div>
         <button className="vtb-close-btn" onClick={onClose}>Đóng</button>
       </div>
