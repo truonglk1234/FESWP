@@ -29,6 +29,7 @@ import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaf
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
+import ManagerExamManage from './components/manager/ExaminationManagement/ManagerExamManage'; // ✅ Đã thêm dòng này
 
 // --------- CONSULTANT ---------
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -110,14 +111,14 @@ const App = () => {
 
           {/* --------- MANAGER --------- */}
           <Route path="/manager" element={<ManagerLayout />}>
-            <Route index element={<Navigate to="users" replace />} /> {/* ✅ Chuyển hướng thay vì Dashboard */}
+            <Route index element={<Navigate to="users" replace />} />
             <Route path="users" element={<UserManagementPage />} />
             <Route path="consultants" element={<ManagerCM />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
             <Route path="services" element={<TestingServiceManage />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />
             <Route path="blogs" element={<ManagerBlogManage />} />
-            {/* ❌ Đã xoá ManagerDashboard và ManagerQA */}
+            <Route path="examinations" element={<ManagerExamManage />} /> {/* ✅ Thêm route này */}
           </Route>
 
         </Routes>
