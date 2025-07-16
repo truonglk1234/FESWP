@@ -34,19 +34,16 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
-    // Validate mật khẩu khớp
     if (formData.password !== formData.confirmPassword) {
       setError('❌ Mật khẩu không khớp');
       return;
     }
 
-    // Validate độ dài mật khẩu
     if (formData.password.length < 6) {
       setError('❌ Mật khẩu phải từ 6 ký tự trở lên');
       return;
     }
 
-    // Validate ngày sinh không được là tương lai
     const today = new Date().toISOString().split('T')[0];
     if (formData.dateOfBirthday > today) {
       setError('❌ Ngày sinh không hợp lệ');
@@ -233,7 +230,7 @@ const Register = () => {
               <label className="register-checkbox-label">
                 <input type="checkbox" required />
                 <span>
-                  Tôi đồng ý với <a href="#">điều khoản</a> & <a href="#">chính sách bảo mật</a>.
+                  Tôi đồng ý với <Link to="/terms" className="terms-link">điều khoản</Link> & <Link to="/terms" className="terms-link">chính sách bảo mật</Link>.
                 </span>
               </label>
 

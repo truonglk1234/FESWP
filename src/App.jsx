@@ -12,6 +12,7 @@ import BlogPage from './pages/BlogPage';
 import BlogDetailPublic from './components/blogs/BlogDetailPublic';
 import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage';
+import TermsPage from './pages/TermsPage'; // ✅ THÊM DÒNG NÀY
 
 // --------- PROFILE ---------
 import Profile from './components/profile/Profile';
@@ -29,7 +30,7 @@ import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaf
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
-import ManagerExamManage from './components/manager/ExaminationManagement/ManagerExamManage'; // ✅ Đã thêm dòng này
+import ManagerExamManage from './components/manager/ExaminationManagement/ManagerExamManage';
 
 // --------- CONSULTANT ---------
 import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
@@ -71,6 +72,7 @@ const App = () => {
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
           <Route path="/tests" element={<TestSchedulePage />} />
           <Route path="/consult-schedule" element={<ConsultSchedulePage />} />
+          <Route path="/terms" element={<TermsPage />} /> {/* ✅ ĐÃ THÊM ROUTE CHO TRANG ĐIỀU KHOẢN */}
 
           {/* --------- PROFILE --------- */}
           <Route path="/profile" element={<Profile />}>
@@ -118,7 +120,7 @@ const App = () => {
             <Route path="services" element={<TestingServiceManage />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />
             <Route path="blogs" element={<ManagerBlogManage />} />
-            <Route path="examinations" element={<ManagerExamManage />} /> {/* ✅ Thêm route này */}
+            <Route path="examinations" element={<ManagerExamManage />} />
           </Route>
 
         </Routes>
