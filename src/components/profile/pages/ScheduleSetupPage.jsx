@@ -10,7 +10,7 @@ const ScheduleCard = ({ schedule }) => (
             </span>
         </div>
         <div className="schedule-card-body">
-            <p>⏰ {schedule.startTime} - {schedule.endTime}</p>
+            <p>⏰ {schedule.startTime?.substring(11, 16)} - {schedule.endTime?.substring(11, 16)}</p>
             <p>💵 {schedule.price?.toLocaleString()} đ / {schedule.durationMinutes} phút</p>
             {schedule.note && <p className="note">📝 {schedule.note}</p>}
             <span className={`status ${schedule.isAvailable ? "available" : "not-available"}`}>
@@ -34,23 +34,33 @@ const ScheduleSetupPage = () => {
         durationMinutes: 60,
         note: "",
         isAvailable: true,
-        consultantId,
     });
 
-    // 🟢 API trực tiếp trong file:
     const createSchedule = async (scheduleData) => {
-        const res = await axios.post(
-            "http://localhost:8080/api/auth/schedules",
-            scheduleData
-        );
-        return res.data;
+        try {
+            const res = await axios.post(
+                "http://localhost:8080/api/auth/schedules",
+                scheduleData
+            );
+            return res.data;
+        } catch (err) {
+            alert("❌ Không thể tạo lịch mới. Vui lòng kiểm tra lại thông tin.");
+            console.error("Lỗi tạo lịch:", err);
+            throw err;
+        }
     };
 
     const getSchedulesByConsultant = async (consultantId) => {
-        const res = await axios.get(
-            `http://localhost:8080/api/auth/schedules/consultant/${consultantId}`
-        );
-        return res.data;
+        try {
+            const res = await axios.get(
+                `http://localhost:8080/api/auth/schedules/consultant/${consultantId}`
+            );
+            if (res.status === 204) return [];
+            return res.data;
+        } catch (err) {
+            console.error("Lỗi khi lấy lịch:", err);
+            return [];
+        }
     };
 
     const loadSchedules = async () => {
@@ -59,7 +69,19 @@ const ScheduleSetupPage = () => {
     };
 
     const handleSave = async () => {
-        await createSchedule(form);
+        const today = new Date().toISOString().split("T")[0]; // "2025-07-23"
+        const startDateTime = `${today}T${form.startTime}:00`;
+        const endDateTime = `${today}T${form.endTime}:00`;
+
+        const payload = {
+            ...form,
+            startTime: startDateTime,
+            endTime: endDateTime,
+            consultantId,
+        };
+
+        console.log("Sending schedule:", payload);
+        await createSchedule(payload);
         setShowModal(false);
         loadSchedules();
     };
