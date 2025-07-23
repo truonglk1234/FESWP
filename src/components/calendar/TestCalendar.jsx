@@ -84,6 +84,27 @@ const TestScheduleContent = () => {
     }
   };
 
+  const handleCancelBooking = async (bookingId) => {
+  const confirmCancel = window.confirm("❓Bạn có chắc chắn muốn huỷ lịch này?");
+  if (!confirmCancel) return;
+
+  try {
+    const token = getToken();
+    await axios.delete(`http://localhost:8080/api/examinations/${bookingId}/cancel`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    alert("✅ Huỷ lịch thành công!");
+    fetchBookings(); // cập nhật lại danh sách
+  } catch (err) {
+    console.error("❌ Lỗi huỷ lịch:", err);
+    const msg = err.response?.data?.message || "Không thể huỷ lịch.";
+    alert("❌ " + msg);
+  }
+};
+
   const handleSubmitReview = async (tb) => {
     const rating = ratings[tb.id];
     const comment = comments[tb.id];
@@ -200,6 +221,11 @@ const TestScheduleContent = () => {
                     {tb.status?.toLowerCase() === 'đã trả kết quả' && (
                       <button className="tsc-result-btn" onClick={() => handleViewResult(tb.id)}>
                         Xem kết quả
+                      </button>
+                    )}
+                    {(tb.status?.toLowerCase() === 'đã tiếp nhận' || tb.status?.toLowerCase() === 'đang xử lý') && (
+                      <button className="tsc-cancel-btn" onClick={() => handleCancelBooking(tb.id)}>
+                        Huỷ
                       </button>
                     )}
                   </td>

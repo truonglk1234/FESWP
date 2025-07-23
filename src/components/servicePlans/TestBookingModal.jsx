@@ -89,14 +89,14 @@ const TestBookingModal = ({ service, onClose }) => {
       setStep(5);
 
       const paymentRes = await axios.post(
-        `http://localhost:8080/api/v1/payment/create-payment?bookingId=${booking.id}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+  `http://localhost:8080/api/v1/examinationPayment/create-payment?bookingId=${booking.id}`,
+  null,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+);
 
       const paymentUrl = paymentRes.data;
       setTimeout(() => {
