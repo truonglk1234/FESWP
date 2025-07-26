@@ -77,25 +77,10 @@ const ProfileSidebar = () => {
                   to="schedule-setup"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
-                  <Calendar size={18} /> Sắp xếp lịch
+                  <Calendar size={18} /> Lịch hẹn
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="consultant-appointments"
-                  className={({ isActive }) => (isActive ? 'active' : '')}
-                >
-                  <Clock size={18} /> Lịch hẹn
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="history"
-                  className={({ isActive }) => (isActive ? 'active' : '')}
-                >
-                  <RotateCcw size={18} /> Lịch sử tư vấn
-                </NavLink>
-              </li>
+              
             </>
           )}
         </ul>

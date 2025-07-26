@@ -13,6 +13,8 @@ import BlogDetailPublic from './components/blogs/BlogDetailPublic';
 import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage';
 import TermsPage from './pages/TermsPage'; // ✅ THÊM DÒNG NÀY
+import ConsultantProfilePage from './components/consultants/ConsultantProfilePage';
+import BookingPage from './components/consultants/BookingPage';
 
 // --------- PROFILE ---------
 import Profile from './components/profile/Profile';
@@ -39,6 +41,8 @@ import ConsultingSchedule from './components/ConsultantManagement/ConsultingSche
 import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
 import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
 import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
+
+
 
 // --------- STAFF ---------
 import StaffLayout from './components/staff/StaffLayout';
@@ -68,6 +72,8 @@ const App = () => {
           <Route path="/services/testing" element={<ServiceTestingPage />} />
           <Route path="/services/consulting" element={<ConsultantServicePage />} />
           <Route path="/consultants" element={<ConsultantPage />} />
+          <Route path="/consultants/:id" element={<ConsultantProfilePage />} />
+          <Route path="/consultants/:id/booking" element={<BookingPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
           <Route path="/tests" element={<TestSchedulePage />} />
@@ -91,6 +97,8 @@ const App = () => {
             <Route path="chat" element={<ConsultantMessage />} />
             <Route path="questions" element={<ConsultantQuestion />} />
             <Route path="reviews" element={<ConsultantEvaluate />} />
+            
+
           </Route>
 
           {/* --------- STAFF --------- */}

@@ -1,0 +1,52 @@
+.cp-page {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.cp-back {
+  background: none;
+  border: none;
+  color: #17b887;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.cp-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.cp-item {
+  flex: 1 1 45%;
+}
+
+.cp-item.cp-full {
+  flex: 1 1 100%;
+}
+
+.cp-item label {
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cp-item p {
+  margin: 0;
+  color: #4b5563;
+}
+
+.cp-avatar img {
+  margin-top: 10px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #17b887;
+}

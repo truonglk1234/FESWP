@@ -93,7 +93,7 @@ const ScheduleSetupPage = () => {
     return (
         <div className="schedule-wrapper">
             <div className="header">
-                <h2>📅 Sắp xếp lịch làm việc</h2>
+                <h2>📅 Lịch hẹn làm việc</h2>
                 <button className="add-btn" onClick={() => setShowModal(true)}>+ Thêm lịch mới</button>
             </div>
 

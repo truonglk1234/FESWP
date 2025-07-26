@@ -1,38 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Mail, Phone, User, BadgeCheck } from 'lucide-react';
-import BookingModal from './BookingModal';
-import PaymentModal from './PaymentModal';
-import ConsultantProfileModal from './ConsultantProfileModal';
+import { useNavigate } from 'react-router-dom';
 
 const ConsultantCard = ({ doc }) => {
-  const [showBooking, setShowBooking] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
-  const [appointmentDetails, setAppointmentDetails] = useState(null); // ✅ Thêm state mới
-
-  const handleOpenBooking = () => {
-    setShowBooking(true);
-  };
-
-  const handleCloseBooking = () => {
-    setShowBooking(false);
-  };
-
-  const handleBookingConfirmed = (details) => {
-    setAppointmentDetails(details);           // ✅ Lưu thông tin đặt lịch
-    setShowBooking(false);
-    setShowPayment(true);
-  };
-
-  const handleClosePayment = () => {
-    setShowPayment(false);
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="csc-card">
       <div className="csc-card-top">
         <img
-          src={doc.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}&background=0D8ABC&color=fff`}
+          src={
+            doc.avatarUrl ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(doc.fullName)}&background=0D8ABC&color=fff`
+          }
           alt={doc.fullName}
           className="csc-avatar"
         />
@@ -50,40 +30,21 @@ const ConsultantCard = ({ doc }) => {
       </div>
 
       <div className="csc-card-footer">
-        <button className="csc-btn csc-btn-primary" onClick={() => setShowProfile(true)}>
+        {/* Chuyển sang trang hồ sơ */}
+        <button
+          className="csc-btn csc-btn-primary"
+          onClick={() => navigate(`/consultants/${doc.id}`)}
+        >
           Xem hồ sơ
         </button>
-        <button className="csc-btn csc-btn-outline" onClick={handleOpenBooking}>
+        {/* Chuyển sang trang đặt lịch */}
+        <button
+          className="csc-btn csc-btn-outline"
+          onClick={() => navigate(`/consultants/${doc.id}/booking`)}
+        >
           Đặt lịch
         </button>
       </div>
-
-      {showBooking && (
-        <BookingModal
-          consultant={doc}
-          onClose={handleCloseBooking}
-          onConfirmPayment={handleBookingConfirmed} // ✅ Nhận appointmentDetails từ BookingModal
-        />
-      )}
-
-      {showPayment && appointmentDetails && (
-        <PaymentModal
-          consultant={doc}
-          appointmentDetails={appointmentDetails} // ✅ Truyền thông tin đặt lịch
-          onClose={handleClosePayment}
-          onBack={() => {
-            setShowPayment(false);
-            setShowBooking(true);
-          }}
-        />
-      )}
-
-      {showProfile && (
-        <ConsultantProfileModal
-          consultantId={doc.id}
-          onClose={() => setShowProfile(false)}
-        />
-      )}
     </div>
   );
 };
