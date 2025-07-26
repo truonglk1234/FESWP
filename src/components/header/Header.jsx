@@ -80,12 +80,12 @@ const Header = () => {
     navigate('/');
   };
 
+  // Cập nhật bỏ Consultant ra khỏi danh sách quản lý
   const getManageLink = () => {
     switch (user?.role) {
       case 'Admin': return '/admin';
       case 'Manager': return '/manager';
       case 'Staff': return '/staff';
-      case 'Consultant': return '/consultant';
       default: return '/';
     }
   };
@@ -205,8 +205,13 @@ const Header = () => {
                       </>
                     )}
 
-                    {['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
-                      <Link to={getManageLink()} className="manage-button" onClick={() => setDropdownOpen(false)}>
+                    {/* ✅ Chỉ hiện nút quản lý cho Admin, Manager, Staff */}
+                    {['Admin', 'Manager', 'Staff'].includes(user?.role) && (
+                      <Link
+                        to={getManageLink()}
+                        className="manage-button"
+                        onClick={() => setDropdownOpen(false)}
+                      >
                         <LayoutDashboard size={16} /> Quản lý
                       </Link>
                     )}

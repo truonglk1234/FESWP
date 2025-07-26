@@ -30,19 +30,12 @@ const ConsultantCard = ({ doc }) => {
       </div>
 
       <div className="csc-card-footer">
-        {/* Chuyển sang trang hồ sơ */}
+        {/* Chỉ còn nút Xem hồ sơ */}
         <button
           className="csc-btn csc-btn-primary"
           onClick={() => navigate(`/consultants/${doc.id}`)}
         >
           Xem hồ sơ
-        </button>
-        {/* Chuyển sang trang đặt lịch */}
-        <button
-          className="csc-btn csc-btn-outline"
-          onClick={() => navigate(`/consultants/${doc.id}/booking`)}
-        >
-          Đặt lịch
         </button>
       </div>
     </div>

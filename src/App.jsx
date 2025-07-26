@@ -14,14 +14,12 @@ import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage';
 import TermsPage from './pages/TermsPage'; // ✅ THÊM DÒNG NÀY
 import ConsultantProfilePage from './components/consultants/ConsultantProfilePage';
-import BookingPage from './components/consultants/BookingPage';
 
 // --------- PROFILE ---------
 import Profile from './components/profile/Profile';
 import PersonalInfo from './components/profile/pages/PersonalInfo';
 import AccountInfo from './components/profile/pages/AccountInfo';
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
-import ServiceHistory from './components/profile/pages/ServiceHistory';
 import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
 
 // --------- MANAGER ---------
@@ -33,15 +31,6 @@ import TestingServiceManage from './components/manager/ServiceManagement/Testing
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
 import ManagerExamManage from './components/manager/ExaminationManagement/ManagerExamManage';
-
-// --------- CONSULTANT ---------
-import ConsultantLayout from './components/ConsultantManagement/ConsultantLayout';
-import ConsultantDashboard from './components/ConsultantManagement/Dashboard/ConsultantDashboard';
-import ConsultingSchedule from './components/ConsultantManagement/ConsultingSchedule/ConsultingSchedule';
-import ConsultantQuestion from './components/ConsultantManagement/Question/ConsultantQuestion';
-import ConsultantEvaluate from './components/ConsultantManagement/Evaluate/ConsultantEvaluate';
-import ConsultantMessage from './components/ConsultantManagement/Message/ConsultantMessage';
-
 
 
 // --------- STAFF ---------
@@ -73,7 +62,6 @@ const App = () => {
           <Route path="/services/consulting" element={<ConsultantServicePage />} />
           <Route path="/consultants" element={<ConsultantPage />} />
           <Route path="/consultants/:id" element={<ConsultantProfilePage />} />
-          <Route path="/consultants/:id/booking" element={<BookingPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
           <Route path="/tests" element={<TestSchedulePage />} />
@@ -86,20 +74,10 @@ const App = () => {
             <Route path="info" element={<PersonalInfo />} />
             <Route path="account" element={<AccountInfo />} />
             <Route path="health" element={<ReproductiveHealth />} />
-            <Route path="history" element={<ServiceHistory />} />
             <Route path="schedule-setup" element={<ScheduleSetupPage />} />
           </Route>
 
-          {/* --------- CONSULTANT --------- */}
-          <Route path="/consultant" element={<ConsultantLayout />}>
-            <Route index element={<ConsultantDashboard />} />
-            <Route path="schedule" element={<ConsultingSchedule />} />
-            <Route path="chat" element={<ConsultantMessage />} />
-            <Route path="questions" element={<ConsultantQuestion />} />
-            <Route path="reviews" element={<ConsultantEvaluate />} />
-            
-
-          </Route>
+          
 
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
