@@ -12,8 +12,8 @@ import BlogPage from './pages/BlogPage';
 import BlogDetailPublic from './components/blogs/BlogDetailPublic';
 import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage';
-import TermsPage from './pages/TermsPage'; // ✅ THÊM DÒNG NÀY
-import ConsultantProfilePage from './components/consultants/ConsultantProfilePage';
+import TermsPage from './pages/TermsPage';
+import ConsultantProfileWrapper from './pages/ConsultantProfileWrapper';
 
 // --------- PROFILE ---------
 import Profile from './components/profile/Profile';
@@ -31,7 +31,6 @@ import TestingServiceManage from './components/manager/ServiceManagement/Testing
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
 import ManagerBlogManage from './components/manager/BlogsManagement/ManagerBlogManage';
 import ManagerExamManage from './components/manager/ExaminationManagement/ManagerExamManage';
-
 
 // --------- STAFF ---------
 import StaffLayout from './components/staff/StaffLayout';
@@ -61,12 +60,12 @@ const App = () => {
           <Route path="/services/testing" element={<ServiceTestingPage />} />
           <Route path="/services/consulting" element={<ConsultantServicePage />} />
           <Route path="/consultants" element={<ConsultantPage />} />
-          <Route path="/consultants/:id" element={<ConsultantProfilePage />} />
+          <Route path="/consultants/:id" element={<ConsultantProfileWrapper />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailPublic />} />
           <Route path="/tests" element={<TestSchedulePage />} />
           <Route path="/consult-schedule" element={<ConsultSchedulePage />} />
-          <Route path="/terms" element={<TermsPage />} /> {/* ✅ ĐÃ THÊM ROUTE CHO TRANG ĐIỀU KHOẢN */}
+          <Route path="/terms" element={<TermsPage />} />
 
           {/* --------- PROFILE --------- */}
           <Route path="/profile" element={<Profile />}>
@@ -76,8 +75,6 @@ const App = () => {
             <Route path="health" element={<ReproductiveHealth />} />
             <Route path="schedule-setup" element={<ScheduleSetupPage />} />
           </Route>
-
-          
 
           {/* --------- STAFF --------- */}
           <Route path="/staff" element={<StaffLayout />}>
