@@ -1,4 +1,5 @@
-.sdm-overlay {
+/* Overlay mờ nền */
+.cddm-overlay {
   position: fixed;
   top: 0; 
   left: 0; 
@@ -11,7 +12,8 @@
   z-index: 9999;
 }
 
-.sdm-modal {
+/* Hộp modal */
+.cddm-modal {
   background: white;
   border-radius: 8px;
   padding: 20px;
@@ -22,7 +24,7 @@
 }
 
 /* Header modal */
-.sdm-header {
+.cddm-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +32,7 @@
   padding: 0 4px;
 }
 
-.sdm-header h2 {
+.cddm-header h2 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
@@ -38,7 +40,7 @@
 }
 
 /* Nút đóng (X) */
-.sdm-close-btn {
+.cddm-close-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -48,32 +50,32 @@
   transition: background 0.2s, color 0.2s;
 }
 
-.sdm-close-btn:hover {
+.cddm-close-btn:hover {
   background: #f3f4f6;
   color: #111827;
 }
 
 /* Nội dung body */
-.sdm-body .sdm-row {
+.cddm-body .cddm-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.sdm-body label {
+.cddm-body label {
   font-weight: 600;
   width: 40%;
   color: #374151;
 }
 
-.sdm-body span {
+.cddm-body span {
   width: 60%;
   font-size: 14px;
 }
 
 /* Trạng thái */
-.sdm-status {
+.cddm-status {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 13px;
@@ -81,12 +83,12 @@
   display: inline-block;
 }
 
-.sdm-status.active {
+.cddm-status.active {
   background: #e6fff0;
   color: #13ce66;
 }
 
-.sdm-status.inactive {
+.cddm-status.inactive {
   background: #ffeaea;
   color: #e63946;
 }

@@ -21,11 +21,12 @@ import PersonalInfo from './components/profile/pages/PersonalInfo';
 import AccountInfo from './components/profile/pages/AccountInfo';
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
 import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
+import ProfessionalInfo from './components/profile/pages/ProfessionalInfo';   // ✅ import mới
 
 // --------- MANAGER ---------
 import ManagerLayout from './components/manager/ManagerLayout';
 import UserManagementPage from './components/manager/UserManagement/UserManagementPage';
-import ManagerCM from './components/manager/ConsultantManagement/ManagerCM';
+import ConsultantManage from './components/manager/ConsultantManagement/ConsultantManage';
 import ManagerStaffManage from './components/manager/StaffManagement/ManagerStaffManage';
 import TestingServiceManage from './components/manager/ServiceManagement/TestingServiceManage';
 import ConsultingServiceManage from './components/manager/ServiceManagement/ConsultingServiceManage';
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="info" element={<PersonalInfo />} />
             <Route path="account" element={<AccountInfo />} />
             <Route path="health" element={<ReproductiveHealth />} />
+            <Route path="professional-info" element={<ProfessionalInfo />} /> {/* ✅ route mới */}
             <Route path="schedule-setup" element={<ScheduleSetupPage />} />
           </Route>
 
@@ -98,7 +100,7 @@ const App = () => {
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<Navigate to="users" replace />} />
             <Route path="users" element={<UserManagementPage />} />
-            <Route path="consultants" element={<ManagerCM />} />
+            <Route path="consultants" element={<ConsultantManage />} />
             <Route path="staffs" element={<ManagerStaffManage />} />
             <Route path="services" element={<TestingServiceManage />} />
             <Route path="consulting-services" element={<ConsultingServiceManage />} />

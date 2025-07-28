@@ -1,0 +1,174 @@
+.cm-container {
+  padding: 24px;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.cm-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.cm-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.cm-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.cm-add-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background-color: #111827;
+  color: white;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.cm-add-btn:hover {
+  background-color: #1f2937;
+}
+
+/* Table */
+.cm-page {
+  background-color: #f9fafb;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.cm-table-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.cm-table {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.cm-table-head,
+.cm-table-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1.2fr 1fr;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cm-table-head {
+  background: #f3f4f6;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+}
+
+.cm-table-row {
+  font-size: 15px;
+}
+
+.cm-table-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Status */
+.cm-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-align: center;
+  display: inline-block;
+  font-weight: 500;
+  border: 1px solid;
+  width: fit-content;
+}
+
+.cm-status.active {
+  color: #13ce66;
+  background: #e6fff0;
+  border-color: #13ce66;
+}
+
+.cm-status.inactive {
+  color: #e63946;
+  background: #ffeaea;
+  border-color: #e63946;
+}
+
+.cm-status.busy {
+  color: #d97706;
+  background: #fff3cd;
+  border-color: #d97706;
+}
+
+/* Action */
+.cm-action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cm-view-btn {
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #10b981;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.cm-view-btn:hover {
+  background-color: #059669;
+}
+
+/* Pagination */
+.cm-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cm-pagination button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+  color: #1f2937;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cm-pagination button:hover {
+  background-color: #e5e5e5;
+}
+
+.cm-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cm-pagination button.active {
+  background-color: #111827;
+  color: white;
+  border-color: #111827;
+}

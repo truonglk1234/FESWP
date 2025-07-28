@@ -1,5 +1,5 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Heart, RotateCcw, Calendar, Clock } from 'lucide-react';
+import { User, Lock, Heart, Calendar } from 'lucide-react';
 import './ProfileSidebar.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -25,6 +25,7 @@ const ProfileSidebar = () => {
 
   return (
     <aside className="profile-sidebar">
+      {/* Logo */}
       <Link to="/" className="profile-logo">
         <div className="logo-icon">
           <Heart size={20} className="icon-white" />
@@ -35,6 +36,7 @@ const ProfileSidebar = () => {
         </div>
       </Link>
 
+      {/* User Info */}
       <div className="profile-sidebar-header">
         <div className="profile-avatar">
           {user?.avatarUrl ? (
@@ -52,6 +54,7 @@ const ProfileSidebar = () => {
         <p className="profile-role">Vai trò: {user?.role}</p>
       </div>
 
+      {/* Menu */}
       <nav className="profile-menu">
         <ul>
           <li>
@@ -74,18 +77,27 @@ const ProfileSidebar = () => {
             <>
               <li>
                 <NavLink
+                  to="professional-info"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <User size={18} /> Thông tin chuyên môn
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="schedule-setup"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
                   <Calendar size={18} /> Lịch hẹn
                 </NavLink>
               </li>
-              
             </>
           )}
         </ul>
       </nav>
 
+      {/* Back button */}
       <div className="profile-back-btn">
         <button onClick={() => navigate('/')}>Quay lại</button>
       </div>

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import './StaffDetailModal.css';
+import { X } from 'lucide-react';
 
 const StaffDetailModal = ({ staff, onClose }) => {
+  // Đóng modal khi bấm phím ESC
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -14,20 +16,50 @@ const StaffDetailModal = ({ staff, onClose }) => {
 
   return (
     <div className="sdm-overlay" onClick={onClose}>
-      <div className="sdm-content" onClick={(e) => e.stopPropagation()}>
-        <button className="sdm-close-btn" onClick={onClose}>
-          ✖
-        </button>
-        <h2>Thông tin nhân viên</h2>
-        <p><strong>ID:</strong> {staff.id}</p>
-        <p><strong>Họ tên:</strong> {staff.name}</p>
-        <p><strong>Email:</strong> {staff.email}</p>
-        <p><strong>Số điện thoại:</strong> {staff.phone}</p>
-        <p><strong>Ngày tạo:</strong> {staff.createdAt ? new Date(staff.createdAt).toLocaleDateString() : '-'}</p>
-        <p>
-          <strong>Trạng thái:</strong>{' '}
-          {staff.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
-        </p>
+      <div className="sdm-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="sdm-header">
+          <h2>Chi tiết nhân viên</h2>
+          <button className="sdm-close-btn" onClick={onClose}>
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="sdm-body">
+          <div className="sdm-row">
+            <label>ID:</label>
+            <span>{staff.id}</span>
+          </div>
+          <div className="sdm-row">
+            <label>Họ tên:</label>
+            <span>{staff.name}</span>
+          </div>
+          <div className="sdm-row">
+            <label>Email:</label>
+            <span>{staff.email}</span>
+          </div>
+          <div className="sdm-row">
+            <label>Số điện thoại:</label>
+            <span>{staff.phone || '-'}</span>
+          </div>
+          <div className="sdm-row">
+            <label>Ngày tạo:</label>
+            <span>
+              {staff.createdAt
+                ? new Date(staff.createdAt).toLocaleDateString()
+                : '-'}
+            </span>
+          </div>
+          <div className="sdm-row">
+            <label>Trạng thái:</label>
+            <span
+              className={`sdm-status ${staff.active === false ? 'inactive' : 'active'}`}
+            >
+              {staff.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

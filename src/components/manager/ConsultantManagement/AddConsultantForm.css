@@ -1,0 +1,112 @@
+.addconsultant-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.addconsultant-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 500px;
+  max-width: 95%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-family: 'Inter', sans-serif;
+}
+
+.addconsultant-input-icon {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.addconsultant-input-icon input {
+  width: 100%;
+  padding: 10px 12px 10px 40px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.addconsultant-icon-left {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #555;
+}
+
+.addconsultant-icon-right {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
+.addconsultant-two-columns {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.addconsultant-two-columns div {
+  flex: 1;
+}
+
+.addconsultant-two-columns label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.addconsultant-two-columns select,
+.addconsultant-two-columns input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.addconsultant-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.addconsultant-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.addconsultant-actions button[type="button"] {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.addconsultant-actions button[type="submit"] {
+  background: #047857;
+  color: #fff;
+}
+
+.addconsultant-actions button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.addconsultant-error {
+  color: red;
+  font-size: 13px;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}

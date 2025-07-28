@@ -12,7 +12,7 @@ const ManagerStaffManage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  // Lấy token từ localStorage/sessionStorage
+  // Lấy token
   const getToken = () => {
     try {
       const stored = localStorage.getItem('user') || sessionStorage.getItem('user');
@@ -23,7 +23,7 @@ const ManagerStaffManage = () => {
     }
   };
 
-  // Gọi API lấy danh sách nhân viên
+  // Lấy danh sách nhân viên
   const fetchStaffs = () => {
     const token = getToken();
     if (!token) return;
@@ -48,10 +48,6 @@ const ManagerStaffManage = () => {
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
-
-  const handleView = (staff) => {
-    setSelectedStaff(staff);
-  };
 
   return (
     <div className="smh-container">
@@ -84,7 +80,9 @@ const ManagerStaffManage = () => {
                 <strong>{staff.name}</strong>
                 <span>ID: {staff.id}</span>
                 <span>
-                  Ngày tạo: {staff.createdAt ? new Date(staff.createdAt).toLocaleDateString() : '-'}
+                  Ngày tạo: {staff.createdAt 
+                    ? new Date(staff.createdAt).toLocaleDateString() 
+                    : '-'}
                 </span>
               </div>
               <div>
@@ -97,7 +95,9 @@ const ManagerStaffManage = () => {
                 </span>
               </div>
               <div className="stm-action-buttons">
-                <button className="stm-view-btn" onClick={() => handleView(staff)}>Xem</button>
+                <button className="stm-view-btn" onClick={() => setSelectedStaff(staff)}>
+                  Xem
+                </button>
               </div>
             </div>
           ))}

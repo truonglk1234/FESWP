@@ -1,6 +1,9 @@
 .udm-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
   background: rgba(0,0,0,0.4);
   display: flex;
   justify-content: center;
@@ -8,30 +11,82 @@
   z-index: 9999;
 }
 
-.udm-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 400px;
+.udm-modal {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 500px;
   max-width: 95%;
-  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Header */
+.udm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.udm-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Close button */
 .udm-close-btn {
-  background: none;
+  background: transparent;
   border: none;
-  font-size: 1.5rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   cursor: pointer;
-  color: #333;
+  color: #6b7280;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
 }
 
-.udm-content h2 {
-  margin-top: 0;
+.udm-close-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
 }
 
-.udm-content p {
-  margin: 0.5rem 0;
+/* Body */
+.udm-body .udm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.udm-body label {
+  font-weight: 600;
+  width: 40%;
+  color: #374151;
+}
+
+.udm-body span {
+  width: 60%;
+  font-size: 14px;
+}
+
+/* Trạng thái */
+.udm-status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.udm-status.active {
+  background: #e6fff0;
+  color: #13ce66;
+}
+
+.udm-status.inactive {
+  background: #ffeaea;
+  color: #e63946;
 }

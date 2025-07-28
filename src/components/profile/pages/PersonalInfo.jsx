@@ -14,39 +14,29 @@ const PersonalInfo = () => {
     phone: '',
     address: '',
     avatar: null,
-    avatarUrl: '',
-
-
-    specialty: '',
-    experienceYears: '',
-    education: '',
-    certifications: '',
-    consultationFee: '',
-    description: ''
+    avatarUrl: ''
   });
 
   const [loading, setLoading] = useState(true);
 
-  // ✅ Tạo axios instance nội bộ với interceptor
+  // ✅ Tạo axios instance nội bộ
   const api = axios.create({
     baseURL: 'http://localhost:8080/api',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: { 'Content-Type': 'application/json' }
   });
 
-  // ✅ Interceptor gắn token và xử lý 401
+  // ✅ Gắn token vào request
   api.interceptors.request.use(
     (config) => {
-      const token = user?.token;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      if (user?.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
       }
       return config;
     },
     (error) => Promise.reject(error)
   );
 
+  // ✅ Xử lý 401
   api.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -59,13 +49,14 @@ const PersonalInfo = () => {
     }
   );
 
+  // ✅ Lấy dữ liệu cá nhân từ API
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const res = await api.get('/auth/profileuser');
         const data = res.data;
 
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           fullName: data.fullName || '',
           gender: data.gender,
@@ -73,15 +64,7 @@ const PersonalInfo = () => {
           email: data.email || '',
           phone: data.phone || '',
           address: data.address || '',
-          avatarUrl: data.avatarUrl || '',
-
-
-          specialty: data.specialty || '',
-          experienceYears: data.experienceYears || '',
-          education: data.education || '',
-          certifications: data.certifications || '',
-          consultationFee: data.consultationFee || '',
-          description: data.description || ''
+          avatarUrl: data.avatarUrl || ''
         }));
       } catch (err) {
         console.error('❌ Lỗi khi lấy profile:', err.response?.data || err.message);
@@ -94,9 +77,10 @@ const PersonalInfo = () => {
     fetchProfile();
   }, []);
 
+  // ✅ Cập nhật form
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: name === 'gender' ? value === 'true' : value
     }));
@@ -105,7 +89,7 @@ const PersonalInfo = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         avatar: file,
         avatarUrl: URL.createObjectURL(file)
@@ -113,6 +97,7 @@ const PersonalInfo = () => {
     }
   };
 
+  // ✅ Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -123,38 +108,26 @@ const PersonalInfo = () => {
     submitData.append('email', formData.email);
     submitData.append('phone', formData.phone);
     submitData.append('address', formData.address);
+
     if (formData.avatar) {
       submitData.append('avatar', formData.avatar);
     }
 
-
-    if (user?.role?.toLowerCase() === 'consultant') {
-      submitData.append('specialty', formData.specialty);
-      submitData.append('experienceYears', formData.experienceYears);
-      submitData.append('education', formData.education);
-      submitData.append('certifications', formData.certifications);
-      submitData.append('consultationFee', formData.consultationFee);
-      submitData.append('description', formData.description);
-    }
-
     try {
       const res = await api.put('/auth/profileuser', submitData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      const updatedData = res.data;
-
+      // ✅ Cập nhật thông tin user trên context & localStorage
       const updatedUser = {
         ...user,
         name: formData.fullName,
-        avatarUrl: formData.avatarUrl,
+        avatarUrl: formData.avatarUrl
       };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
-      alert('✅ Cập nhật thông tin thành công!');
+      alert('✅ Cập nhật thông tin cá nhân thành công!');
     } catch (err) {
       console.error('❌ Lỗi khi cập nhật:', err);
       alert('❌ Cập nhật thất bại!');
@@ -235,70 +208,6 @@ const PersonalInfo = () => {
             />
           </div>
         </div>
-
-
-        {user?.role?.toLowerCase() === 'consultant' && (
-          <>
-            <div className="form-row">
-              <div className="form-col">
-                <label>Chuyên ngành</label>
-                <input
-                  name="specialty"
-                  value={formData.specialty}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-col">
-                <label>Kinh nghiệm (năm)</label>
-                <input
-                  type="number"
-                  name="experienceYears"
-                  value={formData.experienceYears}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-col">
-                <label>Phí tư vấn</label>
-                <input
-                  type="number"
-                  name="consultationFee"
-                  value={formData.consultationFee}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-col">
-                <label>Mô tả</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-col">
-                <label>Học vấn</label>
-                <input
-                  name="education"
-                  value={formData.education}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-col">
-                <label>Chứng chỉ</label>
-                <input
-                  name="certifications"
-                  value={formData.certifications}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </>
-        )}
 
         <div className="form-row">
           <div className="form-col">
