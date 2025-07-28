@@ -24,31 +24,6 @@ const ScheduleSetupPage = () => {
     const consultantId = 1;
 
     const [schedules, setSchedules] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [form, setForm] = useState({
-        type: "HANG_TUAN",
-        dayOfWeek: "THU_HAI",
-        startTime: "09:00",
-        endTime: "17:00",
-        price: 0,
-        durationMinutes: 60,
-        note: "",
-        isAvailable: true,
-    });
-
-    const createSchedule = async (scheduleData) => {
-        try {
-            const res = await axios.post(
-                "http://localhost:8080/api/auth/schedules",
-                scheduleData
-            );
-            return res.data;
-        } catch (err) {
-            alert("❌ Không thể tạo lịch mới. Vui lòng kiểm tra lại thông tin.");
-            console.error("Lỗi tạo lịch:", err);
-            throw err;
-        }
-    };
 
     const getSchedulesByConsultant = async (consultantId) => {
         try {
@@ -68,24 +43,6 @@ const ScheduleSetupPage = () => {
         setSchedules(data);
     };
 
-    const handleSave = async () => {
-        const today = new Date().toISOString().split("T")[0]; // "2025-07-23"
-        const startDateTime = `${today}T${form.startTime}:00`;
-        const endDateTime = `${today}T${form.endTime}:00`;
-
-        const payload = {
-            ...form,
-            startTime: startDateTime,
-            endTime: endDateTime,
-            consultantId,
-        };
-
-        console.log("Sending schedule:", payload);
-        await createSchedule(payload);
-        setShowModal(false);
-        loadSchedules();
-    };
-
     useEffect(() => {
         loadSchedules();
     }, []);
@@ -94,7 +51,7 @@ const ScheduleSetupPage = () => {
         <div className="schedule-wrapper">
             <div className="header">
                 <h2>📅 Lịch hẹn làm việc</h2>
-                <button className="add-btn" onClick={() => setShowModal(true)}>+ Thêm lịch mới</button>
+                {/* ❌ Đã bỏ nút Thêm lịch mới */}
             </div>
 
             <div className="schedule-grid">
@@ -104,85 +61,6 @@ const ScheduleSetupPage = () => {
                     <p>⚠️ Chưa có lịch nào.</p>
                 )}
             </div>
-
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>Thêm lịch mới</h3>
-
-                        <label>Loại lịch</label>
-                        <select
-                            value={form.type}
-                            onChange={(e) => setForm({ ...form, type: e.target.value })}
-                        >
-                            <option value="HANG_TUAN">Hàng tuần</option>
-                            <option value="HANG_NGAY">Hàng ngày</option>
-                        </select>
-
-                        <label>Thứ trong tuần</label>
-                        <select
-                            value={form.dayOfWeek}
-                            onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
-                        >
-                            <option value="THU_HAI">Thứ 2</option>
-                            <option value="THU_BA">Thứ 3</option>
-                            <option value="THU_TU">Thứ 4</option>
-                            <option value="THU_NAM">Thứ 5</option>
-                            <option value="THU_SAU">Thứ 6</option>
-                            <option value="THU_BAY">Thứ 7</option>
-                            <option value="CHU_NHAT">Chủ nhật</option>
-                        </select>
-
-                        <label>Giờ bắt đầu</label>
-                        <input
-                            type="time"
-                            value={form.startTime}
-                            onChange={(e) => setForm({ ...form, startTime: e.target.value })}
-                        />
-
-                        <label>Giờ kết thúc</label>
-                        <input
-                            type="time"
-                            value={form.endTime}
-                            onChange={(e) => setForm({ ...form, endTime: e.target.value })}
-                        />
-
-                        <label>Giá mỗi buổi (VND)</label>
-                        <input
-                            type="number"
-                            value={form.price}
-                            onChange={(e) => setForm({ ...form, price: parseFloat(e.target.value) })}
-                        />
-
-                        <label>Thời gian mỗi buổi (phút)</label>
-                        <input
-                            type="number"
-                            value={form.durationMinutes}
-                            onChange={(e) => setForm({ ...form, durationMinutes: parseInt(e.target.value) })}
-                        />
-
-                        <label>Ghi chú</label>
-                        <textarea
-                            value={form.note}
-                            onChange={(e) => setForm({ ...form, note: e.target.value })}
-                        />
-
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={form.isAvailable}
-                                onChange={(e) => setForm({ ...form, isAvailable: e.target.checked })}
-                            />
-                            Cho phép đặt lịch
-                        </label>
-
-                        <div className="modal-actions">
-                            <button onClick={() => setShowModal(false)}>❌ Hủy</button>
-                            <button onClick={handleSave}>✅ Lưu lịch</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
