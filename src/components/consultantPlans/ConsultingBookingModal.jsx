@@ -1,11 +1,15 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import './ConsultingBookingModal.css';
 
 const ConsultingBookingModal = ({ service, onClose }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0); // Bước 0: Chọn tư vấn viên
   const [monthOffset, setMonthOffset] = useState(0);
   const [dateOffset, setDateOffset] = useState(0);
+
+  const [consultants, setConsultants] = useState([]);
+  const [selectedConsultant, setSelectedConsultant] = useState(null);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [contactInfo, setContactInfo] = useState({
@@ -15,6 +19,25 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     note: ''
   });
 
+  // 1️⃣ Lấy danh sách tư vấn viên từ API mới
+  useEffect(() => {
+    const fetchConsultants = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/public/consultants");
+        // Lấy id + consultantName từ API
+        const list = (response.data || []).map(c => ({
+          id: c.id,
+          name: c.consultantName || c.name || "Không rõ tên"
+        }));
+        setConsultants(list);
+      } catch (error) {
+        console.error("❌ Lỗi lấy danh sách tư vấn viên:", error);
+      }
+    };
+    fetchConsultants();
+  }, []);
+
+  // 2️⃣ Danh sách ngày
   const availableDates = useMemo(() => {
     const dates = [];
     const today = new Date();
@@ -31,7 +54,6 @@ const ConsultingBookingModal = ({ service, onClose }) => {
       const mm = String(month + 1).padStart(2, '0');
       dates.push(`${dayLabel}, ${dd}/${mm}`);
     }
-
     return dates;
   }, [monthOffset]);
 
@@ -48,6 +70,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     setContactInfo(prev => ({ ...prev, [name]: value }));
   };
 
+  // 3️⃣ Gửi booking
   const handleConfirmBooking = async () => {
     try {
       const [_, dateString] = selectedDate.split(', ');
@@ -58,6 +81,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
 
       const bookingPayload = {
         serviceId: service.id,
+        consultantId: selectedConsultant.id,
         appointmentDate,
         name: contactInfo.name,
         phone: contactInfo.phone,
@@ -99,10 +123,41 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           <p>Thời gian: 30 phút</p>
         </div>
 
+        {/* --- Bước 0: Chọn tư vấn viên --- */}
+        {step === 0 && (
+          <>
+            <h4>👨‍⚕️ Chọn tư vấn viên</h4>
+            <div className="cbm-form-group">
+              <select
+                value={selectedConsultant?.id || ""}
+                onChange={(e) => {
+                  const consultant = consultants.find(c => c.id === parseInt(e.target.value));
+                  if (consultant) {
+                    setSelectedConsultant(consultant);
+                    setStep(1); // Sang bước chọn ngày
+                  }
+                }}
+              >
+                {/* Placeholder chỉ hiển thị khi chưa chọn */}
+                {!selectedConsultant && (
+                  <option value="" hidden>
+                    -- Chọn tư vấn viên --
+                  </option>
+                )}
+                {consultants.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
+
+        {/* --- Bước 1: Chọn ngày --- */}
         {step === 1 && (
           <>
             <h4>📅 Chọn ngày tư vấn</h4>
-
             <div className="cbm-month-navigation">
               <button onClick={() => setMonthOffset(prev => prev - 1)} disabled={monthOffset <= 0}>◀ Tháng trước</button>
               <span>Tháng {new Date().getMonth() + 1 + monthOffset}</span>
@@ -131,6 +186,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+        {/* --- Bước 2: Chọn giờ --- */}
         {step === 2 && (
           <>
             <h4>⏰ Chọn giờ tư vấn</h4>
@@ -151,6 +207,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+        {/* --- Bước 3: Nhập thông tin liên hệ --- */}
         {step === 3 && (
           <>
             <h4>👤 Thông tin liên hệ</h4>
@@ -180,12 +237,14 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+        {/* --- Bước 4: Xác nhận --- */}
         {step === 4 && (
           <>
             <h4>✅ Xác nhận thông tin</h4>
             <div className="cbm-confirm-box">
               <p><strong>Dịch vụ:</strong> {service.title || service.name}</p>
               <p><strong>Giá:</strong> {service.price?.toLocaleString()}đ</p>
+              <p><strong>Tư vấn viên:</strong> {selectedConsultant?.name}</p>
               <p><strong>Ngày:</strong> {selectedDate}</p>
               <p><strong>Giờ:</strong> {selectedTime}</p>
               <p><strong>Họ tên:</strong> {contactInfo.name}</p>
@@ -200,6 +259,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+        {/* --- Bước 5: Thanh toán --- */}
         {step === 5 && (
           <>
             <h4>💳 Đang chuyển sang thanh toán</h4>

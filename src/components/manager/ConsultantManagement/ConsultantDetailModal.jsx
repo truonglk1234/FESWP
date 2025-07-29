@@ -21,16 +21,12 @@ const ConsultantDetailModal = ({ consultant, onClose }) => {
 
         <div className="cddm-body">
           <div className="cddm-row">
-            <label>ID:</label>
-            <span>{data.id}</span>
-          </div>
-          <div className="cddm-row">
             <label>Họ tên:</label>
-            <span>{data.name}</span>
+            <span>{data.fullName || '-'}</span>
           </div>
           <div className="cddm-row">
             <label>Email:</label>
-            <span>{data.email}</span>
+            <span>{data.email || '-'}</span>
           </div>
           <div className="cddm-row">
             <label>Số điện thoại:</label>
@@ -41,18 +37,46 @@ const ConsultantDetailModal = ({ consultant, onClose }) => {
             <span>{data.address || '-'}</span>
           </div>
           <div className="cddm-row">
-            <label>Trạng thái:</label>
-            <span
-              className={`cddm-status ${data.active === false ? 'inactive' : 'active'}`}
-            >
-              {data.active === false ? 'Ngừng hoạt động' : 'Hoạt động'}
+            <label>Giới tính:</label>
+            <span>{data.gender || '-'}</span>
+          </div>
+          <div className="cddm-row">
+            <label>Ngày sinh:</label>
+            <span>
+              {data.dateOfBirth
+                ? new Date(data.dateOfBirth).toLocaleDateString()
+                : '-'}
             </span>
           </div>
           <div className="cddm-row">
-            <label>Ngày tạo:</label>
-            <span>
-              {data.createdAt ? new Date(data.createdAt).toLocaleDateString() : '-'}
+            <label>Trạng thái:</label>
+            <span
+              className={`cddm-status ${
+                data.status?.toLowerCase() === 'active' ? 'active' : 'inactive'
+              }`}
+            >
+              {data.status === 'Active' ? 'Hoạt động' : 'Ngừng hoạt động'}
             </span>
+          </div>
+          <div className="cddm-row">
+            <label>Chuyên môn:</label>
+            <span>{data.specialty || '-'}</span>
+          </div>
+          <div className="cddm-row">
+            <label>Số năm kinh nghiệm:</label>
+            <span>{data.experienceYears ?? '-'}</span>
+          </div>
+          <div className="cddm-row">
+            <label>Trình độ học vấn:</label>
+            <span>{data.education || '-'}</span>
+          </div>
+          <div className="cddm-row">
+            <label>Chứng chỉ:</label>
+            <span>{data.certification || '-'}</span>
+          </div>
+          <div className="cddm-row">
+            <label>Mô tả:</label>
+            <span>{data.description || '-'}</span>
           </div>
         </div>
       </div>

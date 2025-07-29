@@ -24,20 +24,19 @@
 }
 
 .cm-add-btn {
-  padding: 10px 16px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   border: none;
-  background-color: #111827;
+  background-color: #047857;
   color: white;
-  white-space: nowrap;
   transition: background-color 0.2s ease;
 }
 
 .cm-add-btn:hover {
-  background-color: #1f2937;
+  background-color: #065f46;
 }
 
 /* Table */
@@ -48,23 +47,25 @@
 }
 
 .cm-table-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 12px;
+  color: #1f2937;
 }
 
 .cm-table {
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: white;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .cm-table-head,
 .cm-table-row {
   display: grid;
   grid-template-columns: 2fr 2fr 1.2fr 1fr;
-  padding: 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -73,10 +74,12 @@
   font-weight: 600;
   font-size: 14px;
   color: #374151;
+  text-transform: uppercase;
 }
 
 .cm-table-row {
   font-size: 15px;
+  align-items: center;
 }
 
 .cm-table-row > div {
@@ -85,16 +88,28 @@
   gap: 4px;
 }
 
+.cm-table-row strong {
+  color: #111827;
+}
+
+.cm-empty {
+  text-align: center;
+  padding: 20px;
+  font-size: 15px;
+  color: #6b7280;
+}
+
 /* Status */
 .cm-status {
-  padding: 4px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 14px;
-  text-align: center;
-  display: inline-block;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
   font-weight: 500;
   border: 1px solid;
-  width: fit-content;
+  min-width: 140px;
+  justify-content: center;
 }
 
 .cm-status.active {
@@ -104,18 +119,18 @@
 }
 
 .cm-status.inactive {
-  color: #e63946;
-  background: #ffeaea;
-  border-color: #e63946;
+  color: #e63946 !important;
+  background: #ffeaea !important;
+  border-color: #e63946 !important;
 }
 
 .cm-status.busy {
   color: #d97706;
-  background: #fff3cd;
+  background: #fff7ed;
   border-color: #d97706;
 }
 
-/* Action */
+/* Action buttons */
 .cm-action-buttons {
   display: flex;
   justify-content: center;
@@ -123,8 +138,8 @@
 }
 
 .cm-view-btn {
-  padding: 8px 20px;
-  font-size: 15px;
+  padding: 7px 18px;
+  font-size: 14px;
   font-weight: 500;
   border: none;
   border-radius: 6px;
@@ -142,16 +157,16 @@
 .cm-pagination {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 20px;
 }
 
 .cm-pagination button {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  background-color: #f0f0f0;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
   color: #1f2937;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -159,7 +174,7 @@
 }
 
 .cm-pagination button:hover {
-  background-color: #e5e5e5;
+  background-color: #e5e7eb;
 }
 
 .cm-pagination button:disabled {
@@ -168,7 +183,7 @@
 }
 
 .cm-pagination button.active {
-  background-color: #111827;
+  background-color: #047857;
   color: white;
-  border-color: #111827;
+  border-color: #047857;
 }

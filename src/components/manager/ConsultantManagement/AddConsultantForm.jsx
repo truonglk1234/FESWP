@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
 import './AddConsultantForm.css';
-import { User, Mail, Phone, Lock, Eye, EyeOff, MapPin, Calendar } from 'lucide-react';
 import axios from 'axios';
 
 const AddConsultantForm = ({ onClose, onAdded }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     phone: '',
     gender: '',
-    dateOfBirthday: '',
+    dateOfBirth: '',
     address: '',
+    specialty: '',
+    experienceYears: '',
+    education: '',
+    certification: '',
+    description: '',
     password: '',
     confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const getToken = () => {
-    try {
-      const stored = localStorage.getItem('user') || sessionStorage.getItem('user');
-      return stored ? JSON.parse(stored).token : null;
-    } catch {
-      return null;
-    }
-  };
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -34,49 +27,18 @@ const AddConsultantForm = ({ onClose, onAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
     if (formData.password !== formData.confirmPassword) {
       setError('❌ Mật khẩu không khớp');
       return;
     }
-
-    if (formData.password.length < 6) {
-      setError('❌ Mật khẩu phải từ 6 ký tự trở lên');
-      return;
-    }
-
-    const today = new Date().toISOString().split('T')[0];
-    if (formData.dateOfBirthday > today) {
-      setError('❌ Ngày sinh không hợp lệ');
-      return;
-    }
-
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phone,
-      fullName: formData.name,
-      gender: formData.gender === 'true',
-      dateOfBirthday: formData.dateOfBirthday,
-      address: formData.address
-    };
-
+    // Gửi payload
     try {
       setLoading(true);
-      const token = getToken();
-      await axios.post('http://localhost:8080/api/auth/manager/consultants', payload, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      alert('✅ Tạo tư vấn viên thành công!');
+      await axios.post('/api/auth/manager/consultants', formData);
       onAdded();
       onClose();
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || '❌ Lỗi khi tạo tư vấn viên');
+    } catch {
+      setError('❌ Lỗi khi tạo tư vấn viên');
     } finally {
       setLoading(false);
     }
@@ -86,125 +48,98 @@ const AddConsultantForm = ({ onClose, onAdded }) => {
     <div className="addconsultant-overlay">
       <div className="addconsultant-modal">
         <h2>Thêm tư vấn viên mới</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="addconsultant-input-icon">
-            <User className="addconsultant-icon-left" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Họ và tên"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+        <form onSubmit={handleSubmit} className="addconsultant-grid-form">
+
+          {/* Họ tên */}
+          <div className="form-group">
+            <label>Họ và tên</label>
+            <input name="fullName" value={formData.fullName} onChange={handleChange} required />
           </div>
 
-          <div className="addconsultant-input-icon">
-            <Mail className="addconsultant-icon-left" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+          {/* Chuyên môn */}
+          <div className="form-group">
+            <label>Chuyên môn</label>
+            <input name="specialty" value={formData.specialty} onChange={handleChange} />
           </div>
 
-          <div className="addconsultant-input-icon">
-            <Phone className="addconsultant-icon-left" />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Số điện thoại"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
+          {/* Email */}
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
           </div>
 
-          <div className="addconsultant-two-columns">
-            <div>
-              <label>Giới tính</label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Chọn giới tính</option>
-                <option value="true">Nam</option>
-                <option value="false">Nữ</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Ngày sinh</label>
-              <input
-                type="date"
-                name="dateOfBirthday"
-                value={formData.dateOfBirthday}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          {/* Kinh nghiệm */}
+          <div className="form-group">
+            <label>Số năm kinh nghiệm</label>
+            <input type="number" name="experienceYears" value={formData.experienceYears} onChange={handleChange} />
           </div>
 
-          <div className="addconsultant-input-icon">
-            <MapPin className="addconsultant-icon-left" />
-            <input
-              type="text"
-              name="address"
-              placeholder="Địa chỉ"
-              value={formData.address}
-              onChange={handleChange}
-            />
+          {/* Phone */}
+          <div className="form-group">
+            <label>Số điện thoại</label>
+            <input name="phone" value={formData.phone} onChange={handleChange} required />
           </div>
 
-          <div className="addconsultant-input-icon">
-            <Lock className="addconsultant-icon-left" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Mật khẩu"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <span
-              className="addconsultant-icon-right"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
+          {/* Trình độ */}
+          <div className="form-group">
+            <label>Trình độ học vấn</label>
+            <input name="education" value={formData.education} onChange={handleChange} />
           </div>
 
-          <div className="addconsultant-input-icon">
-            <Lock className="addconsultant-icon-left" />
-            <input
-              type={showConfirm ? 'text' : 'password'}
-              name="confirmPassword"
-              placeholder="Nhập lại mật khẩu"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-            <span
-              className="addconsultant-icon-right"
-              onClick={() => setShowConfirm(!showConfirm)}
-            >
-              {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
+          {/* Địa chỉ */}
+          <div className="form-group">
+            <label>Địa chỉ</label>
+            <input name="address" value={formData.address} onChange={handleChange} />
+          </div>
+
+          {/* Chứng chỉ */}
+          <div className="form-group">
+            <label>Chứng chỉ</label>
+            <input name="certification" value={formData.certification} onChange={handleChange} />
+          </div>
+
+          {/* Giới tính */}
+          <div className="form-group">
+            <label>Giới tính</label>
+            <select name="gender" value={formData.gender} onChange={handleChange}>
+              <option value="">Chọn giới tính</option>
+              <option value="Male">Nam</option>
+              <option value="Female">Nữ</option>
+            </select>
+          </div>
+
+          {/* Ngày sinh */}
+          <div className="form-group">
+            <label>Ngày sinh</label>
+            <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
+          </div>
+
+          {/* Mô tả full width */}
+          <div className="form-group full-width">
+            <label>Mô tả</label>
+            <textarea name="description" value={formData.description} onChange={handleChange} rows="3"></textarea>
+          </div>
+
+          {/* Mật khẩu */}
+          <div className="form-group">
+            <label>Mật khẩu</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+          </div>
+
+          {/* Xác nhận mật khẩu */}
+          <div className="form-group">
+            <label>Xác nhận mật khẩu</label>
+            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
           </div>
 
           {error && <p className="addconsultant-error">{error}</p>}
 
+          {/* Actions */}
           <div className="addconsultant-actions">
             <button type="button" onClick={onClose}>Hủy</button>
-            <button type="submit" disabled={loading}>
-              {loading ? 'Đang xử lý...' : 'Thêm tư vấn viên'}
-            </button>
+            <button type="submit" disabled={loading}>{loading ? 'Đang xử lý...' : 'Thêm tư vấn viên'}</button>
           </div>
+
         </form>
       </div>
     </div>
