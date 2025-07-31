@@ -3,48 +3,73 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './ConsultCalendar.css';
 import ViewConsultBookingModal from './ViewConsultBookingModal';
-import axios from 'axios';
-import { useAuth } from '../../context/AuthContext'; // lấy user hiện tại
 
 const ConsultCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [appointments, setAppointments] = useState([]);
   const [viewingBooking, setViewingBooking] = useState(null);
-  const { user } = useAuth(); // user hiện tại (phải có consultantId)
 
-  // Lấy dữ liệu từ API
+  // Dữ liệu mẫu (mock data) - chỉ có 3 trạng thái
+  const mockAppointments = [
+    {
+      id: 1,
+      date: '2025-08-01',
+      time: '08:00 - 09:00',
+      packageName: 'Tư vấn sức khỏe tổng quát',
+      status: 'Chờ xác nhận',
+      consultantName: 'BS. Nguyễn Văn A'
+    },
+    {
+      id: 2,
+      date: '2025-08-02',
+      time: '09:30 - 10:30',
+      packageName: 'Tư vấn sức khỏe giới tính',
+      status: 'Đã xác nhận',
+      consultantName: 'BS. Trần Thị B'
+    },
+    {
+      id: 3,
+      date: '2025-08-02',
+      time: '13:30 - 14:30',
+      packageName: 'Tư vấn tâm lý',
+      status: 'Từ chối',
+      consultantName: 'ThS. Lê Văn C'
+    },
+    {
+      id: 4,
+      date: '2025-08-05',
+      time: '15:00 - 16:00',
+      packageName: 'Tư vấn sức khỏe sinh sản',
+      status: 'Chờ xác nhận',
+      consultantName: 'BS. Phạm Thị D'
+    }
+  ];
+
+  // Load dữ liệu mẫu
   useEffect(() => {
-    if (!user || !user.id) return;
+    setAppointments(mockAppointments);
+  }, []);
 
-    axios.get(`http://localhost:8080/api/auth/consultant/${user.id}`, {
-      withCredentials: true
-    })
-    .then(res => {
-      setAppointments(res.data); // dữ liệu lịch hẹn từ DB
-    })
-    .catch(err => console.error('Lỗi load lịch hẹn:', err));
-  }, [user]);
-
-  // Nhóm event theo ngày để hiện trên Calendar
+  // Dữ liệu sự kiện cho Calendar
   const calendarEvents = appointments.map(appt => ({
     id: appt.id,
-    date: appt.date, // format yyyy-MM-dd từ backend
+    date: appt.date,
     title: appt.packageName || 'Tư vấn'
   }));
 
+  // Chỉ xử lý 3 trạng thái
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
       case 'chờ xác nhận': return 'status-pending';
       case 'đã xác nhận': return 'status-confirmed';
-      case 'đang xử lý': return 'status-processing';
-      case 'hoàn tất': return 'status-complete';
+      case 'từ chối': return 'status-rejected';
       default: return '';
     }
   };
 
   return (
     <section className="cs-schedule-wrapper">
-      <h1 className="cs-schedule-title">Lịch tư vấn</h1>
+      <h1 className="cs-schedule-title">Lịch tư vấn (Dữ liệu mẫu)</h1>
 
       <div className="cs-calendar-wrapper">
         <Calendar
@@ -81,36 +106,24 @@ const ConsultCalendar = () => {
             <thead>
               <tr>
                 <th>Ngày</th>
+                <th>Giờ</th>
                 <th>Gói tư vấn</th>
                 <th>Trạng thái</th>
-                <th>Khách hàng</th>
-                <th>Hành động</th>
+                <th>Tư vấn viên</th>
               </tr>
             </thead>
             <tbody>
               {appointments.map((cb, idx) => (
                 <tr key={idx}>
                   <td>{cb.date}</td>
+                  <td>{cb.time}</td>
                   <td>{cb.packageName}</td>
                   <td>
                     <span className={`status-label ${getStatusClass(cb.status)}`}>
                       {cb.status}
                     </span>
                   </td>
-                  <td>{cb.customerName}</td>
-                  <td>
-                    <div className="cs-actions">
-                      <button className="cs-view-btn" onClick={() => setViewingBooking(cb)}>Xem</button>
-                      {cb.status?.toLowerCase() === 'chờ xác nhận' && (
-                        <button
-                          className="cs-cancel-btn"
-                          onClick={() => alert(`Huỷ lịch tư vấn: ${cb.id}`)}
-                        >
-                          Huỷ
-                        </button>
-                      )}
-                    </div>
-                  </td>
+                  <td>{cb.consultantName}</td>
                 </tr>
               ))}
             </tbody>

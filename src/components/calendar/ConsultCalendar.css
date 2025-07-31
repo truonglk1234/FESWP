@@ -15,7 +15,6 @@
   color: #1f2937;
 }
 
-
 /* =============================
    2) CALENDAR CONTAINER + SHADOW
 ============================= */
@@ -30,7 +29,6 @@
   font-family: inherit;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-
 
 /* =============================
    3) NAVIGATION (HEADER) - GREEN
@@ -77,7 +75,6 @@
   outline: none;
 }
 
-
 /* =============================
    4) WEEKDAYS LABEL (CN - T7)
 ============================= */
@@ -93,7 +90,6 @@
   text-decoration: none;
   border: none;
 }
-
 
 /* =============================
    5) TILES (MỖI Ô NGÀY)
@@ -137,7 +133,6 @@
   font-weight: 600;
 }
 
-
 /* =============================
    6) LABEL TRONG TILE (LỊCH SỰ KIỆN)
 ============================= */
@@ -154,7 +149,6 @@
   word-break: break-word;
   box-shadow: 0 0 0 1px #a7f3d0 inset;
 }
-
 
 /* =============================
    7) BOOKINGS TABLE
@@ -207,44 +201,30 @@
   background: #f1f5f9;
   transition: background 0.2s;
 }
+
 /* =============================
-   8) ACTION BUTTONS (VIEW & CANCEL)
+   8) STATUS LABELS (3 trạng thái)
 ============================= */
-
-.cs-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.cs-view-btn {
-  background-color: #10b981;
-  color: white;
-  border: none;
-  padding: 6px 12px;
+.status-label {
+  display: inline-block;
+  padding: 4px 10px;
   border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
-.cs-view-btn:hover {
-  background-color: #059669;
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
 }
 
-.cs-cancel-btn {
-  background-color: #f87171;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.status-confirmed {
+  background: #d1fae5;
+  color: #065f46;
 }
 
-.cs-cancel-btn:hover {
-  background-color: #ef4444;
+.status-rejected {
+  background: #fee2e2;
+  color: #b91c1c;
 }

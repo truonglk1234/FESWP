@@ -217,17 +217,19 @@ const TestScheduleContent = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="tsc-view-btn" onClick={() => setViewingBooking(tb)}>Xem</button>
-                    {tb.status?.toLowerCase() === 'đã trả kết quả' && (
-                      <button className="tsc-result-btn" onClick={() => handleViewResult(tb.id)}>
-                        Xem kết quả
-                      </button>
-                    )}
-                    {(tb.status?.toLowerCase() === 'đã tiếp nhận' || tb.status?.toLowerCase() === 'đang xử lý') && (
-                      <button className="tsc-cancel-btn" onClick={() => handleCancelBooking(tb.id)}>
-                        Huỷ
-                      </button>
-                    )}
+                    <div className="tsc-actions">
+                      <button className="tsc-view-btn" onClick={() => setViewingBooking(tb)}>Xem</button>
+                      {(tb.status?.toLowerCase() === 'đã trả kết quả') && (
+                        <button className="tsc-result-btn" onClick={() => handleViewResult(tb.id)}>
+                          Xem kết quả
+                        </button>
+                      )}
+                      {(tb.status?.toLowerCase() === 'đã tiếp nhận' || tb.status?.toLowerCase() === 'đang xử lý') && (
+                        <button className="tsc-cancel-btn" onClick={() => handleCancelBooking(tb.id)}>
+                          Huỷ
+                        </button>
+                      )}
+                    </div>
                   </td>
                   <td>
                     {tb.status?.toLowerCase() === 'đã trả kết quả' ? (
@@ -273,7 +275,7 @@ const TestScheduleContent = () => {
       </div>
 
       <ViewTestBookingModal
-        booking={viewingBooking}
+        booking={viewingBooking}  
         onClose={() => setViewingBooking(null)}
       />
 

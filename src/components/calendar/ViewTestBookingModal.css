@@ -1,8 +1,8 @@
-/* ========== Overlay ========== */
+/* Overlay */
 .vtb-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,44 +10,68 @@
   animation: fadeInBackdrop 0.2s ease;
 }
 
-/* ========== Modal Container ========== */
+/* Modal Box */
 .vtb-modal {
   background: #ffffff;
-  padding: 28px 24px;
+  padding: 32px 28px;
   border-radius: 16px;
-  width: 420px;
+  width: 460px;
   max-width: 90%;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   animation: fadeInModal 0.25s ease;
 }
 
-/* ========== Title ========== */
-.vtb-modal h3 {
-  margin-top: 0;
+/* Header with Icon */
+.vtb-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.vtb-header h3 {
+  margin: 0;
   font-size: 22px;
   color: #059669;
-  text-align: center;
-  margin-bottom: 18px;
   font-weight: 700;
 }
 
-/* ========== Info ========== */
-.vtb-info p {
-  font-size: 15px;
-  margin: 8px 0;
-  color: #374151;
-  line-height: 1.5;
+.vtb-icon {
+  font-size: 20px;
+  color: #059669;
 }
 
-/* ========== Close Button ========== */
+/* Info Block */
+.vtb-info {
+  margin-bottom: 24px;
+}
+
+.vtb-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 15px;
+}
+
+.vtb-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.vtb-value {
+  color: #111827;
+}
+
+/* Close Button */
 .vtb-close-btn {
   display: block;
-  margin: 24px auto 0;
-  padding: 8px 20px;
+  margin: 0 auto;
+  padding: 10px 24px;
   background-color: #10b981;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 9999px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -58,7 +82,7 @@
   background-color: #059669;
 }
 
-/* ========== Animations ========== */
+/* Animations */
 @keyframes fadeInModal {
   from { opacity: 0; transform: translateY(-12px); }
   to { opacity: 1; transform: translateY(0); }
