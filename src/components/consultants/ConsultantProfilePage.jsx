@@ -39,10 +39,10 @@ const ConsultantProfilePage = () => {
         <div className="cp-item"><label>Email</label><p>{doc.email}</p></div>
         <div className="cp-item"><label>Chuyên ngành</label><p>{doc.specialty}</p></div>
         <div className="cp-item"><label>Kinh nghiệm</label><p>{doc.experienceYears} năm</p></div>
-    
+        <div className="cp-item"><label>Chứng chỉ</label><p>{doc.certification}</p></div>
         <div className="cp-item cp-full"><label>Địa chỉ</label><p>{doc.address}</p></div>
         <div className="cp-item cp-full"><label>Mô tả</label><p>{doc.description}</p></div>
-        <div className="cp-item"><label>Chứng chỉ</label><p>{doc.certification}</p></div>
+        
         <div className="cp-item cp-full cp-avatar">
           <img
             src={

@@ -1,52 +1,58 @@
 .cp-page {
-  max-width: 900px;
+  max-width: 960px;
   margin: 40px auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 36px 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .cp-back {
   background: none;
   border: none;
-  color: #17b887;
+  color: #059669;
   font-size: 16px;
   cursor: pointer;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .cp-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px 40px;
+  margin-top: 24px;
 }
 
 .cp-item {
-  flex: 1 1 45%;
+  border-bottom: 1px solid #0d0d0d;
+  padding-bottom: 12px;
 }
 
-.cp-item.cp-full {
-  flex: 1 1 100%;
+.cp-item:last-child {
+  border-bottom: none;
 }
 
 .cp-item label {
   font-weight: 600;
-  color: #374151;
+  color: #1f2937;
   display: block;
   margin-bottom: 4px;
+  font-size: 18px;
 }
 
 .cp-item p {
   margin: 0;
   color: #4b5563;
+  font-size: 15px;
 }
 
 .cp-avatar img {
-  margin-top: 10px;
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #17b887;
+  border: 3px solid #059669;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
