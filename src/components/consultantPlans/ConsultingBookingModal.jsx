@@ -3,7 +3,12 @@ import axios from 'axios';
 import './ConsultingBookingModal.css';
 
 const ConsultingBookingModal = ({ service, onClose }) => {
-  const [step, setStep] = useState(0); // Bước 0: Chọn tư vấn viên
+  // 🔑 Lấy user & token ngay đầu component (giống TestBookingModal)
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  // State quản lý
+  const [step, setStep] = useState(0); // 0: Chọn tư vấn viên
   const [monthOffset, setMonthOffset] = useState(0);
   const [dateOffset, setDateOffset] = useState(0);
 
@@ -13,18 +18,17 @@ const ConsultingBookingModal = ({ service, onClose }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [contactInfo, setContactInfo] = useState({
-    name: '',
+    name: currentUser.name || '',
     phone: '',
-    email: '',
+    email: currentUser.email || '',
     note: ''
   });
 
-  // 1️⃣ Lấy danh sách tư vấn viên từ API mới
+  // 1️⃣ Lấy danh sách tư vấn viên từ API
   useEffect(() => {
     const fetchConsultants = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/public/consultants");
-        // Lấy id + consultantName từ API
+        const response = await axios.get("http://localhost:8080/api/customer/consultations/consultants");
         const list = (response.data || []).map(c => ({
           id: c.id,
           name: c.consultantName || c.name || "Không rõ tên"
@@ -37,7 +41,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     fetchConsultants();
   }, []);
 
-  // 2️⃣ Danh sách ngày
+  // 2️⃣ Tạo danh sách ngày trong tháng (giống TestBookingModal)
   const availableDates = useMemo(() => {
     const dates = [];
     const today = new Date();
@@ -65,48 +69,78 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     '15:00', '15:30', '16:00', '16:30', '17:00'
   ];
 
+  // Xử lý thay đổi thông tin liên hệ
   const handleContactChange = (e) => {
     const { name, value } = e.target;
     setContactInfo(prev => ({ ...prev, [name]: value }));
   };
 
-  // 3️⃣ Gửi booking
+  // 3️⃣ Gửi booking & thanh toán
   const handleConfirmBooking = async () => {
     try {
+      if (!token) {
+        alert("⚠️ Vui lòng đăng nhập để tiếp tục.");
+        window.location.href = "/login";
+        return;
+      }
+
+      // Convert ngày giờ sang ISO
       const [_, dateString] = selectedDate.split(', ');
       const [day, month] = dateString.split('/').map(Number);
       const [hour, minute] = selectedTime.split(':').map(Number);
       const pad = (n) => n.toString().padStart(2, '0');
-      const appointmentDate = `2025-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
+      const serviceDate = `2025-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
 
       const bookingPayload = {
         serviceId: service.id,
-        consultantId: selectedConsultant.id,
-        appointmentDate,
+        consultantId: selectedConsultant?.id,
+        serviceDate,
         name: contactInfo.name,
         phone: contactInfo.phone,
         email: contactInfo.email,
         note: contactInfo.note
       };
 
-      const response = await axios.post(
-        "http://localhost:8080/api/examinations/book",
+      // API đặt lịch
+      const bookingRes = await axios.post(
+        "http://localhost:8080/api/customer/consultations/book",
         bookingPayload,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
+      const booking = bookingRes.data;
       setStep(5);
-      if (response.data && response.data.paymentUrl) {
-        setTimeout(() => {
-          window.location.href = response.data.paymentUrl;
-        }, 1500);
-      }
+
+      // API thanh toán
+      const paymentRes = await axios.post(
+        `http://localhost:8080/api/v1/consultationPayment/create-payment?bookingId=${booking.id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const paymentUrl = paymentRes.data;
+      setTimeout(() => {
+        window.location.href = paymentUrl;
+      }, 1000);
+
     } catch (error) {
+      if (error.response?.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = "/login";
+        return;
+      }
+      console.error("❌ Lỗi khi đặt lịch:", error);
       alert("Đặt lịch thất bại: " + (error.response?.data?.message || error.message));
     }
   };
@@ -134,20 +168,13 @@ const ConsultingBookingModal = ({ service, onClose }) => {
                   const consultant = consultants.find(c => c.id === parseInt(e.target.value));
                   if (consultant) {
                     setSelectedConsultant(consultant);
-                    setStep(1); // Sang bước chọn ngày
+                    setStep(1);
                   }
                 }}
               >
-                {/* Placeholder chỉ hiển thị khi chưa chọn */}
-                {!selectedConsultant && (
-                  <option value="" hidden>
-                    -- Chọn tư vấn viên --
-                  </option>
-                )}
+                <option value="" hidden>-- Chọn tư vấn viên --</option>
                 {consultants.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
+                  <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
             </div>
@@ -174,10 +201,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
                 <button
                   key={index}
                   className={selectedDate === date ? 'cbm-selected' : ''}
-                  onClick={() => {
-                    setSelectedDate(date);
-                    setStep(2);
-                  }}
+                  onClick={() => { setSelectedDate(date); setStep(2); }}
                 >
                   {date}
                 </button>
@@ -195,10 +219,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
                 <button
                   key={index}
                   className={selectedTime === time ? 'cbm-selected' : ''}
-                  onClick={() => {
-                    setSelectedTime(time);
-                    setStep(3);
-                  }}
+                  onClick={() => { setSelectedTime(time); setStep(3); }}
                 >
                   {time}
                 </button>
