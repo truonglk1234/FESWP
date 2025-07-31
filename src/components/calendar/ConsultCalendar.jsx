@@ -1,63 +1,58 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './ConsultCalendar.css';
 import ViewConsultBookingModal from './ViewConsultBookingModal';
+import axios from 'axios';
 
 const ConsultCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [appointments, setAppointments] = useState([]);
   const [viewingBooking, setViewingBooking] = useState(null);
 
-  // Dữ liệu mẫu (mock data) - chỉ có 3 trạng thái
-  const mockAppointments = [
-    {
-      id: 1,
-      date: '2025-08-01',
-      time: '08:00 - 09:00',
-      packageName: 'Tư vấn sức khỏe tổng quát',
-      status: 'Chờ xác nhận',
-      consultantName: 'BS. Nguyễn Văn A'
-    },
-    {
-      id: 2,
-      date: '2025-08-02',
-      time: '09:30 - 10:30',
-      packageName: 'Tư vấn sức khỏe giới tính',
-      status: 'Đã xác nhận',
-      consultantName: 'BS. Trần Thị B'
-    },
-    {
-      id: 3,
-      date: '2025-08-02',
-      time: '13:30 - 14:30',
-      packageName: 'Tư vấn tâm lý',
-      status: 'Từ chối',
-      consultantName: 'ThS. Lê Văn C'
-    },
-    {
-      id: 4,
-      date: '2025-08-05',
-      time: '15:00 - 16:00',
-      packageName: 'Tư vấn sức khỏe sinh sản',
-      status: 'Chờ xác nhận',
-      consultantName: 'BS. Phạm Thị D'
-    }
-  ];
+  // 🔑 Lấy token từ localStorage hoặc sessionStorage
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
-  // Load dữ liệu mẫu
+  // Gọi API BE
   useEffect(() => {
-    setAppointments(mockAppointments);
-  }, []);
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/customer/consultations/my-bookings",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        // response.data = danh sách ConsultationServiceDTO
+        const data = response.data.map(b => ({
+          id: b.id,
+          date: b.serviceDate.split('T')[0],
+          time: new Date(b.serviceDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+          packageName: b.serviceName,
+          status: b.status,
+          consultantName: b.consultantName
+        }));
+        setAppointments(data);
+      } catch (error) {
+        console.error("❌ Lỗi lấy dữ liệu lịch tư vấn:", error);
+      }
+    };
 
-  // Dữ liệu sự kiện cho Calendar
+    if (token) {
+      fetchBookings();
+    }
+  }, [token]);
+
+  // Dữ liệu Calendar
   const calendarEvents = appointments.map(appt => ({
     id: appt.id,
     date: appt.date,
     title: appt.packageName || 'Tư vấn'
   }));
 
-  // Chỉ xử lý 3 trạng thái
+  // Style theo trạng thái
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
       case 'chờ xác nhận': return 'status-pending';
@@ -69,8 +64,9 @@ const ConsultCalendar = () => {
 
   return (
     <section className="cs-schedule-wrapper">
-      <h1 className="cs-schedule-title">Lịch tư vấn (Dữ liệu mẫu)</h1>
+      <h1 className="cs-schedule-title">Lịch tư vấn của bạn</h1>
 
+      {/* Calendar */}
       <div className="cs-calendar-wrapper">
         <Calendar
           locale="vi-VN"
@@ -92,10 +88,11 @@ const ConsultCalendar = () => {
                 </>
               );
             }
-          }}
+}}
         />
       </div>
 
+      {/* Table danh sách */}
       <div className="cs-bookings-wrapper">
         <h2 className="cs-bookings-title">Danh sách lịch tư vấn đã đặt</h2>
         {appointments.length === 0 && (

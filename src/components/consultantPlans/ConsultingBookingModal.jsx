@@ -2,18 +2,22 @@ import React, { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import './ConsultingBookingModal.css';
 
+
 const ConsultingBookingModal = ({ service, onClose }) => {
   // 🔑 Lấy user & token ngay đầu component (giống TestBookingModal)
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
 
   // State quản lý
   const [step, setStep] = useState(0); // 0: Chọn tư vấn viên
   const [monthOffset, setMonthOffset] = useState(0);
   const [dateOffset, setDateOffset] = useState(0);
 
+
   const [consultants, setConsultants] = useState([]);
   const [selectedConsultant, setSelectedConsultant] = useState(null);
+
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -23,6 +27,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     email: currentUser.email || '',
     note: ''
   });
+
 
   // 1️⃣ Lấy danh sách tư vấn viên từ API
   useEffect(() => {
@@ -41,6 +46,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     fetchConsultants();
   }, []);
 
+
   // 2️⃣ Tạo danh sách ngày trong tháng (giống TestBookingModal)
   const availableDates = useMemo(() => {
     const dates = [];
@@ -49,6 +55,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     const month = today.getMonth() + monthOffset;
     const lastDay = new Date(year, month + 1, 0);
     const totalDays = lastDay.getDate();
+
 
     for (let i = 1; i <= totalDays; i++) {
       const date = new Date(year, month, i);
@@ -61,7 +68,9 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     return dates;
   }, [monthOffset]);
 
+
   const paginatedDates = availableDates.slice(dateOffset, dateOffset + 15);
+
 
   const availableTimes = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
@@ -69,20 +78,23 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     '15:00', '15:30', '16:00', '16:30', '17:00'
   ];
 
+
   // Xử lý thay đổi thông tin liên hệ
   const handleContactChange = (e) => {
     const { name, value } = e.target;
     setContactInfo(prev => ({ ...prev, [name]: value }));
   };
 
+
   // 3️⃣ Gửi booking & thanh toán
   const handleConfirmBooking = async () => {
     try {
       if (!token) {
         alert("⚠️ Vui lòng đăng nhập để tiếp tục.");
-        window.location.href = "/login";
+window.location.href = "/login";
         return;
       }
+
 
       // Convert ngày giờ sang ISO
       const [_, dateString] = selectedDate.split(', ');
@@ -90,6 +102,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
       const [hour, minute] = selectedTime.split(':').map(Number);
       const pad = (n) => n.toString().padStart(2, '0');
       const serviceDate = `2025-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
+
 
       const bookingPayload = {
         serviceId: service.id,
@@ -100,6 +113,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
         email: contactInfo.email,
         note: contactInfo.note
       };
+
 
       // API đặt lịch
       const bookingRes = await axios.post(
@@ -113,12 +127,14 @@ const ConsultingBookingModal = ({ service, onClose }) => {
         }
       );
 
+
       const booking = bookingRes.data;
       setStep(5);
 
+
       // API thanh toán
       const paymentRes = await axios.post(
-        `http://localhost:8080/api/v1/consultationPayment/create-payment?bookingId=${booking.id}`,
+        `http://localhost:8080/api/v1/consultation-payment/create?consultationServiceId=${booking.id}`,
         null,
         {
           headers: {
@@ -127,10 +143,12 @@ const ConsultingBookingModal = ({ service, onClose }) => {
         }
       );
 
+
       const paymentUrl = paymentRes.data;
       setTimeout(() => {
         window.location.href = paymentUrl;
       }, 1000);
+
 
     } catch (error) {
       if (error.response?.status === 401) {
@@ -145,17 +163,20 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     }
   };
 
+
   return (
     <div className="cbm-modal-overlay">
       <div className="cbm-modal-content">
         <button className="cbm-close-btn" onClick={onClose}>✖</button>
         <h2>Đặt lịch TƯ VẤN</h2>
 
+
         <div className="cbm-modal-section">
           <h3>{service.title || service.name}</h3>
           <p>Giá: {service.price?.toLocaleString()}đ</p>
           <p>Thời gian: 30 phút</p>
         </div>
+
 
         {/* --- Bước 0: Chọn tư vấn viên --- */}
         {step === 0 && (
@@ -172,7 +193,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
                   }
                 }}
               >
-                <option value="" hidden>-- Chọn tư vấn viên --</option>
+<option value="" hidden>-- Chọn tư vấn viên --</option>
                 {consultants.map((c) => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
@@ -180,6 +201,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
             </div>
           </>
         )}
+
 
         {/* --- Bước 1: Chọn ngày --- */}
         {step === 1 && (
@@ -191,10 +213,12 @@ const ConsultingBookingModal = ({ service, onClose }) => {
               <button onClick={() => setMonthOffset(prev => prev + 1)}>Tháng sau ▶</button>
             </div>
 
+
             <div className="cbm-date-pagination">
               <button onClick={() => setDateOffset(o => Math.max(o - 14, 0))}>⬅ Ngày trước</button>
               <button onClick={() => setDateOffset(o => o + 14)}>Ngày sau ➡</button>
             </div>
+
 
             <div className="cbm-options-grid">
               {paginatedDates.map((date, index) => (
@@ -209,6 +233,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
             </div>
           </>
         )}
+
 
         {/* --- Bước 2: Chọn giờ --- */}
         {step === 2 && (
@@ -228,6 +253,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+
         {/* --- Bước 3: Nhập thông tin liên hệ --- */}
         {step === 3 && (
           <>
@@ -246,7 +272,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
             </div>
             <div className="cbm-form-group">
               <label>Ghi chú</label>
-              <textarea name="note" value={contactInfo.note} onChange={handleContactChange} />
+<textarea name="note" value={contactInfo.note} onChange={handleContactChange} />
             </div>
             <button
               className="cbm-next-btn"
@@ -257,6 +283,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
             </button>
           </>
         )}
+
 
         {/* --- Bước 4: Xác nhận --- */}
         {step === 4 && (
@@ -280,6 +307,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
           </>
         )}
 
+
         {/* --- Bước 5: Thanh toán --- */}
         {step === 5 && (
           <>
@@ -291,5 +319,6 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     </div>
   );
 };
+
 
 export default ConsultingBookingModal;
