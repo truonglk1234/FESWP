@@ -31,6 +31,7 @@ const ConsultingBookingModal = ({ service, onClose }) => {
 
   // 1️⃣ Lấy danh sách tư vấn viên từ API
   useEffect(() => {
+<<<<<<< Updated upstream
     const fetchConsultants = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/customer/consultations/consultants");
@@ -45,6 +46,23 @@ const ConsultingBookingModal = ({ service, onClose }) => {
     };
     fetchConsultants();
   }, []);
+=======
+  const fetchConsultants = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/public/consultants-view");
+      // Lấy userId và fullName từ API trả về
+      const list = (response.data || []).map(c => ({
+        id: c.userId,
+        name: c.fullName || "Không rõ tên"
+      }));
+      setConsultants(list);
+    } catch (error) {
+      console.error("❌ Lỗi lấy danh sách tư vấn viên:", error);
+    }
+  };
+  fetchConsultants();
+}, []);
+>>>>>>> Stashed changes
 
 
   // 2️⃣ Tạo danh sách ngày trong tháng (giống TestBookingModal)
