@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ReproductiveHealth.css';
+import { useAuth } from '../../../context/AuthContext';
 
 const API_BASE = 'http://localhost:8080/api/auth/health';
 
@@ -31,7 +32,7 @@ const ReproductiveHealth = () => {
   const [loading, setLoading] = useState(true);
   const [isNew, setIsNew] = useState(true);
   const [saveSuccess, setSaveSuccess] = useState(false);
-
+  const { user } = useAuth();
   // ✅ Tạo axios instance gắn token và xử lý lỗi 401
   const api = axios.create({
     baseURL: API_BASE,
@@ -40,12 +41,15 @@ const ReproductiveHealth = () => {
     }
   });
 
-  api.interceptors.request.use((config) => {
-    const stored = localStorage.getItem('user');
-    const token = stored ? JSON.parse(stored).token : null;
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+ api.interceptors.request.use(
+  (config) => {
+    if (user?.token) {
+      config.headers.Authorization = `Bearer ${user.token}`; // Lấy token từ useAuth()
+    }
     return config;
-  });
+  },
+  (error) => Promise.reject(error)
+);
 
   api.interceptors.response.use(
     res => res,

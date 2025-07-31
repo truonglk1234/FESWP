@@ -9,12 +9,14 @@ const ConsultantContent = () => {
   const [consultants, setConsultants] = useState([]);
   const perPage = 6;
 
+  // Lấy danh sách tư vấn viên public
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/consultants')
+    axios
+      .get('http://localhost:8080/api/public/consultants-view')
       .then(res => {
         setConsultants(res.data || []);
       })
-      .catch(err => console.error("❌ Lỗi lấy danh sách:", err));
+      .catch(err => console.error('❌ Lỗi lấy danh sách:', err));
   }, []);
 
   const totalPages = Math.ceil(consultants.length / perPage);

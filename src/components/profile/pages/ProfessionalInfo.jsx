@@ -8,16 +8,16 @@ const ProfessionalInfo = () => {
   const [formData, setFormData] = useState({
     specialty: '',
     experienceYears: '',
-    consultationFee: '',
-    description: '',
     education: '',
-    certifications: ''
+    certification: '',
+    description: ''
   });
 
   const api = axios.create({
     baseURL: 'http://localhost:8080/api'
   });
 
+  // Đính kèm token vào header
   api.interceptors.request.use(config => {
     if (user?.token) {
       config.headers.Authorization = `Bearer ${user.token}`;
@@ -25,17 +25,17 @@ const ProfessionalInfo = () => {
     return config;
   });
 
+  // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get('/auth/profileuser');
+        const res = await api.get('/consultants/me/professional-info');
         setFormData({
           specialty: res.data.specialty || '',
           experienceYears: res.data.experienceYears || '',
-          consultationFee: res.data.consultationFee || '',
-          description: res.data.description || '',
           education: res.data.education || '',
-          certifications: res.data.certifications || ''
+          certification: res.data.certification || '',
+          description: res.data.description || ''
         });
       } catch (err) {
         alert('❌ Không thể tải thông tin chuyên môn!');
@@ -44,21 +44,24 @@ const ProfessionalInfo = () => {
     fetchData();
   }, []);
 
+  // Handle change input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.put('/auth/profileuser', formData);
+      await api.put('/consultants/me/professional-info', formData);
       alert('✅ Cập nhật thông tin chuyên môn thành công!');
     } catch (err) {
       alert('❌ Cập nhật thất bại!');
     }
   };
 
+  // Kiểm tra role
   if (user?.role?.toLowerCase() !== 'consultant') {
     return <p>Bạn không có quyền truy cập trang này.</p>;
   }
@@ -70,6 +73,7 @@ const ProfessionalInfo = () => {
         <p>Cập nhật các thông tin chuyên ngành, kinh nghiệm, chứng chỉ</p>
       </div>
       <form className="info-form" onSubmit={handleSubmit}>
+        {/* Chuyên ngành + Kinh nghiệm */}
         <div className="form-row">
           <div className="form-col">
             <label>Chuyên ngành</label>
@@ -90,26 +94,7 @@ const ProfessionalInfo = () => {
           </div>
         </div>
 
-        <div className="form-row">
-          <div className="form-col">
-            <label>Phí tư vấn</label>
-            <input
-              type="number"
-              name="consultationFee"
-              value={formData.consultationFee}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-col">
-            <label>Mô tả</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
+        {/* Học vấn + Chứng chỉ */}
         <div className="form-row">
           <div className="form-col">
             <label>Học vấn</label>
@@ -122,13 +107,26 @@ const ProfessionalInfo = () => {
           <div className="form-col">
             <label>Chứng chỉ</label>
             <input
-              name="certifications"
-              value={formData.certifications}
+              name="certification"
+              value={formData.certification}
               onChange={handleChange}
             />
           </div>
         </div>
 
+        {/* Mô tả */}
+        <div className="form-row">
+          <div className="form-col-full">
+            <label>Mô tả</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        {/* Nút lưu */}
         <div className="form-actions">
           <button type="submit">Lưu thông tin chuyên môn</button>
         </div>

@@ -11,7 +11,7 @@ const ConsultantManage = () => {
   const [consultants, setConsultants] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedConsultant, setSelectedConsultant] = useState(null);
+  const [selectedConsultantId, setSelectedConsultantId] = useState(null);
 
   // Lấy token
   const getToken = () => {
@@ -115,11 +115,11 @@ const ConsultantManage = () => {
           </div>
 
           {currentConsultants.length > 0 ? (
-            currentConsultants.map((c) => (
-              <div className="cm-table-row" key={c.id}>
+            currentConsultants.map((c, index) => (
+              <div className="cm-table-row" key={c.userId || c.id || index}>
                 <div>
                   <strong>{c.fullName}</strong>
-                  <span>ID: {c.id}</span>
+                  <span>ID: {c.userId || c.id}</span>
                   <span>
                     Ngày tạo:{' '}
                     {c.createdAt
@@ -139,7 +139,7 @@ const ConsultantManage = () => {
                 <div className="cm-action-buttons">
                   <button
                     className="cm-view-btn"
-                    onClick={() => setSelectedConsultant(c)}
+                    onClick={() => setSelectedConsultantId(c.userId || c.id)}
                   >
                     Xem
                   </button>
@@ -186,10 +186,11 @@ const ConsultantManage = () => {
           onAdded={fetchConsultants}
         />
       )}
-      {selectedConsultant && (
+      {selectedConsultantId && (
         <ConsultantDetailModal
-          consultant={selectedConsultant}
-          onClose={() => setSelectedConsultant(null)}
+          consultantId={selectedConsultantId}
+          onClose={() => setSelectedConsultantId(null)}
+          onUpdated={fetchConsultants}
         />
       )}
     </div>
