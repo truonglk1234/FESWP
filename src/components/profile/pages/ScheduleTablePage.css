@@ -1,0 +1,106 @@
+.schedule-table-wrapper {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.schedule-table-title {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e4e4e4;
+  font-size: 0.9rem;
+}
+
+.schedule-table th {
+  background: #f8f8f8;
+  font-weight: 600;
+}
+
+.schedule-table-badge {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.schedule-table-badge-confirmed {
+  background: #28a745;
+}
+
+.schedule-table-badge-rejected {
+  background: #6c757d;
+}
+
+.schedule-table-badge-pending {
+  background: #e67e22;
+}
+
+/* Pagination */
+.schedule-table-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 15px;
+}
+
+.schedule-table-page-btn {
+  border: none;
+  background: #f1f1f1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.schedule-table-page-btn.active {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.schedule-table-page-btn:hover {
+  background: #d8d8d8;
+}
+
+.schedule-table-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.schedule-table-btn-confirm,
+.schedule-table-btn-reject {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: white;
+}
+
+.schedule-table-btn-confirm {
+  background: #4caf50;
+}
+.schedule-table-btn-confirm:hover {
+  background: #43a047;
+}
+
+.schedule-table-btn-reject {
+  background: #dc3545;
+}
+.schedule-table-btn-reject:hover {
+  background: #c82333;
+}

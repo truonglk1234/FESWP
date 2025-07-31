@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Heart, Phone, Mail, ChevronDown,
-  LogOut, Calendar, User, TestTube2, LayoutDashboard, Bell
+  LogOut, Calendar, User, TestTube2, LayoutDashboard, Bell, MessageCircle
 } from 'lucide-react';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
@@ -22,7 +22,7 @@ const Header = () => {
   const dropdownRef = useRef();
   const notiRef = useRef();
 
-  // ✅ Axios instance with interceptor
+  // Axios instance
   const axiosInstance = axios.create();
   axiosInstance.interceptors.request.use((config) => {
     const token = user?.token || JSON.parse(localStorage.getItem('user'))?.token;
@@ -80,7 +80,6 @@ const Header = () => {
     navigate('/');
   };
 
-  // Cập nhật bỏ Consultant ra khỏi danh sách quản lý
   const getManageLink = () => {
     switch (user?.role) {
       case 'Admin': return '/admin';
@@ -198,6 +197,13 @@ const Header = () => {
                   <div className="header-dropdown-menu">
                     <Link to="/profile"><User size={16} /> Hồ sơ y tế</Link>
 
+                    {/* ✅ Thêm nút Nhắn tin cho Customer và Consultant */}
+                    {['Customer', 'Consultant'].includes(user?.role) && (
+                      <Link to="/messages">
+                        <MessageCircle size={16} /> Nhắn tin
+                      </Link>
+                    )}
+
                     {!['Admin', 'Manager', 'Staff', 'Consultant'].includes(user?.role) && (
                       <>
                         <Link to="/consult-schedule"><Calendar size={16} /> Lịch tư vấn</Link>
@@ -205,7 +211,6 @@ const Header = () => {
                       </>
                     )}
 
-                    {/* ✅ Chỉ hiện nút quản lý cho Admin, Manager, Staff */}
                     {['Admin', 'Manager', 'Staff'].includes(user?.role) && (
                       <Link
                         to={getManageLink()}

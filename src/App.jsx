@@ -14,14 +14,15 @@ import TestSchedulePage from './pages/TestSchedulePage';
 import ConsultSchedulePage from './pages/ConsultSchedulePage';
 import TermsPage from './pages/TermsPage';
 import ConsultantProfileWrapper from './pages/ConsultantProfileWrapper';
+import MessagesPage from './pages/MessagesPage';   // ✅ import trang nhắn tin
 
 // --------- PROFILE ---------
 import Profile from './components/profile/Profile';
 import PersonalInfo from './components/profile/pages/PersonalInfo';
 import AccountInfo from './components/profile/pages/AccountInfo';
 import ReproductiveHealth from './components/profile/pages/ReproductiveHealth';
-import ScheduleSetupPage from './components/profile/pages/ScheduleSetupPage';
-import ProfessionalInfo from './components/profile/pages/ProfessionalInfo';   // ✅ import mới
+import ScheduleTablePage from './components/profile/pages/ScheduleTablePage';
+import ProfessionalInfo from './components/profile/pages/ProfessionalInfo';  
 
 // --------- MANAGER ---------
 import ManagerLayout from './components/manager/ManagerLayout';
@@ -67,6 +68,9 @@ const App = () => {
           <Route path="/tests" element={<TestSchedulePage />} />
           <Route path="/consult-schedule" element={<ConsultSchedulePage />} />
           <Route path="/terms" element={<TermsPage />} />
+          
+          {/* --------- MESSAGES --------- */}
+          <Route path="/messages" element={<MessagesPage />} />  {/* ✅ route mới */}
 
           {/* --------- PROFILE --------- */}
           <Route path="/profile" element={<Profile />}>
@@ -74,8 +78,8 @@ const App = () => {
             <Route path="info" element={<PersonalInfo />} />
             <Route path="account" element={<AccountInfo />} />
             <Route path="health" element={<ReproductiveHealth />} />
-            <Route path="professional-info" element={<ProfessionalInfo />} /> {/* ✅ route mới */}
-            <Route path="schedule-setup" element={<ScheduleSetupPage />} />
+            <Route path="professional-info" element={<ProfessionalInfo />} />
+            <Route path="schedule-Table" element={<ScheduleTablePage />} />
           </Route>
 
           {/* --------- STAFF --------- */}

@@ -86,7 +86,7 @@ const ProfileSidebar = () => {
 
               <li>
                 <NavLink
-                  to="schedule-setup"
+                  to="schedule-Table"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
                   <Calendar size={18} /> Lịch hẹn
