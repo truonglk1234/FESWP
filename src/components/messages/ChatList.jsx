@@ -1,4 +1,4 @@
-
+import React from "react";
 
 const ChatList = ({ users, selectedUser, setSelectedUser }) => {
   return (
@@ -12,9 +12,7 @@ const ChatList = ({ users, selectedUser, setSelectedUser }) => {
             onClick={() => setSelectedUser(name)}
           >
             <img
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                name
-              )}&background=0D8ABC&color=fff`}
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D8ABC&color=fff`}
               alt={name}
               className="avatar"
             />
